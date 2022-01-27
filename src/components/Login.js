@@ -7,6 +7,8 @@ import * as Yup from "yup";
 import { login } from "../slices/auth";
 import { clearMessage } from "../slices/message";
 
+import "./Login.css";
+
 const Login = (props) => {
   const [loading, setLoading] = useState(false);
 
@@ -26,8 +28,8 @@ const Login = (props) => {
 
   // Yup
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required("Username required!"),
-    password: Yup.string().required("Password required!"),
+    username: Yup.string().required("Username required."),
+    password: Yup.string().required("Password required."),
   });
 
   const handleLogin = (formValue) => {
@@ -50,7 +52,7 @@ const Login = (props) => {
   }
 
   return (
-    <div>
+    <div className="container">
       <div>
         <Formik
           initialValues={initialValues}
@@ -59,19 +61,29 @@ const Login = (props) => {
         >
           <Form>
             <div>
-              <label htmlFor="username">Username</label>
-              <Field name="username" type="text" className="form-control" />
+              {/* <label htmlFor="username">Username</label> */}
+              <Field
+                name="username"
+                type="text"
+                className="form-control"
+                placeholder="Username"
+              />
               <ErrorMessage name="username" component="div" className="alert" />
             </div>
             <div>
-              <label>Password</label>
-              <Field name="password" type="password" className="form-control" />
+              {/* <label htmlFor="password">Password</label> */}
+              <Field
+                name="password"
+                type="password"
+                className="form-control"
+                placeholder="Password"
+              />
               <ErrorMessage name="password" component="div" className="alert" />
             </div>
             <div>
               <button type="submit" className="btn" disabled={loading}>
                 {loading && <span className="spinner"></span>}
-                <span>Login</span>
+                <span className="btn-font">Login</span>
               </button>
             </div>
           </Form>
@@ -80,7 +92,9 @@ const Login = (props) => {
 
       {message && (
         <div>
-          <div role="alert">{message}</div>
+          <div className="alert" role="alert">
+            {message}
+          </div>
         </div>
       )}
     </div>
