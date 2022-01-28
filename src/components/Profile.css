@@ -1,0 +1,11 @@
+.profile-record {
+    color: rgb(130, 202, 130);
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+    margin: 10px;
+    padding: 10px;
+    background-color: rgba(255,255,255, .09);
+    border: 4px solid rgba(0,0,0,0.3);
+    border-radius: 4px;
+    box-shadow:  0 -1px 15px rgb(16, 17, 17);
+}
+

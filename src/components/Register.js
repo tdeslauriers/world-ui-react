@@ -154,7 +154,14 @@ const Register = () => {
               className={successful ? "alert success" : "alert"}
               role="alert"
             >
-              {message}
+              <div>{message}</div>
+              {successful ? (
+                <div>
+                  <span>
+                    Proceed to <a href="/login">Login</a>
+                  </span>
+                </div>
+              ) : null}
             </div>
           </div>
         )}

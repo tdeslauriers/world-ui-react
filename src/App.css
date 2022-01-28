@@ -10,11 +10,36 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-font-size: calc(12px + 2vmin);
+font-size: calc(12px + 1vmin);
 color: rgb(203, 206, 203);
 }
 
-.App-link {
-color: #32d12d;
+a {
+color: #8a0cd3;
+font-weight: bold;
+text-decoration: none;
+font-size: calc(12px + 1vmin);
 }
 
+a:hover a:focus {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #cc0cd3;
+}
+
+h3 {
+    color: rgb(130, 202, 130);
+}
+
+strong {
+    color:#218b17;
+}
+
+hr {
+    border-bottom: none;
+    border-right: none;
+    border-left: none;
+    border-top: 1px solid rgb(73, 73, 73);
+}
