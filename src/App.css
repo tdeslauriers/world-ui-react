@@ -1,33 +1,86 @@
 .App {
-text-align: center;
-}
-
-
-.App {
 background-color: #191b19;
 min-height: 100vh;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
 font-size: calc(12px + 1vmin);
 color: rgb(203, 206, 203);
 }
 
-a {
-color: #8a0cd3;
-font-weight: bold;
-text-decoration: none;
-font-size: calc(12px + 1vmin);
+.topnav{
+    display: flex;
+    background-color: rgba(255,255,255, .09);
+    box-shadow:  0 -1px 15px rgb(16, 17, 17);
 }
 
-a:hover a:focus {
-    text-decoration: underline;
+.childnav{
+    flex: 1;
+}
+
+.listnav-1 {
+    list-style-type: none;
+    overflow: hidden;
+    float: left;
+    margin: 0px;
+    padding: 0px;
+    }
+
+.listnav-2 {
+    list-style-type: none;
+    overflow: hidden;
+    float: right;
+    margin: 0px;
+    padding: 0px;
+    }
+    
+.list-item-nav {
+    float: left;
+}
+
+.active{
+    border: 2px solid #218b17; 
+    text-decoration: none;
+}
+
+
+.list-item-nav a, .list-item-nav a:visited {
+    color: #218b17;
+    font-size: calc(12px + 1vmin);
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+}
+    
+.list-item-nav a:hover, .list-item-nav a:focus {
+    text-decoration: none;
+    font-size: calc(12px + 1vmin);
+    background-color: #191b19;
+}
+
+
+.container {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px;
+    
+}
+
+a {
+    color: #9821bd;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: calc(12px + 1vmin);
 }
 
 a:visited {
-    color: #cc0cd3;
+    color: #6b1885;  
 }
+
+a:hover, a:focus{
+    text-decoration: underline;
+}
+
+
 
 h3 {
     color: rgb(130, 202, 130);
@@ -43,3 +96,4 @@ hr {
     border-left: none;
     border-top: 1px solid rgb(73, 73, 73);
 }
+

@@ -1,6 +1,11 @@
 import "./App.css";
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  NavLink,
+} from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -10,6 +15,32 @@ const App = () => {
   return (
     <div className="App">
       <Router>
+        <nav className="topnav">
+          <div className="childnav">
+            <ul className="listnav-1">
+              <li className="list-item-nav">
+                <NavLink to={"/"}>des Lauriers</NavLink>
+              </li>
+              <li className="list-item-nav">
+                <NavLink to={"/home"} activeClassName="active">Home</NavLink>
+              </li>
+            </ul>
+          </div>
+          <div className="childnav">
+            <ul className="listnav-2">
+              <li className="list-item-nav">
+                <NavLink to={"/login"} activeClassName="active">
+                  Login
+                </NavLink>
+              </li>
+              <li className="list-item-nav">
+                <NavLink to={"/register"} activeClassName="active">
+                  Sign up
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        </nav>
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/home" element={<Home />} />
