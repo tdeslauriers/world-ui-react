@@ -44,11 +44,18 @@
     font-size: calc(12px + 1vmin);
     display: block;
     padding: 12px;  
+    border-radius: 4px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 .link-nav:hover, .link-nav:focus {
     text-decoration: none;
     background-color: #191b19;
+    border-radius: 4px;
+    
 }
 
 .active, .active:visited{
@@ -57,7 +64,7 @@
     font-size: calc(12px + 1vmin);
     color: rgb(203, 206, 203);
     background-color: #218b17; 
-    
+    border-radius: 4px; 
 }
 
 .container {
