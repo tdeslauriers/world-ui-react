@@ -19,22 +19,38 @@ const App = () => {
           <div className="childnav">
             <ul className="listnav-1">
               <li className="list-item-nav">
-                <NavLink to={"/"}>des Lauriers</NavLink>
+                <NavLink to={"/"} className="link-nav" activeClassName="active">
+                  des Lauriers
+                </NavLink>
               </li>
               <li className="list-item-nav">
-                <NavLink to={"/home"} activeClassName="active">Home</NavLink>
+                <NavLink
+                  to={"/home"}
+                  className="link-nav"
+                  activeClassName="active"
+                >
+                  Home
+                </NavLink>
               </li>
             </ul>
           </div>
           <div className="childnav">
             <ul className="listnav-2">
               <li className="list-item-nav">
-                <NavLink to={"/login"} activeClassName="active">
+                <NavLink
+                  to={"/login"}
+                  className="link-nav"
+                  activeClassName="active"
+                >
                   Login
                 </NavLink>
               </li>
               <li className="list-item-nav">
-                <NavLink to={"/register"} activeClassName="active">
+                <NavLink
+                  to={"/register"}
+                  className="link-nav"
+                  activeClassName="active"
+                >
                   Sign up
                 </NavLink>
               </li>
