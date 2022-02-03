@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
+import eventBus from "../common/EventBus";
+import { clearMessage } from "../slices/message";
 import { getprofile } from "../slices/profile";
 
 import "./Profile.css";
@@ -10,14 +12,22 @@ const Profile = () => {
 
   const { profile: reduxProfile } = useSelector((state) => state.profile);
   const { isLoggedIn } = useSelector((state) => state.auth);
+  const { message: reduxMessage } = useSelector((state) => state.message);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (reduxProfile === undefined) {
+    if (!reduxProfile) {
       dispatch(getprofile());
     }
-  }, [dispatch, reduxProfile]);
+
+    if (
+      reduxMessage &&
+      reduxMessage === "Request failed with status code 401"
+    ) {
+      eventBus.dispatch("logout");
+    }
+  }, [dispatch, reduxProfile, reduxMessage]);
 
   if (!isLoggedIn) {
     return <Navigate to="/login" />;
@@ -25,7 +35,7 @@ const Profile = () => {
 
   return (
     <div>
-      {reduxProfile !== undefined && (
+      {reduxProfile && (
         <div className="profile-record">
           <header>
             <h3>
@@ -41,7 +51,6 @@ const Profile = () => {
           </div>
         </div>
       )}
-      <Link to="/home">home</Link>
     </div>
   );
 };

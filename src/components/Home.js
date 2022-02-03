@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -7,7 +6,6 @@ const Home = () => {
       <p>
         Welcome to <strong>des Lauriers</strong> world.
       </p>
-      <Link to="/profile">profile</Link>
     </div>
   );
 };
