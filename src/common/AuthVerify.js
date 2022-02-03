@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Buffer } from "buffer";
+import { useLocation } from "react-router-dom";
 
 const parseJwt = (token) => {
   try {
@@ -10,15 +11,17 @@ const parseJwt = (token) => {
 };
 
 const AuthVerify = (props) => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const location = useLocation();
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
 
-  if (user) {
-    const decoded = JSON.parse(parseJwt(user.access_token));
-
-    if (decoded.exp * 1000 < Date.now()) {
-      props.logOut();
+    if (user) {
+      const decoded = JSON.parse(parseJwt(user.access_token));
+      if (decoded.exp * 1000 < Date.now()) {
+        props.logOut();
+      }
     }
-  }
+  }, [location, props]);
 
   return <div></div>;
 };
