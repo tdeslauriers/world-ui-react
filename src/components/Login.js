@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -9,7 +9,7 @@ import { clearMessage } from "../slices/message";
 
 import "./Login.css";
 
-const Login = (props) => {
+const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -20,6 +20,9 @@ const Login = (props) => {
   useEffect(() => {
     dispatch(clearMessage());
   }, [dispatch]);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const initialValues = {
     username: "",
@@ -39,8 +42,9 @@ const Login = (props) => {
     dispatch(login({ username, password }))
       .unwrap()
       .then(() => {
-        props.history.push("/home");
-        window.location.reload();
+        if (location.state?.from) {
+          navigate(location.state.from);
+        }
       })
       .catch(() => {
         setLoading(false);
@@ -48,9 +52,12 @@ const Login = (props) => {
   };
 
   if (isLoggedIn) {
-    return <Navigate to="/home" />;
+    if (location.state?.from) {
+      navigate(location.state.from);
+    }
+    navigate("/home");
   }
-
+  console.log(location.state);
   return (
     <div className="container">
       <div>
