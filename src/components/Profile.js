@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
-import eventBus from "../common/EventBus";
-import { clearMessage } from "../slices/message";
+import { Navigate } from "react-router-dom";
+import eventBus from "../security/EventBus";
 import { getprofile } from "../slices/profile";
 
 import "./Profile.css";
@@ -13,7 +12,6 @@ const Profile = () => {
   const { profile: reduxProfile } = useSelector((state) => state.profile);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { message: reduxMessage } = useSelector((state) => state.message);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
