@@ -2,16 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import profileService from "../services/profileService";
 import { setMessage } from "./message";
 
-// "user" added in async
-export const getprofile = createAsyncThunk(
+// user param added in async > method parameter requirement (not used)
+export const getProfile = createAsyncThunk(
   "profile/getProfile",
   async (user, thunkAPI) => {
     try {
-      const data = await profileService.getprofile();
+      const data = await profileService.getProfile();
       return { profile: data };
     } catch (error) {
       const message = error.message || error.status;
-      
+
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -24,10 +24,10 @@ const profileSlice = createSlice({
   name: "profile",
   initialState,
   extraReducers: {
-    [getprofile.fulfilled]: (state, action) => {
+    [getProfile.fulfilled]: (state, action) => {
       state.profile = action.payload.profile;
     },
-    [getprofile.rejected]: (state, action) => {
+    [getProfile.rejected]: (state, action) => {
       state.profile = null;
     },
   },

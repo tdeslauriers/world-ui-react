@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
-import eventBus from "../security/EventBus";
-import { getprofile } from "../slices/profile";
+import eventBus from "../../security/EventBus";
+import { getProfile } from "../../slices/profile";
 
 import "./Profile.css";
 
@@ -17,7 +17,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (!reduxProfile) {
-      dispatch(getprofile());
+      dispatch(getProfile());
     }
 
     if (
