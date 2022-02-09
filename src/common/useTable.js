@@ -1,8 +1,12 @@
-import React from "react";
-import { object } from "yup";
+import React, { useState } from "react";
+import "./useTable.css";
 
 export default function useTable(records, headers) {
-  const TableContainer = (props) => <table>{props.children}</table>;
+  const TableContainer = (props) => (
+    <div className="table-card">
+      <table className="table-container">{props.children}</table>
+    </div>
+  );
 
   const TableHead = (props) => {
     return (

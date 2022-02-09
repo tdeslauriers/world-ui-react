@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, NavLink, useLocation } from "react-router-dom";
 import useTable from "../../common/useTable";
 import eventBus from "../../security/EventBus";
 import { getProfilesAll } from "../../slices/profilesAll";
@@ -13,6 +13,7 @@ const headers = [
   { id: "enabled", label: "Enabled?" },
   { id: "accountExpired", label: "Account Expired?" },
   { id: "accountLocked", label: "Account Locked?" },
+  { id: "options", label: "Options" },
 ];
 
 const ProfilesAll = () => {
@@ -44,7 +45,8 @@ const ProfilesAll = () => {
   }
 
   return (
-    <div>
+    <div className="container">
+      <h3>User Table</h3>
       <TableContainer>
         <TableHead />
         <tbody>
@@ -53,10 +55,15 @@ const ProfilesAll = () => {
               <td>{user.username}</td>
               <td>{user.firstname}</td>
               <td>{user.lastname}</td>
-              <td>{new Date(user.dateCreated).toDateString()}</td>
+              <td>{new Date(user.dateCreated).toLocaleDateString()}</td>
               <td>{user.enabled ? "True" : "False"}</td>
               <td>{user.accountExpired ? "True" : "False"}</td>
               <td>{user.accountLocked ? "True" : "False"}</td>
+              <td>
+                <NavLink to={`/users/${user.id}`}>
+                  <button>Edit</button>
+                </NavLink>
+              </td>
             </tr>
           ))}
         </tbody>

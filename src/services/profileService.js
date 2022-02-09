@@ -15,7 +15,6 @@ const getProfilesAll = () => {
   return axios
     .get(PROFILE_API_URL + "/all", { headers: authHeader() })
     .then((response) => {
-      console.log(response.data);
       return response.data;
     });
 };

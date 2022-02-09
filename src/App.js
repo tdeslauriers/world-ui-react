@@ -42,15 +42,25 @@ const App = () => {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/profile" element={<Profile />} />
-          <Route
-            exact
-            path="/users"
-            element={
-              <Authorized allowedScopes={["PROFILE_ADMIN"]}>
-                <ProfilesAll />
-              </Authorized>
-            }
-          />
+          <Route exact path="/users">
+            <Route
+              index
+              element={
+                <Authorized allowedScopes={["PROFILE_ADMIN"]}>
+                  <ProfilesAll />
+                </Authorized>
+              }
+            />
+            <Route
+              exact
+              path=":id"
+              element={
+                <Authorized allowedScopes={["PROFILE_ADMIN"]}>
+                  <Profile />
+                </Authorized>
+              }
+            />
+          </Route>
           <Route
             exact
             path="/gallery"
