@@ -45,7 +45,7 @@ const ProfilesAll = () => {
   }
 
   return (
-    <div className="container">
+    <div >
       <h3>User Table</h3>
       <TableContainer>
         <TableHead />

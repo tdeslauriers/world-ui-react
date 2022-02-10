@@ -59,7 +59,7 @@ const Login = () => {
   }
 
   return (
-    <div className="container">
+    <div>
       <div>
         <Formik
           initialValues={initialValues}

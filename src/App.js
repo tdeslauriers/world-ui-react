@@ -13,6 +13,7 @@ import Gallery from "./components/gallery/Gallery";
 import Authorized from "./security/Authorized";
 import Nav from "./components/Nav";
 import ProfilesAll from "./components/profile/ProfilesAll";
+import Drawer from "./components/Drawer";
 
 const App = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -35,42 +36,45 @@ const App = () => {
     <div className="App">
       <Router>
         <Nav isLoggedIn={isLoggedIn} logOut={logOut} />
+        <Drawer />
         <AuthVerify logOut={logOut} />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/home" element={<Home />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/profile" element={<Profile />} />
-          <Route exact path="/users">
-            <Route
-              index
-              element={
-                <Authorized allowedScopes={["PROFILE_ADMIN"]}>
-                  <ProfilesAll />
-                </Authorized>
-              }
-            />
+        <div className="container">
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/home" element={<Home />} />
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/register" element={<Register />} />
+            <Route exact path="/profile" element={<Profile />} />
+            <Route exact path="/users">
+              <Route
+                index
+                element={
+                  <Authorized allowedScopes={["PROFILE_ADMIN"]}>
+                    <ProfilesAll />
+                  </Authorized>
+                }
+              />
+              <Route
+                exact
+                path=":id"
+                element={
+                  <Authorized allowedScopes={["PROFILE_ADMIN"]}>
+                    <Profile />
+                  </Authorized>
+                }
+              />
+            </Route>
             <Route
               exact
-              path=":id"
+              path="/gallery"
               element={
-                <Authorized allowedScopes={["PROFILE_ADMIN"]}>
-                  <Profile />
+                <Authorized allowedScopes={["GALLERY_READ"]}>
+                  <Gallery />
                 </Authorized>
               }
             />
-          </Route>
-          <Route
-            exact
-            path="/gallery"
-            element={
-              <Authorized allowedScopes={["GALLERY_READ"]}>
-                <Gallery />
-              </Authorized>
-            }
-          />
-        </Routes>
+          </Routes>
+        </div>
       </Router>
     </div>
   );

@@ -1,0 +1,17 @@
+.sidebar {
+    height: 100%; 
+    width: 10vw; 
+    position: fixed; 
+    left: 0;
+    background-color: rgb(38, 39, 38);
+    box-shadow:  0 -1px 15px rgb(16, 17, 17);
+    border: 0px ;
+    overflow-x: hidden;
+    padding-top: 60px;
+    padding-right: 10px;
+  }
+
+  .sidebar ul {
+      list-style-type: none;
+      
+  }

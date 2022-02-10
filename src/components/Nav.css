@@ -1,0 +1,65 @@
+
+.topnav{
+    display: flex;
+    position: fixed;
+    z-index: 1;
+    width: 100vw;
+    height: 60px;
+    background-color: rgb(50, 51, 50);
+    box-shadow:  0 -1px 15px rgb(16, 17, 17);
+    border: 0px ;
+}
+
+.childnav{
+    flex: 1;
+   
+}
+
+.listnav-1 {
+    list-style-type: none;
+    overflow: hidden;
+    float: left;
+    margin: 0px;
+    padding: 0px;
+    }
+
+.listnav-2 {
+    list-style-type: none;
+    overflow: hidden;
+    float: right;
+    margin: 0px;
+    padding: 0px;
+    }
+    
+.list-item-nav {
+    float:left; 
+}
+
+.link-nav, .link-nav:visited {
+    color: #218b17;
+    text-align: center;
+    font-size: calc(12px + 1vmin);
+    display: block;
+    padding: 12px;  
+    border-radius: 4px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.link-nav:hover, .link-nav:focus {
+    text-decoration: none;
+    background-color: #151a15;
+    border-radius: 4px;
+}
+
+.active, .active:visited{
+    box-shadow: inset 0 0px 2px rgb(33, 139, 23);
+    text-decoration: none;
+    font-size: calc(12px + 1vmin);
+    color: rgb(33, 139, 23);
+    border:2px solid rgb(33, 139, 23); 
+    border-radius: 4px; 
+  
+}
