@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
@@ -16,8 +16,11 @@ import ProfilesAll from "./components/profile/ProfilesAll";
 import Drawer from "./components/Drawer";
 
 const App = () => {
+  const [containerClassName, setContainerClassName] = useState("container");
+
   const { user: currentUser } = useSelector((state) => state.auth);
   const { isLoggedIn } = useSelector((state) => state.auth);
+ 
   const dispatch = useDispatch();
 
   const logOut = useCallback(() => {
@@ -27,8 +30,12 @@ const App = () => {
   useEffect(() => {
     EventBus.on("logout", () => {
       logOut();
+      setContainerClassName("container"); // temporary
     });
 
+    if (isLoggedIn) {
+      setContainerClassName("containerDrawer");
+    }
     return () => EventBus.remove("logout");
   }, [isLoggedIn, logOut]);
 
@@ -36,9 +43,9 @@ const App = () => {
     <div className="App">
       <Router>
         <Nav isLoggedIn={isLoggedIn} logOut={logOut} />
-        <Drawer />
+        {isLoggedIn && <Drawer />}
         <AuthVerify logOut={logOut} />
-        <div className="container">
+        <div className={containerClassName}>
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route exact path="/home" element={<Home />} />

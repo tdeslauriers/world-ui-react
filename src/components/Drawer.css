@@ -7,11 +7,21 @@
     box-shadow:  0 -1px 15px rgb(16, 17, 17);
     border: 0px ;
     overflow-x: hidden;
-    padding-top: 60px;
+    padding-top: 70px;
     padding-right: 10px;
-  }
+    padding-left: 10px;
+    transition: 0.5s;
+}
 
-  .sidebar ul {
-      list-style-type: none;
-      
-  }
+.menu button{
+    margin-top: 3px;
+}
+
+.menu-dropdown {
+    background-color:  rgba(255,255,255, .07);
+    padding: 7px;
+    margin: 7px;
+    transition: 0.3s;
+    border-radius: 4px;
+
+}

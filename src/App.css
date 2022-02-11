@@ -1,6 +1,6 @@
 .App {
     display: flex;
-    background-color: #151a15;
+    background-color: #131313;
     min-height: 100vh;
     font-size: calc(12px + 1vmin);
     color: rgb(203, 206, 203);
@@ -14,7 +14,18 @@
     padding: 10px;
     padding-top: 60px;
     margin: 10px;
-    margin-left: 12vw;
+    
+}
+
+.containerDrawer{
+    text-align: left;
+    display: flex;
+    width: 100vw;
+    flex-direction: column;
+    padding: 10px;
+    padding-top: 60px;
+    margin: 10px;
+    margin-left: 12vw; /* makes room for drawer */
 }
 
 a {
