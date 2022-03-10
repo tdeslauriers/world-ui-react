@@ -62,7 +62,7 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className="form">
       <div>
         <Formik
           initialValues={initialValues}

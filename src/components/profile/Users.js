@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, NavLink, useLocation } from "react-router-dom";
 import useTable from "../../common/useTable";
 import eventBus from "../../security/EventBus";
-import { getProfilesAll } from "../../slices/profilesAll";
+import { getUsersAll } from "../../slices/users";
+
+import "./Profile.css";
 
 const headers = [
   { id: "username", label: "Username/Email" },
@@ -21,14 +23,14 @@ const ProfilesAll = () => {
   const location = useLocation();
 
   // redux
-  const { profiles: allUsers } = useSelector((state) => state);
+  const { users: allUsers } = useSelector((state) => state);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { message: reduxMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!allUsers.length) {
-      dispatch(getProfilesAll());
+      dispatch(getUsersAll());
     }
     if (
       reduxMessage &&
@@ -45,7 +47,7 @@ const ProfilesAll = () => {
   }
 
   return (
-    <div >
+    <div>
       <h3>User Table</h3>
       <TableContainer>
         <TableHead />
@@ -56,13 +58,14 @@ const ProfilesAll = () => {
               <td>{user.firstname}</td>
               <td>{user.lastname}</td>
               <td>{new Date(user.dateCreated).toLocaleDateString()}</td>
-              <td>{user.enabled ? "True" : "False"}</td>
-              <td>{user.accountExpired ? "True" : "False"}</td>
-              <td>{user.accountLocked ? "True" : "False"}</td>
+              <td>{user.enabled.toString()}</td>
+              <td>{user.accountExpired.toString()}</td>
+              <td>{user.accountLocked.toString()}</td>
               <td>
                 <NavLink to={`/users/${user.id}`}>
-                  <button>Edit</button>
+                  <button className="btngroup">Edit</button>
                 </NavLink>
+                <button className="btngroup">Disable</button>
               </td>
             </tr>
           ))}

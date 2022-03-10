@@ -19,9 +19,18 @@ const getProfilesAll = () => {
     });
 };
 
+const getUserById = (id) => {
+  return axios
+    .get(PROFILE_API_URL + `/${id}`, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 const profileService = {
   getProfile,
   getProfilesAll,
+  getUserById,
 };
 
 export default profileService;

@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import profileService from "../services/profileService";
 import { setMessage } from "./message";
 
-export const getProfilesAll = createAsyncThunk(
-  "profiles/getProfilesAll",
+export const getUsersAll = createAsyncThunk(
+  "users/getUsersAll",
   async (all, thunkAPI) => {
     try {
       const data = await profileService.getProfilesAll();
@@ -19,18 +19,18 @@ export const getProfilesAll = createAsyncThunk(
 
 const initialState = [];
 
-const profilesAllSlice = createSlice({
-  name: "profiles",
+const usersSlice = createSlice({
+  name: "users",
   initialState,
   extraReducers: {
-    [getProfilesAll.fulfilled]: (state, action) => {
+    [getUsersAll.fulfilled]: (state, action) => {
       return [...action.payload.profiles];
     },
-    [getProfilesAll.rejected]: (state, action) => {
+    [getUsersAll.rejected]: (state, action) => {
       state.profiles = null;
     },
   },
 });
 
-const { reducer } = profilesAllSlice;
+const { reducer } = usersSlice;
 export default reducer;

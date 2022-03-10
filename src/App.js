@@ -12,15 +12,15 @@ import AuthVerify from "./security/AuthVerify";
 import Gallery from "./components/gallery/Gallery";
 import Authorized from "./security/Authorized";
 import Nav from "./components/Nav";
-import ProfilesAll from "./components/profile/ProfilesAll";
+import Users from "./components/profile/Users";
 import Drawer from "./components/Drawer";
+import User from "./components/profile/User";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
 
-  const { user: currentUser } = useSelector((state) => state.auth);
   const { isLoggedIn } = useSelector((state) => state.auth);
- 
+
   const dispatch = useDispatch();
 
   const logOut = useCallback(() => {
@@ -57,7 +57,7 @@ const App = () => {
                 index
                 element={
                   <Authorized allowedScopes={["PROFILE_ADMIN"]}>
-                    <ProfilesAll />
+                    <Users />
                   </Authorized>
                 }
               />
@@ -66,7 +66,7 @@ const App = () => {
                 path=":id"
                 element={
                   <Authorized allowedScopes={["PROFILE_ADMIN"]}>
-                    <Profile />
+                    <User />
                   </Authorized>
                 }
               />

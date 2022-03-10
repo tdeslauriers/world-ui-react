@@ -7,8 +7,6 @@ import * as Yup from "yup";
 import { login } from "../slices/auth";
 import { clearMessage } from "../slices/message";
 
-import "./Login.css";
-
 const Login = () => {
   const [loading, setLoading] = useState(false);
 
@@ -59,7 +57,7 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <div className="form">
       <div>
         <Formik
           initialValues={initialValues}
@@ -87,6 +85,13 @@ const Login = () => {
               />
               <ErrorMessage name="password" component="div" className="alert" />
             </div>
+            {message && (
+              <div>
+                <div className="alert" role="alert">
+                  {message}
+                </div>
+              </div>
+            )}
             <div>
               <button type="submit" className="btn" disabled={loading}>
                 {loading && <span className="spinner"></span>}
@@ -96,14 +101,6 @@ const Login = () => {
           </Form>
         </Formik>
       </div>
-
-      {message && (
-        <div>
-          <div className="alert" role="alert">
-            {message}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

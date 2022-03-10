@@ -3,12 +3,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/auth";
 import messageReducer from "./slices/message";
 import profileReducer from "./slices/profile";
-import profilesAllReducer from "./slices/profilesAll";
+import usersReducer from "./slices/users";
 
 const reducer = {
   auth: authReducer,
   profile: profileReducer,
-  profiles: profilesAllReducer,
+  users: usersReducer,
   message: messageReducer,
 };
 

@@ -14,13 +14,16 @@
 }
 
 .menu button{
-    margin-top: 3px;
+    margin-top: 5px;
 }
 
 .menu-dropdown {
     background-color:  rgba(255,255,255, .07);
     padding: 7px;
-    margin: 7px;
+    margin-top: 5px;
+    margin-right: 7px;
+    margin-left: 7px;
+    margin-bottom: 7px;
     transition: 0.3s;
     border-radius: 4px;
 

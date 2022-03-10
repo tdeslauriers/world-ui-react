@@ -12,7 +12,8 @@
 
 .childnav{
     flex: 1;
-   
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .listnav-1 {

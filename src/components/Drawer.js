@@ -10,7 +10,7 @@ const Drawer = () => {
   const { roles: scopes } = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
-  const handleMenuClick =(menu) => {
+  const handleMenuClick = (menu) => {
     switch (menu) {
       case "admin":
         menuAdminOpen ? setMenuAdminOpen(false) : setMenuAdminOpen(true);
@@ -20,8 +20,7 @@ const Drawer = () => {
         break;
       default:
     }
-  }
-  console.log(scopes)
+  };
 
   return (
     <div className="sidebar">
@@ -37,7 +36,7 @@ const Drawer = () => {
           )}
         </div>
       )}
-      {["GALLERY_READ", "GALLERY_EDIT"].some(s => scopes.includes(s)) && (
+      {["GALLERY_READ", "GALLERY_EDIT"].some((s) => scopes.includes(s)) && (
         <div className="menu">
           <button onClick={() => handleMenuClick("gallery")}>Gallery</button>
           {menuGalleryOpen && <div className="menu-dropdown">Placeholder</div>}
