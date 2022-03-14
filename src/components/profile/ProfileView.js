@@ -47,7 +47,7 @@ const ProfileView = ({ profile, scopes }) => {
             ) : null}
           </div>
           <div className="contact-top">
-            {profile.addresses ? (
+            {profile.addresses && (
               <div className="profile-record contact-child">
                 <h3>Address:</h3>
                 <hr></hr>
@@ -68,9 +68,9 @@ const ProfileView = ({ profile, scopes }) => {
                   </div>
                 ))}
               </div>
-            ) : null}
+            )}
 
-            {profile.phones ? (
+            {profile.phones && (
               <div className="profile-record contact-child">
                 <h3>Phones:</h3>
                 <hr></hr>
@@ -86,7 +86,7 @@ const ProfileView = ({ profile, scopes }) => {
                   </div>
                 ))}
               </div>
-            ) : null}
+            )}
           </div>
         </>
       )}

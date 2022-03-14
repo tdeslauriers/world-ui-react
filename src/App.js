@@ -15,6 +15,7 @@ import Nav from "./components/Nav";
 import Users from "./components/profile/Users";
 import Drawer from "./components/Drawer";
 import User from "./components/profile/User";
+import UserEdit from "./components/profile/UserEdit";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -66,11 +67,21 @@ const App = () => {
                 path=":id"
                 element={
                   <Authorized allowedScopes={["PROFILE_ADMIN"]}>
-                    <User />
+                    <User isEditMode={false} />
+                  </Authorized>
+                }
+              />
+              <Route
+                exact
+                path="edit/:id"
+                element={
+                  <Authorized allowedScopes={["PROFILE_ADMIN"]}>
+                    <User isEditMode={true} />
                   </Authorized>
                 }
               />
             </Route>
+
             <Route
               exact
               path="/gallery"

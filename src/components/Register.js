@@ -116,7 +116,7 @@ const Register = () => {
                     name="firstname"
                     type="text"
                     className="form-control"
-                    placeholder="Firstname"
+                    placeholder="First Name"
                   />
                   <ErrorMessage
                     name="firstname"
@@ -129,7 +129,7 @@ const Register = () => {
                     name="lastname"
                     type="text"
                     className="form-control"
-                    placeholder="Lastname"
+                    placeholder="Last Name"
                   />
                   <ErrorMessage
                     name="lastname"

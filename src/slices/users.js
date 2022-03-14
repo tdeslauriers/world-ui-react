@@ -17,6 +17,21 @@ export const getUsersAll = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "users/update",
+  async (userdata, thunkAPI) => {
+    try {
+      const res = await profileService.updateUser(userdata);
+      return userdata; // need to return the user data for the slice
+    } catch (error) {
+      const message = error.message || error.status;
+
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 const initialState = [];
 
 const usersSlice = createSlice({
@@ -28,6 +43,13 @@ const usersSlice = createSlice({
     },
     [getUsersAll.rejected]: (state, action) => {
       state.profiles = null;
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      const index = state.findIndex((user) => user.id === action.payload.id);
+      state[index] = {
+        ...state[index],
+        ...action.payload,
+      };
     },
   },
 });

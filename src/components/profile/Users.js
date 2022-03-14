@@ -8,6 +8,7 @@ import { getUsersAll } from "../../slices/users";
 import "./Profile.css";
 
 const headers = [
+  { id: "options", label: "Options" },
   { id: "username", label: "Username/Email" },
   { id: "firstname", label: "Firstname" },
   { id: "lastname", label: "Lastname" },
@@ -15,7 +16,6 @@ const headers = [
   { id: "enabled", label: "Enabled?" },
   { id: "accountExpired", label: "Account Expired?" },
   { id: "accountLocked", label: "Account Locked?" },
-  { id: "options", label: "Options" },
 ];
 
 const ProfilesAll = () => {
@@ -54,6 +54,14 @@ const ProfilesAll = () => {
         <tbody>
           {allUsers.map((user) => (
             <tr key={user.id}>
+              <td>
+                <NavLink to={`/users/${user.id}`}>
+                  <button className="btn-table">View</button>
+                </NavLink>
+                <NavLink to={`/users/edit/${user.id}`}>
+                  <button className="btn-table">Edit</button>
+                </NavLink>
+              </td>
               <td>{user.username}</td>
               <td>{user.firstname}</td>
               <td>{user.lastname}</td>
@@ -61,12 +69,6 @@ const ProfilesAll = () => {
               <td>{user.enabled.toString()}</td>
               <td>{user.accountExpired.toString()}</td>
               <td>{user.accountLocked.toString()}</td>
-              <td>
-                <NavLink to={`/users/${user.id}`}>
-                  <button className="btngroup">Edit</button>
-                </NavLink>
-                <button className="btngroup">Disable</button>
-              </td>
             </tr>
           ))}
         </tbody>

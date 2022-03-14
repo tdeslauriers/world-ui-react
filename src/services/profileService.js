@@ -27,10 +27,19 @@ const getUserById = (id) => {
     });
 };
 
+const updateUser = (userdata) => {
+  return axios
+    .put(PROFILE_API_URL + "/edit", { headers: authHeader() })
+    .then((response) => {
+      return response.status;
+    });
+};
+
 const profileService = {
   getProfile,
   getProfilesAll,
   getUserById,
+  updateUser,
 };
 
 export default profileService;

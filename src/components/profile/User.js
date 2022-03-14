@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation, useParams } from "react-router-dom";
 import eventBus from "../../security/EventBus";
 import profileService from "../../services/profileService";
+import ProfileForm from "./ProfileForm";
 import ProfileView from "./ProfileView";
 
-const User = () => {
+const User = ({ isEditMode }) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
   const location = useLocation();
@@ -14,11 +15,11 @@ const User = () => {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { user: currentUser } = useSelector((state) => state.auth);
   const { users: allUsers } = useSelector((state) => state);
-  const { message: reduxMessage } = useSelector((state) => state.message);
+  const { message: userMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
-  const getUser = (id) => {
-    profileService
+  const getUser = async (id) => {
+    await profileService
       .getUserById(id)
       .then((response) => {
         setUser(response);
@@ -40,15 +41,31 @@ const User = () => {
       setUser(exists);
     }
 
-    if (
-      reduxMessage &&
-      reduxMessage === "Request failed with status code 401"
-    ) {
+    if (userMessage && userMessage === "Request failed with status code 401") {
       eventBus.dispatch("logout");
     }
-  }, [dispatch, allUsers, id, reduxMessage]);
+  }, [dispatch, allUsers, id, userMessage]);
 
   const scopes = currentUser != null ? currentUser.roles : [];
+
+  const handleProfileChange = (event) => {
+    if (event.target.name === "enabled") {
+      setUser((previousUser) => ({
+        ...previousUser,
+        [event.target.name]: !previousUser.enabled,
+      }));
+    } else if (event.target.name === "accountLocked") {
+      setUser((previousUser) => ({
+        ...previousUser,
+        [event.target.name]: !previousUser.accountLocked,
+      }));
+    } else {
+      setUser((previousUser) => ({
+        ...previousUser,
+        [event.target.name]: event.target.value,
+      }));
+    }
+  };
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
@@ -56,7 +73,15 @@ const User = () => {
 
   return (
     <>
-      <ProfileView profile={user} scopes={scopes} />
+      {isEditMode ? (
+        <ProfileForm
+          profile={user}
+          scopes={scopes}
+          onProfileChange={handleProfileChange}
+        />
+      ) : (
+        <ProfileView profile={user} scopes={scopes} />
+      )}
     </>
   );
 };
