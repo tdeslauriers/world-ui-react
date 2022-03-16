@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import "./Profile.css";
 
 const ProfileView = ({ profile, scopes }) => {
@@ -8,18 +9,40 @@ const ProfileView = ({ profile, scopes }) => {
       {profile && (
         <>
           <div className="profile-record">
-            <h3 className="profile">
-              Profile: <strong>{profile.username}</strong>
-              {profile.enabled ? null : (
-                <strong className="alert disabled">Account Disabled</strong>
-              )}
-              {profile.locked ? (
-                <strong className="alert disabled">Account Locked</strong>
-              ) : null}
-              {profile.expired ? (
-                <strong className="alert disabled">Account Expired</strong>
-              ) : null}
-            </h3>
+            <div className="contact-top">
+              <div className="contact-child">
+                <h3>
+                  Profile: <strong>{profile.username}</strong>
+                  {profile.enabled ? null : (
+                    <strong className="alert disabled">Account Disabled</strong>
+                  )}
+                  {profile.accountLocked ? (
+                    <strong className="alert disabled">Account Locked</strong>
+                  ) : null}
+                  {profile.expired ? (
+                    <strong className="alert disabled">Account Expired</strong>
+                  ) : null}
+                </h3>
+              </div>
+              <div className="contact-child">
+                <div className="btngroup">
+                  <NavLink to={`/users/edit/${profile.id}`}>
+                    <button className="btn-profile">Edit</button>
+                  </NavLink>
+                  {isAdmin ? (
+                    <>
+                      <button className="btn-profile">
+                        {profile.enabled ? "Disable" : "Enable"}
+                      </button>
+                      <button className="btn-profile">
+                        {profile.locked ? "Unlock" : "Lock"}
+                      </button>
+                    </>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+
             <hr></hr>
             <div className="namegroup">
               <div>
@@ -35,16 +58,6 @@ const ProfileView = ({ profile, scopes }) => {
                 ).toLocaleDateString()}`}</strong>
               </div>
             </div>
-            {isAdmin ? (
-              <div className="btngroup">
-                <button className="btn-profile">
-                  {profile.enabled ? "Disable" : "Enable"}
-                </button>
-                <button className="btn-profile">
-                  {profile.locked ? "Unlock" : "Lock"}
-                </button>
-              </div>
-            ) : null}
           </div>
           <div className="contact-top">
             {profile.addresses && (
