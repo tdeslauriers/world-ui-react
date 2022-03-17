@@ -5,64 +5,73 @@ import PhoneForm from "./PhoneForm";
 import "./Profile.css";
 import Roles from "./Roles";
 
-const ProfileForm = ({ profile, scopes, onProfileChange }) => {
+const ProfileForm = ({ profile, scopes, onProfileChange, onAddressChange }) => {
   const isAdmin = scopes.includes("PROFILE_ADMIN");
   return (
     <div>
       {profile && (
         <>
-          <div>
-            <div className="contact-top">
-              <div className="contact-child">
-                <h3>
-                  Profile: <strong>{profile.username}</strong>
-                </h3>
-                <h3>
-                  {profile.enabled ? null : (
-                    <strong className="alert disabled">Account Disabled</strong>
-                  )}
-                  {profile.accountLocked ? (
-                    <strong className="alert disabled">Account Locked</strong>
-                  ) : null}
-                  {profile.expired ? (
-                    <strong className="alert disabled">Account Expired</strong>
-                  ) : null}
-                </h3>
-              </div>
-              <div className="contact-child">
-                {isAdmin ? (
+          {" "}
+          <form className="form">
+            <div>
+              <div className="top-column">
+                <div className="child-column">
+                  <h3>
+                    Profile: <strong>{profile.username}</strong>
+                  </h3>
+                  <h3>
+                    {profile.enabled ? null : (
+                      <strong className="alert disabled">
+                        Account Disabled
+                      </strong>
+                    )}
+                    {profile.accountLocked ? (
+                      <strong className="alert disabled">Account Locked</strong>
+                    ) : null}
+                    {profile.expired ? (
+                      <strong className="alert disabled">
+                        Account Expired
+                      </strong>
+                    ) : null}
+                  </h3>
+                </div>
+                <div className="child-column">
                   <div className="btngroup">
-                    <input
-                      className={
-                        profile.enabled
-                          ? "btn-profile btn-alert"
-                          : "btn-profile button"
-                      }
-                      name="enabled"
-                      type="button"
-                      value={profile.enabled ? "Disable" : "Enable"}
-                      onClick={onProfileChange}
-                    />
-                    <input
-                      className={
-                        profile.accountLocked
-                          ? "btn-profile button"
-                          : "btn-profile btn-alert"
-                      }
-                      name="accountLocked"
-                      type="button"
-                      value={profile.accountLocked ? "UnLock" : "Lock"}
-                      onClick={onProfileChange}
-                    />
+                    <button className="btn-profile">Save</button>
+                    {isAdmin ? (
+                      <>
+                        <input
+                          className={
+                            profile.enabled
+                              ? "btn-profile btn-alert"
+                              : "btn-profile"
+                          }
+                          name="enabled"
+                          type="button"
+                          value={profile.enabled ? "Disable" : "Enable"}
+                          onClick={onProfileChange}
+                        />
+                        <input
+                          className={
+                            profile.accountLocked
+                              ? "btn-profile"
+                              : "btn-profile btn-alert"
+                          }
+                          name="accountLocked"
+                          type="button"
+                          value={profile.accountLocked ? "UnLock" : "Lock"}
+                          onClick={onProfileChange}
+                        />
+                      </>
+                    ) : null}
                   </div>
-                ) : null}
+                </div>
               </div>
-            </div>
-            <hr></hr>
-            <form className="form">
+              <hr></hr>
+
               <div className="profile-form">
-                <div className="contact-top">
-                  <div className="contact-child">
+                <div className="top-column">
+                  <div className="child-column">
                     <div className="namegroup">
                       <input
                         className="form-control"
@@ -89,19 +98,28 @@ const ProfileForm = ({ profile, scopes, onProfileChange }) => {
                     </div>
                   </div>
 
-                  <div className="contact-child">
-                    { profile.roles && <Roles roles={profile.roles} isAdmin={isAdmin} />
-                      }
-                  </div>
+                  {profile.roles && (
+                    <div className="child-column">
+                      <Roles
+                        className="roles"
+                        roles={profile.roles}
+                        isAdmin={isAdmin}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <div className="contact-top">
+              <div className="top-column">
                 {profile.addresses &&
                   profile.addresses.map((a) => (
                     <div>
                       <h3>Address:</h3>
-                      <AddressForm key={a.id} address={a} />
+                      <AddressForm
+                        key={a.id}
+                        address={a}
+                        onChange={onAddressChange}
+                      />
                     </div>
                   ))}
                 {profile.phones &&
@@ -112,8 +130,8 @@ const ProfileForm = ({ profile, scopes, onProfileChange }) => {
                     </div>
                   ))}
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </>
       )}
     </div>

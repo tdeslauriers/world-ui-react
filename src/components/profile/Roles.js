@@ -40,15 +40,20 @@ const define = (role) => {
   }
 };
 
-const Roles = ({ roles, isAdmin, add, remove }) => {
+const Roles = ({ roles, isAdmin, addRole, removeRole }) => {
   const headers = isAdmin ? adminHeaders : userHeaders;
 
   const { TableContainer, TableHead } = useTable(roles, headers);
 
   return (
     <div>
-      <button onClick={add}>Add Permission</button>
-      <hr></hr>
+      {isAdmin && (
+        <div>
+          <button onClick={addRole}>Add Permission</button>
+          <hr />
+        </div>
+      )}
+
       <TableContainer>
         <TableHead />
         <tbody>
@@ -57,7 +62,7 @@ const Roles = ({ roles, isAdmin, add, remove }) => {
               <td>{define(r.role)}</td>
               {isAdmin && (
                 <td>
-                  <button className="btn-alert" onClick={remove}>
+                  <button className="btn-alert" onClick={removeRole}>
                     Remove
                   </button>
                 </td>

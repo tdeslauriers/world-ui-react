@@ -1,31 +1,39 @@
 import React from "react";
 
-export const AddressForm = ({ address }) => {
+export const AddressForm = ({ address, onChange }) => {
   return (
     <div>
       <input
         className="form-control"
-        name="address"
         placeholder="Street Address"
+        id={address.id}
+        name="address"
         value={address.address}
+        onChange={onChange}
       />
       <input
         className="form-control"
-        name="city"
         placeholder="City"
+        id={address.id}
+        name="city"
         value={address.city}
+        onChange={onChange}
       />
       <input
         className="form-control"
-        name="state"
         placeholder="State"
+        id={address.id}
+        name="state"
         value={address.state}
+        onChange={onChange}
       />
       <input
         className="form-control"
-        name="zip"
         placeholder="Zip Code"
+        id={address.id}
+        name="zip"
         value={address.zip}
+        onChange={onChange}
       />
     </div>
   );

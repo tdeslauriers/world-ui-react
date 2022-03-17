@@ -5,8 +5,8 @@ import "./Nav.css";
 const Nav = ({ isLoggedIn, logOut }) => {
   return (
     <div>
-      <nav className="topnav">
-        <div className="childnav">
+      <nav className="top-column topnav">
+        <div className="child-column childnav">
           <ul className="listnav-1">
             <li className="list-item-nav">
               <NavLink to={"/"} className="link-nav" activeClassName="active">
@@ -25,7 +25,7 @@ const Nav = ({ isLoggedIn, logOut }) => {
             </li>
           </ul>
         </div>
-        <div className="childnav">
+        <div className="child-column childnav">
           {isLoggedIn ? (
             <ul className="listnav-2">
               <li className="list-item-nav">

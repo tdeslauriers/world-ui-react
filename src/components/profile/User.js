@@ -67,6 +67,18 @@ const User = ({ isEditMode }) => {
     }
   };
 
+  const handleAddressChange = (event) => {
+    let updated = user.addresses.map((address) => {
+      if (address.id === parseInt(event.target.id)) {
+        return { ...address, [event.target.name]: event.target.value };
+      }
+    });
+    setUser((previousUser) => ({
+      ...previousUser,
+      addresses: updated,
+    }));
+  };
+
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
@@ -78,6 +90,7 @@ const User = ({ isEditMode }) => {
           profile={user}
           scopes={scopes}
           onProfileChange={handleProfileChange}
+          onAddressChange={handleAddressChange}
         />
       ) : (
         <ProfileView profile={user} scopes={scopes} />
