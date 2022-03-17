@@ -1,4 +1,5 @@
 import React from "react";
+import { STATES_MENU } from ".";
 
 export const AddressForm = ({ address, onChange }) => {
   return (
@@ -19,14 +20,20 @@ export const AddressForm = ({ address, onChange }) => {
         value={address.city}
         onChange={onChange}
       />
-      <input
+      <select
         className="form-control"
-        placeholder="State"
+        placeholder="Select State"
         id={address.id}
         name="state"
         value={address.state}
         onChange={onChange}
-      />
+      >
+        {STATES_MENU.map((s, i) => (
+          <option key={i} value={s}>
+            {s}
+          </option>
+        ))}
+      </select>
       <input
         className="form-control"
         placeholder="Zip Code"
