@@ -134,7 +134,7 @@ const User = () => {
   const handleSave = (event) => {
     event.preventDefault();
 
-    let savedUser = user;
+    let savedUser = JSON.parse(JSON.stringify(user));
 
     savedUser.addresses &&
       newAddresses.forEach((address) => {
