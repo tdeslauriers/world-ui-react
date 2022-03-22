@@ -14,8 +14,8 @@ import Authorized from "./security/Authorized";
 import Nav from "./components/Nav";
 import Users from "./components/profile/Users";
 import Drawer from "./components/Drawer";
-import User from "./components/profile/User";
 import UserEdit from "./components/profile/UserEdit";
+import User from "./components/profile/User";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -73,10 +73,10 @@ const App = () => {
               />
               <Route
                 exact
-                path="edit/:id"
+                path=":id/edit"
                 element={
                   <Authorized allowedScopes={["PROFILE_ADMIN"]}>
-                    <User isEditMode={true} />
+                    <UserEdit />
                   </Authorized>
                 }
               />

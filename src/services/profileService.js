@@ -29,7 +29,7 @@ const getUserById = (id) => {
 
 const updateUser = (userdata) => {
   return axios
-    .put(PROFILE_API_URL + "/edit", { headers: authHeader() })
+    .put(PROFILE_API_URL + "/edit", userdata, { headers: authHeader() })
     .then((response) => {
       return response.status;
     });

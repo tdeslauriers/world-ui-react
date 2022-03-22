@@ -5,14 +5,48 @@ import PhoneForm from "./PhoneForm";
 import "./Profile.css";
 import Roles from "./Roles";
 
-const ProfileForm = ({ profile, scopes, onProfileChange, onAddressChange }) => {
+const ProfileForm = ({
+  profile,
+  scopes,
+  onProfileChange,
+  onAddressChange,
+  onPhoneChange,
+  onSave,
+}) => {
   const isAdmin = scopes.includes("PROFILE_ADMIN");
+
+  const AddPhones = ({ onPhoneChange }) => {
+    let addPhones = [];
+    if (profile.phones) {
+      if (profile.phones.length === 3) {
+        return null;
+      }
+      for (var i = 0; i < 3 - profile.phones.length; i++) {
+        addPhones.push(
+          <div key={i}>
+            <h3>Add Phone:</h3>
+            <PhoneForm phone={{}} onChange={onPhoneChange} />
+          </div>
+        );
+      }
+    } else {
+      for (var j = 0; j < 3; j++) {
+        addPhones.push(
+          <div key={j}>
+            <h3>Add Phone:</h3>
+            <PhoneForm phone={{}} onChange={onPhoneChange} />
+          </div>
+        );
+      }
+    }
+    return addPhones;
+  };
+
   return (
     <div>
       {profile && (
         <>
-          {" "}
-          <form className="form">
+          <form>
             <div>
               <div className="top-column">
                 <div className="child-column">
@@ -37,24 +71,24 @@ const ProfileForm = ({ profile, scopes, onProfileChange, onAddressChange }) => {
                 </div>
                 <div className="child-column">
                   <div className="btngroup">
-                    <button className="btn-profile">Save</button>
                     {isAdmin ? (
                       <>
                         <input
                           className={
                             profile.enabled
                               ? "btn-profile btn-alert"
-                              : "btn-profile"
+                              : "btn-profile button"
                           }
                           name="enabled"
                           type="button"
                           value={profile.enabled ? "Disable" : "Enable"}
                           onClick={onProfileChange}
                         />
+
                         <input
                           className={
                             profile.accountLocked
-                              ? "btn-profile"
+                              ? "btn-profile button"
                               : "btn-profile btn-alert"
                           }
                           name="accountLocked"
@@ -64,6 +98,9 @@ const ProfileForm = ({ profile, scopes, onProfileChange, onAddressChange }) => {
                         />
                       </>
                     ) : null}
+                    <button className="btn-profile" onClick={onSave}>
+                      Save
+                    </button>
                   </div>
                 </div>
               </div>
@@ -71,7 +108,7 @@ const ProfileForm = ({ profile, scopes, onProfileChange, onAddressChange }) => {
 
               <div className="profile-form">
                 <div className="top-column">
-                  <div className="child-column">
+                  <div className="child-column profile-form">
                     <div className="namegroup">
                       <input
                         className="form-control"
@@ -99,7 +136,7 @@ const ProfileForm = ({ profile, scopes, onProfileChange, onAddressChange }) => {
                   </div>
 
                   {profile.roles && (
-                    <div className="child-column">
+                    <div className="child-column profile-form">
                       <Roles
                         className="roles"
                         roles={profile.roles}
@@ -111,24 +148,38 @@ const ProfileForm = ({ profile, scopes, onProfileChange, onAddressChange }) => {
               </div>
 
               <div className="top-column">
-                {profile.addresses &&
+                {profile.addresses ? (
                   profile.addresses.map((a) => (
-                    <div>
+                    <div key={a.id} className="child-column profile-form">
                       <h3>Address:</h3>
-                      <AddressForm
-                        key={a.id}
-                        address={a}
-                        onChange={onAddressChange}
-                      />
+                      <AddressForm address={a} onChange={onAddressChange} />
                     </div>
-                  ))}
-                {profile.phones &&
-                  profile.phones.map((p, i) => (
-                    <div>
-                      <h3>Phone {i + 1}:</h3>
-                      <PhoneForm key={p.id} phone={p} />
-                    </div>
-                  ))}
+                  ))
+                ) : (
+                  <div className="child-column profile-form">
+                    <h3>Add Address:</h3>
+                    <AddressForm
+                      address={{ id: "temp-1" }}
+                      onChange={onAddressChange}
+                    />
+                  </div>
+                )}
+
+                {profile.phones ? (
+                  <div className="child-column profile-form">
+                    {profile.phones.map((p, i) => (
+                      <div key={p.id}>
+                        <h3>Phone {i + 1}:</h3>
+                        <PhoneForm phone={p} onChange={onPhoneChange} />
+                      </div>
+                    ))}
+                    <AddPhones onPhoneChange={onPhoneChange} />
+                  </div>
+                ) : (
+                  <div className="child-column profile-form">
+                    <AddPhones onPhoneChange={onPhoneChange} />
+                  </div>
+                )}
               </div>
             </div>
           </form>

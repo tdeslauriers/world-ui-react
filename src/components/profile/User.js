@@ -3,14 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation, useParams } from "react-router-dom";
 import eventBus from "../../security/EventBus";
 import profileService from "../../services/profileService";
-import ProfileForm from "./ProfileForm";
 import ProfileView from "./ProfileView";
 
-const User = ({ isEditMode }) => {
+const User = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
-  const location = useLocation();
   const { id } = useParams();
+  const location = useLocation();
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -38,6 +37,7 @@ const User = ({ isEditMode }) => {
       let exists = allUsers.find((u) => {
         return u.id === parseInt(id);
       });
+
       setUser(exists);
     }
 
@@ -48,55 +48,11 @@ const User = ({ isEditMode }) => {
 
   const scopes = currentUser != null ? currentUser.roles : [];
 
-  const handleProfileChange = (event) => {
-    if (event.target.name === "enabled") {
-      setUser((previousUser) => ({
-        ...previousUser,
-        [event.target.name]: !previousUser.enabled,
-      }));
-    } else if (event.target.name === "accountLocked") {
-      setUser((previousUser) => ({
-        ...previousUser,
-        [event.target.name]: !previousUser.accountLocked,
-      }));
-    } else {
-      setUser((previousUser) => ({
-        ...previousUser,
-        [event.target.name]: event.target.value,
-      }));
-    }
-  };
-
-  const handleAddressChange = (event) => {
-    let updated = user.addresses.map((address) => {
-      if (address.id === parseInt(event.target.id)) {
-        return { ...address, [event.target.name]: event.target.value };
-      }
-    });
-    setUser((previousUser) => ({
-      ...previousUser,
-      addresses: updated,
-    }));
-  };
-
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  return (
-    <>
-      {isEditMode ? (
-        <ProfileForm
-          profile={user}
-          scopes={scopes}
-          onProfileChange={handleProfileChange}
-          onAddressChange={handleAddressChange}
-        />
-      ) : (
-        <ProfileView profile={user} scopes={scopes} />
-      )}
-    </>
-  );
+  return <ProfileView profile={user} scopes={scopes} />;
 };
 
 export default User;

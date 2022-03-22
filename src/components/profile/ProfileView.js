@@ -1,10 +1,18 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import "./Profile.css";
 import Roles from "./Roles";
 
 const ProfileView = ({ profile, scopes }) => {
+  const location = useLocation();
   const isAdmin = scopes.includes("PROFILE_ADMIN");
+
+  const formatPhone = (phone) => {
+    let areacode = phone.slice(0, 3);
+    let exchange = phone.slice(3, 6);
+    let lineNumber = phone.slice(6);
+    return `( ${areacode} ) ${exchange} - ${lineNumber}`;
+  };
 
   return (
     <div>
@@ -13,10 +21,13 @@ const ProfileView = ({ profile, scopes }) => {
           <div className="top-column">
             <div className="child-column">
               <h3>
-                Profile: <strong>{profile.username}</strong>
+                <h3>
+                  Profile: <strong>{profile.username}</strong>
+                </h3>
                 {profile.enabled ? null : (
                   <strong className="alert disabled">Account Disabled</strong>
                 )}
+
                 {profile.accountLocked ? (
                   <strong className="alert disabled">Account Locked</strong>
                 ) : null}
@@ -27,19 +38,13 @@ const ProfileView = ({ profile, scopes }) => {
             </div>
             <div className="child-column">
               <div className="btngroup">
-                <NavLink to={`/users/edit/${profile.id}`}>
+                <NavLink
+                  to={`/users/${profile.id}/edit`}
+                  replace
+                  state={{ from: location }}
+                >
                   <button className="btn-profile">Edit</button>
                 </NavLink>
-                {isAdmin ? (
-                  <>
-                    <button className="btn-profile">
-                      {profile.enabled ? "Disable" : "Enable"}
-                    </button>
-                    <button className="btn-profile">
-                      {profile.locked ? "Unlock" : "Lock"}
-                    </button>
-                  </>
-                ) : null}
               </div>
             </div>
           </div>
@@ -72,7 +77,7 @@ const ProfileView = ({ profile, scopes }) => {
           </div>
 
           <div className="top-column">
-            {profile.addresses && (
+            {profile.addresses ? (
               <div className="child-column profile-record">
                 <h3>Address:</h3>
                 <hr></hr>
@@ -93,16 +98,21 @@ const ProfileView = ({ profile, scopes }) => {
                   </div>
                 ))}
               </div>
+            ) : (
+              <div className="child-column profile-record">
+                <h3>No Address Listed.</h3>
+                <hr />
+              </div>
             )}
 
-            {profile.phones && (
+            {profile.phones ? (
               <div className="child-column profile-record">
                 <h3>Phones:</h3>
                 <hr></hr>
                 {profile.phones.map((p, i) => (
                   <div key={i}>
                     <div className="contact-left-col">
-                      Phone: <strong>{p.phone}</strong>
+                      Phone: <strong>{formatPhone(p.phone)}</strong>
                     </div>
                     <div className="contact-right-col">
                       Type: <strong>{p.type}</strong>
@@ -110,6 +120,11 @@ const ProfileView = ({ profile, scopes }) => {
                     <br />
                   </div>
                 ))}
+              </div>
+            ) : (
+              <div className="child-column profile-record">
+                <h3>No Phones Listed.</h3>
+                <hr />
               </div>
             )}
           </div>

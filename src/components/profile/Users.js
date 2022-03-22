@@ -14,8 +14,8 @@ const headers = [
   { id: "lastname", label: "Lastname" },
   { id: "dateCreated", label: "Date Created" },
   { id: "enabled", label: "Enabled?" },
-  { id: "accountExpired", label: "Account Expired?" },
-  { id: "accountLocked", label: "Account Locked?" },
+  { id: "accountExpired", label: "Expired?" },
+  { id: "accountLocked", label: "Locked?" },
 ];
 
 const ProfilesAll = () => {
@@ -48,7 +48,7 @@ const ProfilesAll = () => {
 
   return (
     <div>
-      <h3>User Table</h3>
+      <h3>User Profiles</h3>
       <TableContainer>
         <TableHead />
         <tbody>
@@ -58,7 +58,11 @@ const ProfilesAll = () => {
                 <NavLink to={`/users/${user.id}`}>
                   <button className="btn-table">View</button>
                 </NavLink>
-                <NavLink to={`/users/edit/${user.id}`}>
+                <NavLink
+                  to={`/users/${user.id}/edit`}
+                  replace
+                  state={{ from: location }}
+                >
                   <button className="btn-table">Edit</button>
                 </NavLink>
               </td>
