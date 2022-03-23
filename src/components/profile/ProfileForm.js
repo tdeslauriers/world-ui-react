@@ -26,7 +26,7 @@ const ProfileForm = ({
               <div className="top-column">
                 <div className="child-column">
                   <h3>
-                    Edit Profile: <strong>{profile.username}</strong>
+                    Edit profile: <strong>{profile.username}</strong>
                   </h3>
                   <h3>
                     {profile.enabled ? null : (
@@ -126,7 +126,7 @@ const ProfileForm = ({
                 <div className="child-column profile-form">
                   {addresses.map((a, i) => (
                     <div key={i}>
-                      <h3>Edit Address</h3>
+                      {!a.temp ? <h3>Edit address</h3> : <h3>Add address:</h3>}
                       <AddressForm address={a} onChange={onAddressChange} />
                     </div>
                   ))}
@@ -135,10 +135,10 @@ const ProfileForm = ({
                 <div className="child-column profile-form">
                   {phones.map((p, i) => (
                     <div key={p.id}>
-                      {Number.isInteger(p.id) ? (
-                        <h3>Edit Phone {i + 1}:</h3>
+                      {!p.temp ? (
+                        <h3>{`Edit ${p.type.toLowerCase()} phone:`}</h3>
                       ) : (
-                        <h3>Add Phone</h3>
+                        <h3>Add phone:</h3>
                       )}
                       <PhoneForm phone={p} onChange={onPhoneChange} />
                     </div>
