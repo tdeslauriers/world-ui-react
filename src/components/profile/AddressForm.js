@@ -22,14 +22,17 @@ export const AddressForm = ({ address, onChange }) => {
       />
       <select
         className="form-control"
-        placeholder="Select State"
         id={address.id}
         name="state"
         value={address.state}
+        defaultValue={"Select State"}
         onChange={onChange}
       >
+        <option key={0} value="Select State" disabled hidden>
+          Select State
+        </option>
         {STATES_MENU.map((s, i) => (
-          <option key={i} value={s}>
+          <option key={i + 1} value={s}>
             {s}
           </option>
         ))}

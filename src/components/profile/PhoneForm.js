@@ -14,12 +14,13 @@ const PhoneForm = ({ phone, onChange }) => {
       />
       <select
         className="form-control"
-        placeholder="Select Phone Type"
         id={phone.id}
         name="type"
         value={phone.type}
+        defaultValue="Select Type"
         onChange={onChange}
       >
+        <option value="Select Type">Select Type</option>
         {PHONE_MENU.map((t, i) => (
           <option key={i} value={t}>
             {t}

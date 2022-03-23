@@ -21,9 +21,9 @@ const ProfileView = ({ profile, scopes }) => {
           <div className="top-column">
             <div className="child-column">
               <h3>
-                <h3>
-                  Profile: <strong>{profile.username}</strong>
-                </h3>
+                Profile: <strong>{profile.username}</strong>
+              </h3>
+              <h3>
                 {profile.enabled ? null : (
                   <strong className="alert disabled">Account Disabled</strong>
                 )}

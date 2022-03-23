@@ -14,8 +14,11 @@ import ProfileForm from "./ProfileForm";
 const User = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
+  const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams();
-  const [newAddresses, setNewAddresses] = useState([]);
+  const [phones, setPhones] = useState([]);
+  const [addresses, setAddresses] = useState([]);
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -23,8 +26,8 @@ const User = () => {
   const { message: userMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
-  const getUser = async (id) => {
-    await profileService
+  const getUser = (id) => {
+    profileService
       .getUserById(id)
       .then((response) => {
         setUser(response);
@@ -43,7 +46,6 @@ const User = () => {
       let exists = allUsers.find((u) => {
         return u.id === parseInt(id);
       });
-
       setUser(exists);
     }
 
@@ -52,8 +54,30 @@ const User = () => {
     }
   }, [dispatch, allUsers, id, userMessage]);
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  useEffect(() => {
+    // set up addresses for add/edit
+    // written for when mailing and billing exist
+    let addresses = [];
+    if (user.addresses) {
+      addresses = [...user.addresses];
+    }
+    let toAdd = 1 - addresses.length;
+    for (let i = 0; i < toAdd; i++) {
+      addresses.push({ id: i, temp: true });
+    }
+    setAddresses(addresses);
+
+    // set up phones for add/edit
+    let phones = [];
+    if (user.phones) {
+      phones = [...user.phones];
+    }
+    toAdd = 3 - phones.length;
+    for (let i = 0; i < toAdd; i++) {
+      phones.push({ id: i, temp: true });
+    }
+    setPhones(phones);
+  }, [user]);
 
   const scopes = currentUser != null ? currentUser.roles : [];
 
@@ -77,88 +101,43 @@ const User = () => {
   };
 
   const handleAddressChange = (event) => {
-    // has none
-    if (!user.addresses && newAddresses.length === 0) {
-      let address = {
-        id: event.target.id,
-        [event.target.name]: event.target.value,
-      };
-      let addresses = [];
-      addresses.push(address);
-      setNewAddresses(addresses);
-    }
-
-    // edit newly added
-    if (!user.addresses && newAddresses.length > 0) {
-      let updatedNew = newAddresses.map((address) => {
-        if (address.id === event.target.id) {
-          return { ...address, [event.target.name]: event.target.value };
-        }
-        return address;
-      });
-      setNewAddresses(updatedNew);
-    }
-
-    // edit existing
-    if (user.addresses) {
-      let updated = user.addresses.map((address) => {
-        if (address.id === parseInt(event.target.id)) {
-          return { ...address, [event.target.name]: event.target.value };
-        }
-        return address;
-      });
-      setUser((previousUser) => ({
-        ...previousUser,
-        addresses: updated,
-      }));
-    }
+    let updated = addresses.map((address) => {
+      if (address.id === parseInt(event.target.id)) {
+        return { ...address, [event.target.name]: event.target.value };
+      }
+      return address;
+    });
+    setAddresses(updated);
   };
 
   const handlePhoneChange = (event) => {
-    let updated =
-      user.phones &&
-      user.phones.map((phone) => {
-        if (phone.id && phone.id === parseInt(event.target.id)) {
-          return { ...phone, [event.target.name]: event.target.value };
-        }
-
-        return phone;
-      });
-
-    setUser((previousUser) => ({
-      ...previousUser,
-      phones: updated,
-    }));
+    let updated = phones.map((phone) => {
+      if (phone.id === parseInt(event.target.id)) {
+        return { ...phone, [event.target.name]: event.target.value };
+      }
+      return phone;
+    });
+    setPhones(updated);
   };
 
   const handleSave = (event) => {
     event.preventDefault();
 
-    let savedUser = JSON.parse(JSON.stringify(user));
+    let savedUser = Object.assign({}, user);
 
-    savedUser.addresses &&
-      newAddresses.forEach((address) => {
-        let added = {
-          address: address.address,
-          city: address.city,
-          state: address.state,
-          zip: address.zip,
-        };
-        savedUser.addresses.push(added);
-      });
+    let updatedPhones = phones.filter((phone) => phone.phone);
+    updatedPhones = updatedPhones.map((phone) => {
+      phone.temp && delete phone.id;
+      return phone;
+    });
+    savedUser.phones = updatedPhones;
 
-    if (!savedUser.addresses) {
-      savedUser.addresses = [];
-      newAddresses.forEach((address) => {
-        let added = {
-          address: address.address,
-          city: address.city,
-          state: address.state,
-          zip: address.zip,
-        };
-        savedUser.addresses.push(added);
-      });
-    }
+    let updatedAddresses = addresses.filter((address) => address.address);
+    updatedAddresses = updatedAddresses.map((address) => {
+      address.temp && delete address.id;
+      return address;
+    });
+    savedUser.addresses = updatedAddresses;
 
     dispatch(updateUser(savedUser))
       .unwrap()
@@ -168,17 +147,19 @@ const User = () => {
         } else navigate(`/users/${id}`);
       });
   };
+
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  console.log(newAddresses);
   return (
     <ProfileForm
       profile={user}
       scopes={scopes}
       onProfileChange={handleProfileChange}
+      addresses={addresses}
       onAddressChange={handleAddressChange}
+      phones={phones}
       onPhoneChange={handlePhoneChange}
       onSave={handleSave}
     />
