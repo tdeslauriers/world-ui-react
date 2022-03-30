@@ -43,6 +43,7 @@
 }
 
 .table-container tbody tr {
+    color: rgb(130, 202, 130);
     border-bottom: thin solid rgb(203, 206, 203);
     font-size: calc(10px + 1vmin );
 }

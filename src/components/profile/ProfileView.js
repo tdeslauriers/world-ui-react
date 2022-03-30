@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "./Profile.css";
-import Roles from "./Roles";
+import ProfileRoles from "./ProfileRoles";
 
 const ProfileView = ({ profile, scopes }) => {
   const location = useLocation();
@@ -71,7 +71,7 @@ const ProfileView = ({ profile, scopes }) => {
 
             {profile.roles && (
               <div className="child-column roles">
-                <Roles roles={profile.roles} isAdmin={isAdmin} />
+                <ProfileRoles roles={profile.roles} isAdmin={isAdmin} />
               </div>
             )}
           </div>

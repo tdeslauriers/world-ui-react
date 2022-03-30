@@ -19,6 +19,7 @@ const User = () => {
   const { id } = useParams();
   const [phones, setPhones] = useState([]);
   const [addresses, setAddresses] = useState([]);
+  const [roles, setRoles] = useState([]);
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -77,6 +78,13 @@ const User = () => {
       phones.push({ id: i, temp: true });
     }
     setPhones(phones);
+
+    // set up roles for add/edit
+    let roles = [];
+    if (user.roles) {
+      roles = [...user.roles];
+    }
+    setRoles(roles);
   }, [user]);
 
   const scopes = currentUser != null ? currentUser.roles : [];
@@ -148,6 +156,11 @@ const User = () => {
       });
   };
 
+  const handleCancel = (event) =>
+    location.state?.from
+      ? navigate(location.state.from)
+      : navigate(`/users/${id}`);
+
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
@@ -161,7 +174,9 @@ const User = () => {
       onAddressChange={handleAddressChange}
       phones={phones}
       onPhoneChange={handlePhoneChange}
+      roles={roles}
       onSave={handleSave}
+      onCancel={handleCancel}
     />
   );
 };

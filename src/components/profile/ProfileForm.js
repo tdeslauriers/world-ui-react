@@ -1,9 +1,8 @@
-import { type } from "@testing-library/user-event/dist/type";
 import React from "react";
 import { AddressForm } from "./AddressForm";
 import PhoneForm from "./PhoneForm";
 import "./Profile.css";
-import Roles from "./Roles";
+import ProfileRoles from "./ProfileRoles";
 
 const ProfileForm = ({
   profile,
@@ -14,6 +13,7 @@ const ProfileForm = ({
   phones,
   onPhoneChange,
   onSave,
+  ...props
 }) => {
   const isAdmin = scopes.includes("PROFILE_ADMIN");
 
@@ -76,6 +76,12 @@ const ProfileForm = ({
                     <button className="btn-profile" onClick={onSave}>
                       Save
                     </button>
+                    <button
+                      className="btn-profile btn-cancel"
+                      onClick={props.onCancel}
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </div>
               </div>
@@ -112,9 +118,9 @@ const ProfileForm = ({
 
                   {profile.roles && (
                     <div className="child-column profile-form">
-                      <Roles
+                      <ProfileRoles
                         className="roles"
-                        roles={profile.roles}
+                        roles={props.roles}
                         isAdmin={isAdmin}
                       />
                     </div>
@@ -126,7 +132,13 @@ const ProfileForm = ({
                 <div className="child-column profile-form">
                   {addresses.map((a, i) => (
                     <div key={i}>
-                      {!a.temp ? <h3>Edit address</h3> : <h3>Add address:</h3>}
+                      {a.temp ? (
+                        <h3>
+                          Add address <small>(optional)</small>:
+                        </h3>
+                      ) : (
+                        <h3>Edit address:</h3>
+                      )}
                       <AddressForm address={a} onChange={onAddressChange} />
                     </div>
                   ))}
@@ -135,10 +147,12 @@ const ProfileForm = ({
                 <div className="child-column profile-form">
                   {phones.map((p, i) => (
                     <div key={p.id}>
-                      {!p.temp ? (
-                        <h3>{`Edit ${p.type.toLowerCase()} phone:`}</h3>
+                      {p.temp ? (
+                        <h3>
+                          Add Phone <small>(optional)</small>:
+                        </h3>
                       ) : (
-                        <h3>Add phone:</h3>
+                        <h3>{`Edit ${p.type.toLowerCase()} phone:`}</h3>
                       )}
                       <PhoneForm phone={p} onChange={onPhoneChange} />
                     </div>

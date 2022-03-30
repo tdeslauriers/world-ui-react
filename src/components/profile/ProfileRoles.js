@@ -5,42 +5,11 @@ import "../../common/useTable.css";
 const userHeaders = [{ id: "permission", label: "Permissions" }];
 const adminHeaders = [
   { id: "permission", label: "Permissions" },
+  { id: "description", label: "Description" },
   { id: "options", label: "Options" },
 ];
 
-const define = (role) => {
-  switch (role) {
-    case "GALLERY_READ":
-      return (
-        <div>
-          <strong>Gallery Read: </strong>navigate and view pictures.
-        </div>
-      );
-    case "GALLERY_ADMIN":
-      return (
-        <div>
-          <strong>Gallery Admin: </strong>administrative rights over gallery.
-        </div>
-      );
-    case "PROFILE_ADMIN":
-      return (
-        <div>
-          <strong>Profile Admin: </strong>administrative rights over user
-          profiles.
-        </div>
-      );
-    case "GENERAL_ADMISSION":
-      return (
-        <div>
-          <strong>General Admision: </strong>site user.
-        </div>
-      );
-    default:
-      break;
-  }
-};
-
-const Roles = ({ roles, isAdmin, addRole, removeRole }) => {
+const ProfileRoles = ({ roles, isAdmin, addRole, removeRole }) => {
   const headers = isAdmin ? adminHeaders : userHeaders;
 
   const { TableContainer, TableHead } = useTable(roles, headers);
@@ -59,7 +28,10 @@ const Roles = ({ roles, isAdmin, addRole, removeRole }) => {
         <tbody>
           {roles.map((r, i) => (
             <tr key={r.id}>
-              <td>{define(r.role)}</td>
+              <td>
+                <strong>{r.title}</strong>
+              </td>
+              <td>{r.description}</td>
               {isAdmin && (
                 <td>
                   <button className="btn-alert" onClick={removeRole}>
@@ -75,4 +47,4 @@ const Roles = ({ roles, isAdmin, addRole, removeRole }) => {
   );
 };
 
-export default Roles;
+export default ProfileRoles;
