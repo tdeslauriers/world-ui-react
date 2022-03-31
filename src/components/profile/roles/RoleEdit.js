@@ -36,10 +36,6 @@ const RoleEdit = () => {
   };
 
   useEffect(() => {
-    if (!id) {
-      setRole({});
-    }
-
     if (id && allRoles.length === 0) {
       getRole(id);
     }
@@ -65,7 +61,7 @@ const RoleEdit = () => {
 
   const handleSave = (event) => {
     event.preventDefault();
-    console.log(role);
+
     if (!id) {
       dispatch(saveRole(role))
         .unwrap()
