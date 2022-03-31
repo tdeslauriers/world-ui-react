@@ -101,6 +101,15 @@ const App = () => {
                   </Authorized>
                 }
               />
+              <Route
+                exact
+                path={"/roles/add"}
+                element={
+                  <Authorized allowedScopes={["PROFILE_ADMIN"]}>
+                    <RoleEdit />
+                  </Authorized>
+                }
+              />
             </Route>
             <Route
               exact

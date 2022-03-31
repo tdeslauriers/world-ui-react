@@ -37,7 +37,7 @@ export const saveRole = createAsyncThunk(
   async (role, thunkAPI) => {
     try {
       const response = await roleService.saveRole(role);
-      return response.data; // response will include role id, needs to be added
+      return response; // response will include role id, needs to be added
     } catch (error) {
       const message = error.message || error.status;
 

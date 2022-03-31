@@ -42,7 +42,19 @@ const Roles = () => {
 
   return (
     <div>
-      <h3>User Roles</h3>
+      <div className="top-column">
+        <div className="child-column">
+          <h3>User Roles</h3>
+        </div>
+        <div className="child-column">
+          <div className="btngroup">
+            <NavLink to={"/roles/add"}>
+              <button className="btn-profile">Add Role</button>
+            </NavLink>
+          </div>
+        </div>
+      </div>
+
       <TableContainer>
         <TableHead />
         <tbody>

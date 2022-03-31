@@ -9,6 +9,7 @@ import {
 import eventBus from "../../../security/EventBus";
 import roleService from "../../../services/roleService";
 import { setMessage } from "../../../slices/message";
+import { saveRole, updateRole } from "../../../slices/roles";
 
 const RoleEdit = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,11 +36,15 @@ const RoleEdit = () => {
   };
 
   useEffect(() => {
-    if (allRoles.length === 0) {
+    if (!id) {
+      setRole({});
+    }
+
+    if (id && allRoles.length === 0) {
       getRole(id);
     }
 
-    if (allRoles.length > 0) {
+    if (id && allRoles.length > 0) {
       let exists = allRoles.find((r) => {
         return r.id === parseInt(id);
       });
@@ -50,6 +55,41 @@ const RoleEdit = () => {
       eventBus.dispatch("logout");
     }
   }, [dispatch, allRoles, id, roleMessage]);
+
+  const handleRoleChange = (event) => {
+    setRole((previousRole) => ({
+      ...previousRole,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const handleSave = (event) => {
+    event.preventDefault();
+    console.log(role);
+    if (!id) {
+      dispatch(saveRole(role))
+        .unwrap()
+        .then(() => {
+          if (location.state?.from) {
+            navigate(location.state.from);
+          } else {
+            navigate("/roles");
+          }
+        });
+    }
+
+    if (id) {
+      dispatch(updateRole(role))
+        .unwrap()
+        .then(() => {
+          if (location.state?.from) {
+            navigate(location.state.from);
+          } else {
+            navigate("/roles");
+          }
+        });
+    }
+  };
 
   const handleCancel = (event) => {
     location.state?.from ? navigate(location.state.from) : navigate("/roles");
@@ -72,7 +112,9 @@ const RoleEdit = () => {
               </div>
               <div className="child-column">
                 <div className="btngroup">
-                  <button className="btn-profile">Save</button>
+                  <button className="btn-profile" onClick={handleSave}>
+                    Save
+                  </button>
                   <button
                     className="btn-profile btn-cancel"
                     onClick={handleCancel}
@@ -90,6 +132,7 @@ const RoleEdit = () => {
                 type="text"
                 placeholder="Role Title"
                 value={role.title}
+                onChange={handleRoleChange}
               />
               <input
                 className="form-control"
@@ -97,6 +140,7 @@ const RoleEdit = () => {
                 type="text"
                 placeholder="Role/Scope"
                 value={role.role}
+                onChange={handleRoleChange}
               />
               <input
                 className="form-control"
@@ -104,6 +148,7 @@ const RoleEdit = () => {
                 type="text"
                 placeholder="Description"
                 value={role.description}
+                onChange={handleRoleChange}
               />
             </div>
           </form>
