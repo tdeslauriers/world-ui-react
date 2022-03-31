@@ -34,3 +34,12 @@ const saveRole = (role) => {
       return response.data;
     });
 };
+
+const roleService = {
+  getAllRoles,
+  getRoleById,
+  updateRole,
+  saveRole,
+};
+
+export default roleService;

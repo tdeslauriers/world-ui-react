@@ -4,11 +4,13 @@ import authReducer from "./slices/auth";
 import messageReducer from "./slices/message";
 import profileReducer from "./slices/profile";
 import usersReducer from "./slices/users";
+import rolesReducer from "./slices/roles";
 
 const reducer = {
   auth: authReducer,
   profile: profileReducer,
   users: usersReducer,
+  roles: rolesReducer,
   message: messageReducer,
 };
 

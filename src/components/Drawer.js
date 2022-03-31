@@ -32,6 +32,9 @@ const Drawer = () => {
               <NavLink className="link-nav" to={"/users"}>
                 Users
               </NavLink>
+              <NavLink className="link-nav" to={"/roles"}>
+                Roles
+              </NavLink>
             </div>
           )}
         </div>

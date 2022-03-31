@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import eventBus from "../../security/EventBus";
 import profileService from "../../services/profileService";
+import { setMessage } from "../../slices/message";
 import { updateUser } from "../../slices/users";
 import ProfileForm from "./ProfileForm";
 
@@ -33,8 +34,9 @@ const User = () => {
       .then((response) => {
         setUser(response);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        const message = error.message || error.status;
+        dispatch(setMessage(message));
       });
   };
 

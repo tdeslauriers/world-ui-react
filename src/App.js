@@ -16,6 +16,8 @@ import Users from "./components/profile/Users";
 import Drawer from "./components/Drawer";
 import UserEdit from "./components/profile/UserEdit";
 import User from "./components/profile/User";
+import Roles from "./components/profile/roles/Roles";
+import RoleEdit from "./components/profile/roles/RoleEdit";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -81,7 +83,25 @@ const App = () => {
                 }
               />
             </Route>
-
+            <Route exact path="/roles">
+              <Route
+                index
+                element={
+                  <Authorized allowedScopes={["PROFILE_ADMIN"]}>
+                    <Roles />
+                  </Authorized>
+                }
+              />
+              <Route
+                exact
+                path={":id/edit"}
+                element={
+                  <Authorized allowedScopes={["PROFILE_ADMIN"]}>
+                    <RoleEdit />
+                  </Authorized>
+                }
+              />
+            </Route>
             <Route
               exact
               path="/gallery"
