@@ -102,9 +102,13 @@ const RoleEdit = () => {
           <form>
             <div className="top-column">
               <div className="child-column">
-                <h3>
-                  Edit Role: <strong>{role.title}</strong>
-                </h3>
+                {id ? (
+                  <h3>
+                    Edit Role: <strong>{role.title}</strong>
+                  </h3>
+                ) : (
+                  <h3>Add Role:</h3>
+                )}
               </div>
               <div className="child-column">
                 <div className="btngroup">
