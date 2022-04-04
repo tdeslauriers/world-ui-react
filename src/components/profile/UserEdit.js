@@ -10,6 +10,7 @@ import eventBus from "../../security/EventBus";
 import profileService from "../../services/profileService";
 import { setMessage } from "../../slices/message";
 import { updateUser } from "../../slices/users";
+import { getRolesAll } from "../../slices/roles";
 import ProfileForm from "./ProfileForm";
 
 const User = () => {
@@ -21,10 +22,12 @@ const User = () => {
   const [phones, setPhones] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [roles, setRoles] = useState([]);
+  const [selectedRole, setSelectedRole] = useState({ title: "Select Role" });
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { user: currentUser } = useSelector((state) => state.auth);
   const { users: allUsers } = useSelector((state) => state);
+  const { roles: selectRoles } = useSelector((state) => state);
   const { message: userMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
@@ -87,6 +90,10 @@ const User = () => {
       roles = [...user.roles];
     }
     setRoles(roles);
+    // get roles for selection
+    if (!selectRoles.length) {
+      dispatch(getRolesAll());
+    }
   }, [user]);
 
   const scopes = currentUser != null ? currentUser.roles : [];
@@ -130,6 +137,32 @@ const User = () => {
     setPhones(updated);
   };
 
+  const handleRoleSelect = (event) => {
+    let selected = selectRoles.find(
+      (role) => role.title === event.target.value
+    );
+    setSelectedRole(selected);
+  };
+
+  const handleAddRole = (event) => {
+    event.preventDefault();
+    let updated = [...roles];
+    if (selectedRole.title !== "Select Role") {
+      updated.push(selectedRole);
+      setRoles(updated);
+    }
+    setSelectedRole({ title: "Select Role" }); // hackery nonsense.
+  };
+
+  const handleRemoveRole = (event) => {
+    event.preventDefault();
+    let updated = roles.filter(
+      (role) =>
+        role !== roles.find((role) => role.id === parseInt(event.target.id))
+    );
+    setRoles(updated);
+  };
+
   const handleSave = (event) => {
     event.preventDefault();
 
@@ -148,6 +181,8 @@ const User = () => {
       return address;
     });
     savedUser.addresses = updatedAddresses;
+
+    savedUser.roles = roles;
 
     dispatch(updateUser(savedUser))
       .unwrap()
@@ -177,6 +212,11 @@ const User = () => {
       phones={phones}
       onPhoneChange={handlePhoneChange}
       roles={roles}
+      rolesForSelect={selectRoles}
+      roleSelected={selectedRole}
+      onRoleSelect={handleRoleSelect}
+      onAddRole={handleAddRole}
+      onRemoveRole={handleRemoveRole}
       onSave={handleSave}
       onCancel={handleCancel}
     />

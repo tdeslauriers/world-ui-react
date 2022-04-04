@@ -5,8 +5,7 @@ import ProfileRoles from "./ProfileRoles";
 
 const ProfileView = ({ profile, scopes }) => {
   const location = useLocation();
-  const isAdmin = scopes.includes("PROFILE_ADMIN");
-
+  
   const formatPhone = (phone) => {
     let areacode = phone.slice(0, 3);
     let exchange = phone.slice(3, 6);
@@ -71,7 +70,7 @@ const ProfileView = ({ profile, scopes }) => {
 
             {profile.roles && (
               <div className="child-column roles">
-                <ProfileRoles roles={profile.roles} isAdmin={isAdmin} />
+                <ProfileRoles roles={profile.roles} isAdmin={false} />
               </div>
             )}
           </div>

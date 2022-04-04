@@ -20,7 +20,9 @@ const PhoneForm = ({ phone, onChange }) => {
         defaultValue="Select Type"
         onChange={onChange}
       >
-        <option value="Select Type">Select Type</option>
+        <option value="Select Type" disabled hidden>
+          Select Type
+        </option>
         {PHONE_MENU.map((t, i) => (
           <option key={i} value={t}>
             {t}
