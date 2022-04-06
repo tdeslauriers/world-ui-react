@@ -21,7 +21,9 @@ export const updateUser = createAsyncThunk(
   "users/update",
   async (userdata, thunkAPI) => {
     try {
+      console.log(userdata);
       const res = await profileService.updateUser(userdata);
+      console.log(res);
       return res; // need to return the user data for the slice
     } catch (error) {
       const message = error.message || error.status;
@@ -46,10 +48,8 @@ const usersSlice = createSlice({
     },
     [updateUser.fulfilled]: (state, action) => {
       const index = state.findIndex((user) => user.id === action.payload.id);
-      state[index] = {
-        ...state[index],
-        ...action.payload,
-      };
+      // removing spreader to account for deleted property: []
+      state[index] = action.payload;
     },
   },
 });

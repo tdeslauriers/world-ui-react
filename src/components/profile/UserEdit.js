@@ -99,6 +99,7 @@ const User = () => {
   const scopes = currentUser != null ? currentUser.roles : [];
 
   const handleProfileChange = (event) => {
+    event.preventDefault();
     if (event.target.name === "enabled") {
       setUser((previousUser) => ({
         ...previousUser,
@@ -127,7 +128,27 @@ const User = () => {
     setAddresses(updated);
   };
 
+  const handleRemoveAddress = (event) => {
+    event.preventDefault();
+    let removed = addresses.map((address) => {
+      if (address.id === parseInt(event.target.id))
+        return { ...address, removed: true };
+    });
+    setAddresses(removed);
+  };
+
+  const handleUndoRemoveAddress = (event) => {
+    event.preventDefault();
+    let undo = addresses.map((address) => {
+      if (address.id === parseInt(event.target.id)) {
+        return { ...address, removed: false };
+      }
+    });
+    setAddresses(undo);
+  };
+
   const handlePhoneChange = (event) => {
+    event.preventDefault();
     let updated = phones.map((phone) => {
       if (phone.id === parseInt(event.target.id)) {
         return { ...phone, [event.target.name]: event.target.value };
@@ -138,6 +159,7 @@ const User = () => {
   };
 
   const handleRoleSelect = (event) => {
+    event.preventDefault();
     let selected = selectRoles.find(
       (role) => role.title === event.target.value
     );
@@ -175,13 +197,16 @@ const User = () => {
     });
     savedUser.phones = updatedPhones;
 
-    let updatedAddresses = addresses.filter((address) => address.address);
+    let updatedAddresses = addresses.filter(
+      (address) => address.address && !address.removed
+    );
     updatedAddresses = updatedAddresses.map((address) => {
       address.temp && delete address.id;
       return address;
     });
-    savedUser.addresses = updatedAddresses;
-
+    updatedAddresses.length > 0
+      ? (savedUser.addresses = updatedAddresses)
+      : (savedUser.addresses = []);
     savedUser.roles = roles;
 
     dispatch(updateUser(savedUser))
@@ -209,6 +234,8 @@ const User = () => {
       onProfileChange={handleProfileChange}
       addresses={addresses}
       onAddressChange={handleAddressChange}
+      onRemoveAddress={handleRemoveAddress}
+      undoRemoveAddress={handleUndoRemoveAddress}
       phones={phones}
       onPhoneChange={handlePhoneChange}
       roles={roles}

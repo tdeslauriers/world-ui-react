@@ -46,7 +46,7 @@ const ProfileForm = ({
                 </div>
                 <div className="child-column">
                   <div className="btngroup">
-                    {isAdmin ? (
+                    {isAdmin && (
                       <>
                         <input
                           className={
@@ -72,7 +72,7 @@ const ProfileForm = ({
                           onClick={onProfileChange}
                         />
                       </>
-                    ) : null}
+                    )}
                     <button className="btn-profile" onClick={onSave}>
                       Save
                     </button>
@@ -174,14 +174,48 @@ const ProfileForm = ({
                 <div className="child-column profile-form">
                   {addresses.map((a, i) => (
                     <div key={i}>
-                      {a.temp ? (
-                        <h3>
-                          Add address <small>(optional)</small>:
-                        </h3>
+                      {a.removed ? (
+                        <div>
+                          <div className="btngroup">
+                            <button
+                              className="btn-profile btn-cancel"
+                              id={a.id}
+                              name="undoRemove"
+                              onClick={props.undoRemoveAddress}
+                            >
+                              Undo
+                            </button>
+                          </div>
+                          <strong className="alert success">
+                            Address Removed
+                          </strong>
+                        </div>
                       ) : (
-                        <h3>Edit address:</h3>
+                        <div>
+                          <div className="top-column">
+                            <div className="child-column">
+                              {a.temp ? (
+                                <h3>Add address (optional):</h3>
+                              ) : (
+                                <h3>Edit address:</h3>
+                              )}
+                            </div>
+                            <div className="child-column">
+                              <div className="btngroup">
+                                <button
+                                  className="btn-profile btn-alert"
+                                  id={a.id}
+                                  name="removeAddress"
+                                  onClick={props.onRemoveAddress}
+                                >
+                                  Remove Address
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <AddressForm address={a} onChange={onAddressChange} />
+                        </div>
                       )}
-                      <AddressForm address={a} onChange={onAddressChange} />
                     </div>
                   ))}
                 </div>
