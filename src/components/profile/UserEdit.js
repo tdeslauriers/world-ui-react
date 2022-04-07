@@ -131,8 +131,10 @@ const User = () => {
   const handleRemoveAddress = (event) => {
     event.preventDefault();
     let removed = addresses.map((address) => {
-      if (address.id === parseInt(event.target.id))
+      if (address.id === parseInt(event.target.id)) {
         return { ...address, removed: true };
+      }
+      return address;
     });
     setAddresses(removed);
   };
@@ -143,6 +145,7 @@ const User = () => {
       if (address.id === parseInt(event.target.id)) {
         return { ...address, removed: false };
       }
+      return address;
     });
     setAddresses(undo);
   };
@@ -156,6 +159,28 @@ const User = () => {
       return phone;
     });
     setPhones(updated);
+  };
+
+  const handlePhoneRemove = (event) => {
+    event.preventDefault();
+    let removed = phones.map((phone) => {
+      if (phone.id === parseInt(event.target.id)) {
+        return { ...phone, removed: true };
+      }
+      return phone;
+    });
+    setPhones(removed);
+  };
+
+  const handleUndoRemovePhone = (event) => {
+    event.preventDefault();
+    let undo = phones.map((phone) => {
+      if (phone.id === parseInt(event.target.id)) {
+        return { ...phone, removed: false };
+      }
+      return phone;
+    });
+    setPhones(undo);
   };
 
   const handleRoleSelect = (event) => {
@@ -190,11 +215,14 @@ const User = () => {
 
     let savedUser = Object.assign({}, user);
 
-    let updatedPhones = phones.filter((phone) => phone.phone);
+    let updatedPhones = phones.filter((phone) => phone.phone && !phone.removed);
     updatedPhones = updatedPhones.map((phone) => {
       phone.temp && delete phone.id;
       return phone;
     });
+    updatedPhones.length > 0
+      ? (savedUser.phones = updatedPhones)
+      : (savedUser.phones = []);
     savedUser.phones = updatedPhones;
 
     let updatedAddresses = addresses.filter(
@@ -238,6 +266,8 @@ const User = () => {
       undoRemoveAddress={handleUndoRemoveAddress}
       phones={phones}
       onPhoneChange={handlePhoneChange}
+      onRemovePhone={handlePhoneRemove}
+      undoPhoneRemove={handleUndoRemovePhone}
       roles={roles}
       rolesForSelect={selectRoles}
       roleSelected={selectedRole}

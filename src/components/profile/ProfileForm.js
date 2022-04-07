@@ -172,47 +172,53 @@ const ProfileForm = ({
 
               <div className="top-column">
                 <div className="child-column profile-form">
+                  <hr />
                   {addresses.map((a, i) => (
                     <div key={i}>
                       {a.removed ? (
-                        <div>
-                          <div className="btngroup">
-                            <button
-                              className="btn-profile btn-cancel"
-                              id={a.id}
-                              name="undoRemove"
-                              onClick={props.undoRemoveAddress}
-                            >
-                              Undo
-                            </button>
+                        <div className="top-column">
+                          <div className="child-column">
+                            <div className="alert success">
+                              Address Removed (on Save)
+                            </div>
                           </div>
-                          <strong className="alert success">
-                            Address Removed
-                          </strong>
+                          <div className="child-column">
+                            <div className="btngroup">
+                              <button
+                                className="btn-profile btn-cancel"
+                                id={a.id}
+                                name="undoRemove"
+                                onClick={props.undoRemoveAddress}
+                              >
+                                Undo
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       ) : (
                         <div>
-                          <div className="top-column">
-                            <div className="child-column">
-                              {a.temp ? (
-                                <h3>Add address (optional):</h3>
-                              ) : (
+                          {a.temp ? (
+                            <h3>Add address (optional):</h3>
+                          ) : (
+                            <div className="top-column">
+                              <div className="child-column">
                                 <h3>Edit address:</h3>
-                              )}
-                            </div>
-                            <div className="child-column">
-                              <div className="btngroup">
-                                <button
-                                  className="btn-profile btn-alert"
-                                  id={a.id}
-                                  name="removeAddress"
-                                  onClick={props.onRemoveAddress}
-                                >
-                                  Remove Address
-                                </button>
+                              </div>
+                              <div className="child-column">
+                                <div className="btngroup">
+                                  <button
+                                    className="btn-profile btn-alert"
+                                    id={a.id}
+                                    name="removeAddress"
+                                    onClick={props.onRemoveAddress}
+                                  >
+                                    Remove Address
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                          </div>
+                          )}
+
                           <AddressForm address={a} onChange={onAddressChange} />
                         </div>
                       )}
@@ -221,16 +227,61 @@ const ProfileForm = ({
                 </div>
 
                 <div className="child-column profile-form">
+                  <hr />
                   {phones.map((p, i) => (
                     <div key={p.id}>
-                      {p.temp ? (
-                        <h3>
-                          Add Phone <small>(optional)</small>:
-                        </h3>
+                      {p.removed ? (
+                        <div className="top-column">
+                          <div className="child-column">
+                            <div className="alert success">{`${p.type.replace(
+                              /\w\S*/g,
+                              function (type) {
+                                return (
+                                  type.charAt(0).toUpperCase() +
+                                  type.substr(1).toLowerCase()
+                                );
+                              }
+                            )} Phone Removed (on Save)`}</div>
+                          </div>
+                          <div className="child-column">
+                            <div className="btngroup">
+                              <button
+                                className="btn-profile btn-cancel"
+                                id={p.id}
+                                name="undoRemove"
+                                onClick={props.undoPhoneRemove}
+                              >
+                                Undo
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       ) : (
-                        <h3>{`Edit ${p.type.toLowerCase()} phone:`}</h3>
+                        <div>
+                          {p.temp ? (
+                            <h3>Add phone (optional):</h3>
+                          ) : (
+                            <div className="top-column">
+                              <div className="child-column">
+                                <h3>{`Edit ${p.type.toLowerCase()} phone`}:</h3>
+                              </div>
+                              <div className="child-column">
+                                <div className="btngroup">
+                                  <button
+                                    className="btn-profile btn-alert"
+                                    id={p.id}
+                                    name="removePhone"
+                                    onClick={props.onRemovePhone}
+                                  >
+                                    Remove Phone
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                          <PhoneForm phone={p} onChange={onPhoneChange} />
+                        </div>
                       )}
-                      <PhoneForm phone={p} onChange={onPhoneChange} />
                     </div>
                   ))}
                 </div>
