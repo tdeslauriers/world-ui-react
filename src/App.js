@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Profile from "./components/profile/Profile";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./slices/auth";
 import EventBus from "./security/EventBus";
@@ -18,6 +17,7 @@ import UserEdit from "./components/profile/UserEdit";
 import User from "./components/profile/User";
 import Roles from "./components/profile/roles/Roles";
 import RoleEdit from "./components/profile/roles/RoleEdit";
+import Error from "./components/Error";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -50,11 +50,30 @@ const App = () => {
         <AuthVerify logOut={logOut} />
         <div className={containerClassName}>
           <Routes>
+            <Route path="*" element={<Error />} />
             <Route exact path="/" element={<Home />} />
             <Route exact path="/home" element={<Home />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/register" element={<Register />} />
-            <Route exact path="/profile" element={<Profile />} />
+            <Route exact path="/profile">
+              <Route
+                index
+                element={
+                  <Authorized allowedScopes={["GENERAL_ADMISSION"]}>
+                    <User />
+                  </Authorized>
+                }
+              />
+              <Route
+                exact
+                path="edit"
+                element={
+                  <Authorized allowedScopes={["GENERAL_ADMISSION"]}>
+                    <UserEdit />
+                  </Authorized>
+                }
+              />
+            </Route>
             <Route exact path="/users">
               <Route
                 index
@@ -69,7 +88,7 @@ const App = () => {
                 path=":id"
                 element={
                   <Authorized allowedScopes={["PROFILE_ADMIN"]}>
-                    <User isEditMode={false} />
+                    <User />
                   </Authorized>
                 }
               />

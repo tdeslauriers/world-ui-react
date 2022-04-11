@@ -18,6 +18,21 @@ export const getProfile = createAsyncThunk(
   }
 );
 
+export const updateProfile = createAsyncThunk(
+  "profile/updateProfile",
+  async (userdata, thunkAPI) => {
+    try {
+      const res = await profileService.updateProfile(userdata);
+      return res;
+    } catch (error) {
+      const message = error.message || error.status;
+
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 const initialState = {};
 
 const profileSlice = createSlice({
@@ -29,6 +44,9 @@ const profileSlice = createSlice({
     },
     [getProfile.rejected]: (state, action) => {
       state.profile = null;
+    },
+    [updateProfile.fulfilled]: (state, action) => {
+      state.profile = action.payload;
     },
   },
 });

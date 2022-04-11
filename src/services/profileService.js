@@ -11,6 +11,14 @@ const getProfile = () => {
     });
 };
 
+const updateProfile = (userdata) => {
+  return axios
+    .put(PROFILE_API_URL + "/user", userdata, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 const getProfilesAll = () => {
   return axios
     .get(PROFILE_API_URL + "/all", { headers: authHeader() })
@@ -37,6 +45,7 @@ const updateUser = (userdata) => {
 
 const profileService = {
   getProfile,
+  updateProfile,
   getProfilesAll,
   getUserById,
   updateUser,

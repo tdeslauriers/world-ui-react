@@ -5,7 +5,6 @@ import { Navigate, useLocation } from "react-router-dom";
 const Authorized = ({ children, allowedScopes }) => {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { user: currentUser } = useSelector((state) => state.auth);
-
   const location = useLocation();
 
   if (!isLoggedIn) {
@@ -18,7 +17,11 @@ const Authorized = ({ children, allowedScopes }) => {
 
   const isAuthorized = allowedScopes.some((s) => currentUser.roles.includes(s));
 
-  return isAuthorized ? children : <Navigate to="/home" />;
+  return isAuthorized ? (
+    children
+  ) : (
+    <Navigate to="/error" replace state={{ from: location }} />
+  );
 };
 
 export default Authorized;

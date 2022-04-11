@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useLocation, useParams } from "react-router-dom";
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import eventBus from "../../security/EventBus";
 import profileService from "../../services/profileService";
+import { setMessage } from "../../slices/message";
+import { getProfile } from "../../slices/profile";
 import ProfileView from "./ProfileView";
 
 const User = () => {
@@ -12,10 +19,13 @@ const User = () => {
   const location = useLocation();
 
   const { isLoggedIn } = useSelector((state) => state.auth);
+  const { profile: reduxProfile } = useSelector((state) => state.profile);
   const { user: currentUser } = useSelector((state) => state.auth);
   const { users: allUsers } = useSelector((state) => state);
   const { message: userMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
+
+  const scopes = currentUser != null ? currentUser.roles : [];
 
   const getUser = async (id) => {
     await profileService
@@ -23,36 +33,43 @@ const User = () => {
       .then((response) => {
         setUser(response);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((error) => {
+        const message = error.message || error.status;
+
+        dispatch(setMessage(message));
       });
   };
 
   useEffect(() => {
-    if (allUsers.length === 0) {
-      getUser(id);
-    }
+    if (id) {
+      if (allUsers.length === 0) {
+        getUser(id);
+      }
 
-    if (allUsers.length > 0) {
-      let exists = allUsers.find((u) => {
-        return u.id === parseInt(id);
-      });
+      if (allUsers.length > 0) {
+        let exists = allUsers.find((u) => {
+          return u.id === parseInt(id);
+        });
 
-      setUser(exists);
+        setUser(exists);
+      }
+    } else {
+      if (!reduxProfile) {
+        dispatch(getProfile());
+      }
+      setUser(reduxProfile);
     }
 
     if (userMessage && userMessage === "Request failed with status code 401") {
       eventBus.dispatch("logout");
     }
-  }, [dispatch, allUsers, id, userMessage]);
-
-  const scopes = currentUser != null ? currentUser.roles : [];
+  }, [dispatch, allUsers, id, userMessage, reduxProfile]);
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  return <ProfileView profile={user} scopes={scopes} />;
+  return <>{user && <ProfileView profile={user} />}</>;
 };
 
 export default User;
