@@ -100,10 +100,9 @@ const User = () => {
     setRoles(roles);
 
     // if admin: get roles for selection
-
-    // if (!selectRoles.length) {
-    //   dispatch(getRolesAll());
-    // }
+    if (id && scopes.includes("PROFILE_ADMIN")) {
+      !selectRoles.length && dispatch(getRolesAll());
+    }
   }, [user]);
 
   const scopes = currentUser != null ? currentUser.roles : [];
