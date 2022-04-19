@@ -68,7 +68,11 @@ const ProfileForm = ({
                       />
                     </>
                   )}
-                  <button className="btn-profile" onClick={onSave}>
+                  <button
+                    className="btn-profile"
+                    type="submit"
+                    onClick={onSave}
+                  >
                     Save
                   </button>
                   <button
@@ -94,6 +98,9 @@ const ProfileForm = ({
                       value={profile.firstname}
                       onChange={onProfileChange}
                     />
+                    {props.errors.firstname && (
+                      <div className="alert">{props.errors.firstname}</div>
+                    )}
                     <input
                       className="form-control"
                       name="lastname"
@@ -102,6 +109,9 @@ const ProfileForm = ({
                       value={profile.lastname}
                       onChange={onProfileChange}
                     />
+                    {props.errors.lastname && (
+                      <div className="alert">{props.errors.lastname}</div>
+                    )}
                     <div>
                       Member since:{" "}
                       <strong>{`${new Date(

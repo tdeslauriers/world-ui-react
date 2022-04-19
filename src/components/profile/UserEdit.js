@@ -13,6 +13,7 @@ import { updateUser } from "../../slices/users";
 import { getRolesAll } from "../../slices/roles";
 import ProfileForm from "./ProfileForm";
 import { getProfile, updateProfile } from "../../slices/profile";
+import { commonNameChars } from "../../common/useValidation";
 
 const User = () => {
   const [loading, setLoading] = useState(false);
@@ -24,6 +25,7 @@ const User = () => {
   const [addresses, setAddresses] = useState([]);
   const [roles, setRoles] = useState([]);
   const [selectedRole, setSelectedRole] = useState({ title: "Select Role" });
+  const [errors, setErrors] = useState({});
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -100,7 +102,7 @@ const User = () => {
     setRoles(roles);
 
     // if admin: get roles for selection
-    if (id && scopes.includes("PROFILE_ADMIN")) {
+    if (scopes.includes("PROFILE_ADMIN")) {
       !selectRoles.length && dispatch(getRolesAll());
     }
   }, [user]);
@@ -120,13 +122,24 @@ const User = () => {
         [event.target.name]: !previousUser.accountLocked,
       }));
     } else {
+      if (!commonNameChars(event.target.value)) {
+        console.log(commonNameChars(event.target.value));
+        setErrors((previous) => ({
+          ...previous,
+          [event.target.name]:
+            "Only common naming-convention characters allowed, e.g., letters, spaces, dashes, apostrophes, etc.",
+        }));
+      } else {
+        let cleanup = errors;
+        delete cleanup[event.target.name];
+        setErrors(cleanup);
+      }
       setUser((previousUser) => ({
         ...previousUser,
         [event.target.name]: event.target.value,
       }));
     }
   };
-
   const handleAddressChange = (event) => {
     let updated = addresses.map((address) => {
       if (address.id === parseInt(event.target.id)) {
@@ -297,6 +310,7 @@ const User = () => {
           onRemoveRole={handleRemoveRole}
           onSave={handleSave}
           onCancel={handleCancel}
+          errors={errors}
         />
       )}
     </>

@@ -30,7 +30,16 @@ const ProfileRoles = ({ roles, isAdmin, removeRole }) => {
               <td>{r.description}</td>
               {isAdmin && (
                 <td>
-                  <button id={r.id} className="btn-alert" onClick={removeRole}>
+                  <button
+                    id={r.id}
+                    className={
+                      r.title === "General Admission"
+                        ? "btn-disabled"
+                        : "btn-alert"
+                    }
+                    disabled={r.title === "General Admission" ? true : false}
+                    onClick={removeRole}
+                  >
                     Remove
                   </button>
                 </td>
