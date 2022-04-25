@@ -13,7 +13,7 @@ import { updateUser } from "../../slices/users";
 import { getRolesAll } from "../../slices/roles";
 import ProfileForm from "./ProfileForm";
 import { getProfile, updateProfile } from "../../slices/profile";
-import { commonNameChars } from "../../common/useValidation";
+import { commonNameChars, isNumbersOnly } from "../../common/useValidation";
 
 const User = () => {
   const [loading, setLoading] = useState(false);
@@ -26,6 +26,7 @@ const User = () => {
   const [roles, setRoles] = useState([]);
   const [selectedRole, setSelectedRole] = useState({ title: "Select Role" });
   const [errors, setErrors] = useState({});
+  const [saveDisabled, setSaveDisabled] = useState(false);
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -40,6 +41,35 @@ const User = () => {
       .getUserById(id)
       .then((response) => {
         setUser(response);
+
+        // addresses
+        let userAddresses = [];
+        if (response.addresses) {
+          userAddresses = [...response.addresses];
+        }
+        let toAdd = 1 - userAddresses.length;
+        for (let i = 0; i < toAdd; i++) {
+          userAddresses.push({ id: i, temp: true });
+        }
+        setAddresses(userAddresses);
+
+        // phones
+        let userPhones = [];
+        if (response.phones) {
+          userPhones = [...response.phones];
+        }
+        toAdd = 3 - userPhones.length;
+        for (let i = 0; i < toAdd; i++) {
+          userPhones.push({ id: i, temp: true });
+        }
+        setPhones(userPhones);
+
+        // roles
+        let userRoles = [];
+        if (response.roles) {
+          userRoles = [...response.roles];
+        }
+        setRoles(userRoles);
       })
       .catch((error) => {
         const message = error.message || error.status;
@@ -57,92 +87,109 @@ const User = () => {
         let exists = allUsers.find((u) => {
           return u.id === parseInt(id);
         });
-
         setUser(exists);
+
+        // addresses
+        let userAddresses = [];
+        if (exists.addresses) {
+          userAddresses = [...exists.addresses];
+        }
+        let toAdd = 1 - userAddresses.length;
+        for (let i = 0; i < toAdd; i++) {
+          userAddresses.push({ id: i, temp: true });
+        }
+        setAddresses(userAddresses);
+
+        // phones
+        let userPhones = [];
+        if (exists.phones) {
+          userPhones = [...exists.phones];
+        }
+        toAdd = 3 - userPhones.length;
+        for (let i = 0; i < toAdd; i++) {
+          userPhones.push({ id: i, temp: true });
+        }
+        setPhones(userPhones);
+
+        // roles
+        let userRoles = [];
+        if (exists.roles) {
+          userRoles = [...exists.roles];
+        }
+        setRoles(userRoles);
+
+        // if admin: get roles for selection
+        if (scopes.includes("PROFILE_ADMIN")) {
+          !selectRoles.length && dispatch(getRolesAll());
+        }
       }
     }
     if (location.pathname === "/profile/edit") {
       reduxProfile ? setUser(reduxProfile) : dispatch(getProfile());
     }
-
     if (userMessage && userMessage === "Request failed with status code 401") {
       eventBus.dispatch("logout");
     }
+
+    console.log("First useEffect Fired.");
   }, [dispatch, allUsers, id, reduxProfile, userMessage]);
 
-  useEffect(() => {
-    // set up addresses for add/edit
-    // written for when mailing and billing exist
-    let addresses = [];
-    if (user.addresses) {
-      addresses = [...user.addresses];
-    }
-    let toAdd = 1 - addresses.length;
-    for (let i = 0; i < toAdd; i++) {
-      addresses.push({ id: i, temp: true });
-    }
-    setAddresses(addresses);
+  // useEffect(() => {
 
-    // set up phones for add/edit
-    let phones = [];
-    if (user.phones) {
-      phones = [...user.phones];
-    }
-    toAdd = 3 - phones.length;
-    for (let i = 0; i < toAdd; i++) {
-      phones.push({ id: i, temp: true });
-    }
-    setPhones(phones);
+  //   // if admin: get roles for selection
+  //   if (scopes.includes("PROFILE_ADMIN")) {
+  //     !selectRoles.length && dispatch(getRolesAll());
+  //   }
 
-    // set up roles for add/edit
-    let roles = [];
-    if (user.roles) {
-      roles = [...user.roles];
-    }
-    setRoles(roles);
-
-    // if admin: get roles for selection
-    if (scopes.includes("PROFILE_ADMIN")) {
-      !selectRoles.length && dispatch(getRolesAll());
-    }
-  }, [user]);
+  //   Object.keys(errors).length === 0
+  //     ? setSaveDisabled(false)
+  //     : setSaveDisabled(true);
+  //   console.log("Second useEffect fired.");
+  // }, [user]);
 
   const scopes = currentUser != null ? currentUser.roles : [];
 
   const handleProfileChange = (event) => {
     event.preventDefault();
-    if (event.target.name === "enabled") {
-      setUser((previousUser) => ({
-        ...previousUser,
-        [event.target.name]: !previousUser.enabled,
-      }));
-    } else if (event.target.name === "accountLocked") {
-      setUser((previousUser) => ({
-        ...previousUser,
-        [event.target.name]: !previousUser.accountLocked,
-      }));
-    } else {
-      if (!commonNameChars(event.target.value)) {
-        console.log(commonNameChars(event.target.value));
-        setErrors((previous) => ({
-          ...previous,
-          [event.target.name]:
-            "Only common naming-convention characters allowed, e.g., letters, spaces, dashes, apostrophes, etc.",
+
+    switch (event.target.name) {
+      case "enabled":
+        setUser((previousUser) => ({
+          ...previousUser,
+          [event.target.name]: !previousUser.enabled,
         }));
-      } else {
-        let cleanup = errors;
-        delete cleanup[event.target.name];
-        setErrors(cleanup);
-      }
-      setUser((previousUser) => ({
-        ...previousUser,
-        [event.target.name]: event.target.value,
-      }));
+        break;
+      case "accountLocked":
+        setUser((previousUser) => ({
+          ...previousUser,
+          [event.target.name]: !previousUser.accountLocked,
+        }));
+        break;
+      default:
+        setUser((previousUser) => ({
+          ...previousUser,
+          [event.target.name]: event.target.value,
+        }));
+        break;
     }
   };
+
   const handleAddressChange = (event) => {
     let updated = addresses.map((address) => {
       if (address.id === parseInt(event.target.id)) {
+        switch (event.target.name) {
+          case "zip":
+            if (!isNumbersOnly(event.target.value)) {
+              address.zipError = "Zip code may only contain numbers.";
+              setSaveDisabled(true);
+            } else {
+              delete address.zipError;
+            }
+            break;
+
+          default:
+            break;
+        }
         return { ...address, [event.target.name]: event.target.value };
       }
       return address;
@@ -308,6 +355,7 @@ const User = () => {
           onRoleSelect={handleRoleSelect}
           onAddRole={handleAddRole}
           onRemoveRole={handleRemoveRole}
+          saveDisabled={saveDisabled}
           onSave={handleSave}
           onCancel={handleCancel}
           errors={errors}

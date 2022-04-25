@@ -45,6 +45,7 @@ export const AddressForm = ({ address, onChange }) => {
         value={address.zip}
         onChange={onChange}
       />
+      {address.zipError && <div className="alert">{address.zipError}</div>}
     </div>
   );
 };
