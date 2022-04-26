@@ -21,8 +21,6 @@ const User = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
-  const [phones, setPhones] = useState([]);
-  const [addresses, setAddresses] = useState([]);
   const [roles, setRoles] = useState([]);
   const [selectedRole, setSelectedRole] = useState({ title: "Select Role" });
   const [errors, setErrors] = useState({});
@@ -41,40 +39,52 @@ const User = () => {
       .getUserById(id)
       .then((response) => {
         setUser(response);
-
-        // addresses
-        let userAddresses = [];
-        if (response.addresses) {
-          userAddresses = [...response.addresses];
-        }
-        let toAdd = 1 - userAddresses.length;
-        for (let i = 0; i < toAdd; i++) {
-          userAddresses.push({ id: i, temp: true });
-        }
-        setAddresses(userAddresses);
-
-        // phones
-        let userPhones = [];
-        if (response.phones) {
-          userPhones = [...response.phones];
-        }
-        toAdd = 3 - userPhones.length;
-        for (let i = 0; i < toAdd; i++) {
-          userPhones.push({ id: i, temp: true });
-        }
-        setPhones(userPhones);
-
-        // roles
-        let userRoles = [];
-        if (response.roles) {
-          userRoles = [...response.roles];
-        }
-        setRoles(userRoles);
+        setUpAddresses(response);
+        setUpPhones(response);
+        setUpRoles(response);
       })
       .catch((error) => {
         const message = error.message || error.status;
         dispatch(setMessage(message));
       });
+  };
+
+  const setUpAddresses = (user) => {
+    let userAddresses = [];
+    if (user.addresses) {
+      userAddresses = [...user.addresses];
+    }
+    let toAdd = 1 - userAddresses.length;
+    for (let i = 0; i < toAdd; i++) {
+      userAddresses.push({ id: i, temp: true });
+    }
+    setUser((previousUser) => ({
+      ...previousUser,
+      addresses: userAddresses,
+    }));
+  };
+
+  const setUpPhones = (user) => {
+    let userPhones = [];
+    if (user.phones) {
+      userPhones = [...user.phones];
+    }
+    let toAdd = 3 - userPhones.length;
+    for (let i = 0; i < toAdd; i++) {
+      userPhones.push({ id: i, temp: true });
+    }
+    setUser((previousUser) => ({
+      ...previousUser,
+      phones: userPhones,
+    }));
+  };
+
+  const setUpRoles = (user) => {
+    let userRoles = [];
+    if (user.roles) {
+      userRoles = [...user.roles];
+    }
+    setRoles(userRoles);
   };
 
   useEffect(() => {
@@ -88,35 +98,9 @@ const User = () => {
           return u.id === parseInt(id);
         });
         setUser(exists);
-
-        // addresses
-        let userAddresses = [];
-        if (exists.addresses) {
-          userAddresses = [...exists.addresses];
-        }
-        let toAdd = 1 - userAddresses.length;
-        for (let i = 0; i < toAdd; i++) {
-          userAddresses.push({ id: i, temp: true });
-        }
-        setAddresses(userAddresses);
-
-        // phones
-        let userPhones = [];
-        if (exists.phones) {
-          userPhones = [...exists.phones];
-        }
-        toAdd = 3 - userPhones.length;
-        for (let i = 0; i < toAdd; i++) {
-          userPhones.push({ id: i, temp: true });
-        }
-        setPhones(userPhones);
-
-        // roles
-        let userRoles = [];
-        if (exists.roles) {
-          userRoles = [...exists.roles];
-        }
-        setRoles(userRoles);
+        setUpAddresses(exists);
+        setUpPhones(exists);
+        setUpRoles(exists);
 
         // if admin: get roles for selection
         if (scopes.includes("PROFILE_ADMIN")) {
@@ -130,22 +114,11 @@ const User = () => {
     if (userMessage && userMessage === "Request failed with status code 401") {
       eventBus.dispatch("logout");
     }
-
-    console.log("First useEffect Fired.");
   }, [dispatch, allUsers, id, reduxProfile, userMessage]);
 
-  // useEffect(() => {
-
-  //   // if admin: get roles for selection
-  //   if (scopes.includes("PROFILE_ADMIN")) {
-  //     !selectRoles.length && dispatch(getRolesAll());
-  //   }
-
-  //   Object.keys(errors).length === 0
-  //     ? setSaveDisabled(false)
-  //     : setSaveDisabled(true);
-  //   console.log("Second useEffect fired.");
-  // }, [user]);
+  useEffect(() => {
+    Object.keys(errors).length === 0 && setSaveDisabled(false);
+  }, [errors]);
 
   const scopes = currentUser != null ? currentUser.roles : [];
 
@@ -165,7 +138,26 @@ const User = () => {
           [event.target.name]: !previousUser.accountLocked,
         }));
         break;
+
+      // first or last name
       default:
+        if (!commonNameChars(event.target.value)) {
+          setErrors((previous) => ({
+            ...previous,
+            [event.target.name]:
+              event.target.name.replace(/\w\S*/g, function (name) {
+                return (
+                  name.charAt(0).toUpperCase() + name.substr(1).toLowerCase()
+                );
+              }) +
+              "s may only include common name characters like letters, dashes, apostrophes, etc.",
+          }));
+          setSaveDisabled(true);
+        } else {
+          let cleanup = Object.assign({}, errors);
+          cleanup[event.target.name] && delete cleanup[event.target.name];
+          setErrors(cleanup);
+        }
         setUser((previousUser) => ({
           ...previousUser,
           [event.target.name]: event.target.value,
@@ -175,81 +167,45 @@ const User = () => {
   };
 
   const handleAddressChange = (event) => {
-    let updated = addresses.map((address) => {
+    event.preventDefault();
+    let updated = user.addresses.map((address) => {
       if (address.id === parseInt(event.target.id)) {
         switch (event.target.name) {
-          case "zip":
-            if (!isNumbersOnly(event.target.value)) {
-              address.zipError = "Zip code may only contain numbers.";
-              setSaveDisabled(true);
-            } else {
-              delete address.zipError;
-            }
-            break;
-
+          case "removeAddress":
+            return { ...address, removed: true };
+          case "undoRemove":
+            return { ...address, removed: false };
           default:
-            break;
+            return { ...address, [event.target.name]: event.target.value };
         }
-        return { ...address, [event.target.name]: event.target.value };
       }
       return address;
     });
-    setAddresses(updated);
-  };
-
-  const handleRemoveAddress = (event) => {
-    event.preventDefault();
-    let removed = addresses.map((address) => {
-      if (address.id === parseInt(event.target.id)) {
-        return { ...address, removed: true };
-      }
-      return address;
-    });
-    setAddresses(removed);
-  };
-
-  const handleUndoRemoveAddress = (event) => {
-    event.preventDefault();
-    let undo = addresses.map((address) => {
-      if (address.id === parseInt(event.target.id)) {
-        return { ...address, removed: false };
-      }
-      return address;
-    });
-    setAddresses(undo);
+    setUser((previousUser) => ({
+      ...previousUser,
+      addresses: updated,
+    }));
   };
 
   const handlePhoneChange = (event) => {
     event.preventDefault();
-    let updated = phones.map((phone) => {
+    let updated = user.phones.map((phone) => {
       if (phone.id === parseInt(event.target.id)) {
-        return { ...phone, [event.target.name]: event.target.value };
+        switch (event.target.name) {
+          case "removePhone":
+            return { ...phone, removed: true };
+          case "undoRemove":
+            return { ...phone, removed: false };
+          default:
+            return { ...phone, [event.target.name]: event.target.value };
+        }
       }
       return phone;
     });
-    setPhones(updated);
-  };
-
-  const handlePhoneRemove = (event) => {
-    event.preventDefault();
-    let removed = phones.map((phone) => {
-      if (phone.id === parseInt(event.target.id)) {
-        return { ...phone, removed: true };
-      }
-      return phone;
-    });
-    setPhones(removed);
-  };
-
-  const handleUndoRemovePhone = (event) => {
-    event.preventDefault();
-    let undo = phones.map((phone) => {
-      if (phone.id === parseInt(event.target.id)) {
-        return { ...phone, removed: false };
-      }
-      return phone;
-    });
-    setPhones(undo);
+    setUser((previousUser) => ({
+      ...previousUser,
+      phones: updated,
+    }));
   };
 
   const handleRoleSelect = (event) => {
@@ -284,7 +240,10 @@ const User = () => {
 
     let savedUser = Object.assign({}, user);
 
-    let updatedPhones = phones.filter((phone) => phone.phone && !phone.removed);
+    // phones
+    let updatedPhones = user.phones.filter(
+      (phone) => phone.phone && !phone.removed
+    );
     updatedPhones = updatedPhones.map((phone) => {
       phone.temp && delete phone.id;
       return phone;
@@ -294,7 +253,8 @@ const User = () => {
       : (savedUser.phones = []);
     savedUser.phones = updatedPhones;
 
-    let updatedAddresses = addresses.filter(
+    // addresses
+    let updatedAddresses = user.addresses.filter(
       (address) => address.address && !address.removed
     );
     updatedAddresses = updatedAddresses.map((address) => {
@@ -304,6 +264,8 @@ const User = () => {
     updatedAddresses.length > 0
       ? (savedUser.addresses = updatedAddresses)
       : (savedUser.addresses = []);
+
+    // roles
     savedUser.roles = roles;
 
     if (id && scopes.includes("PROFILE_ADMIN")) {
@@ -341,14 +303,8 @@ const User = () => {
           profile={user}
           scopes={scopes}
           onProfileChange={handleProfileChange}
-          addresses={addresses}
           onAddressChange={handleAddressChange}
-          onRemoveAddress={handleRemoveAddress}
-          undoRemoveAddress={handleUndoRemoveAddress}
-          phones={phones}
           onPhoneChange={handlePhoneChange}
-          onRemovePhone={handlePhoneRemove}
-          undoPhoneRemove={handleUndoRemovePhone}
           roles={roles}
           rolesForSelect={selectRoles}
           roleSelected={selectedRole}

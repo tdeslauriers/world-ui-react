@@ -8,9 +8,7 @@ const ProfileForm = ({
   profile,
   scopes,
   onProfileChange,
-  addresses,
   onAddressChange,
-  phones,
   onPhoneChange,
   onSave,
   ...props
@@ -178,8 +176,8 @@ const ProfileForm = ({
             <div className="top-column">
               <div className="child-column profile-form">
                 <hr />
-                {addresses &&
-                  addresses.map((a, i) => (
+                {profile.addresses &&
+                  profile.addresses.map((a, i) => (
                     <div key={i}>
                       {a.removed ? (
                         <div className="top-column">
@@ -194,7 +192,7 @@ const ProfileForm = ({
                                 className="btn-profile btn-cancel"
                                 id={a.id}
                                 name="undoRemove"
-                                onClick={props.undoRemoveAddress}
+                                onClick={onAddressChange}
                               >
                                 Undo
                               </button>
@@ -216,7 +214,7 @@ const ProfileForm = ({
                                     className="btn-profile btn-alert"
                                     id={a.id}
                                     name="removeAddress"
-                                    onClick={props.onRemoveAddress}
+                                    onClick={onAddressChange}
                                   >
                                     Remove Address
                                   </button>
@@ -234,62 +232,63 @@ const ProfileForm = ({
 
               <div className="child-column profile-form">
                 <hr />
-                {phones.map((p, i) => (
-                  <div key={p.id}>
-                    {p.removed ? (
-                      <div className="top-column">
-                        <div className="child-column">
-                          <div className="alert success">{`${p.type.replace(
-                            /\w\S*/g,
-                            function (type) {
-                              return (
-                                type.charAt(0).toUpperCase() +
-                                type.substr(1).toLowerCase()
-                              );
-                            }
-                          )} Phone Removed (on Save)`}</div>
-                        </div>
-                        <div className="child-column">
-                          <div className="btngroup">
-                            <button
-                              className="btn-profile btn-cancel"
-                              id={p.id}
-                              name="undoRemove"
-                              onClick={props.undoPhoneRemove}
-                            >
-                              Undo
-                            </button>
+                {profile.phones &&
+                  profile.phones.map((p, i) => (
+                    <div key={p.id}>
+                      {p.removed ? (
+                        <div className="top-column">
+                          <div className="child-column">
+                            <div className="alert success">{`${p.type.replace(
+                              /\w\S*/g,
+                              function (type) {
+                                return (
+                                  type.charAt(0).toUpperCase() +
+                                  type.substr(1).toLowerCase()
+                                );
+                              }
+                            )} Phone Removed (on Save)`}</div>
+                          </div>
+                          <div className="child-column">
+                            <div className="btngroup">
+                              <button
+                                className="btn-profile btn-cancel"
+                                id={p.id}
+                                name="undoRemove"
+                                onClick={onPhoneChange}
+                              >
+                                Undo
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ) : (
-                      <div>
-                        {p.temp ? (
-                          <h3>Add phone (optional):</h3>
-                        ) : (
-                          <div className="top-column">
-                            <div className="child-column">
-                              <h3>{`Edit ${p.type.toLowerCase()} phone`}:</h3>
-                            </div>
-                            <div className="child-column">
-                              <div className="btngroup">
-                                <button
-                                  className="btn-profile btn-alert"
-                                  id={p.id}
-                                  name="removePhone"
-                                  onClick={props.onRemovePhone}
-                                >
-                                  Remove Phone
-                                </button>
+                      ) : (
+                        <div>
+                          {p.temp ? (
+                            <h3>Add phone (optional):</h3>
+                          ) : (
+                            <div className="top-column">
+                              <div className="child-column">
+                                <h3>{`Edit ${p.type.toLowerCase()} phone`}:</h3>
+                              </div>
+                              <div className="child-column">
+                                <div className="btngroup">
+                                  <button
+                                    className="btn-profile btn-alert"
+                                    id={p.id}
+                                    name="removePhone"
+                                    onClick={onPhoneChange}
+                                  >
+                                    Remove Phone
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        )}
-                        <PhoneForm phone={p} onChange={onPhoneChange} />
-                      </div>
-                    )}
-                  </div>
-                ))}
+                          )}
+                          <PhoneForm phone={p} onChange={onPhoneChange} />
+                        </div>
+                      )}
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
