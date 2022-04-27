@@ -94,7 +94,6 @@ const User = () => {
 
     if (roles.length === 0 && currentUser.roles.includes("PROFILE_ADMIN")) {
       dispatch(getRolesAll());
-      console.log("dispatched");
     }
 
     if (location.pathname === "/profile/edit") {
