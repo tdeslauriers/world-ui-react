@@ -197,13 +197,12 @@ const User = () => {
 
   const handleRoleSelect = (event) => {
     event.preventDefault();
+    let updated = [];
+    if (user.roles) {
+      updated = [...user.roles];
+    }
     let selected = roles.find((role) => role.title === event.target.value);
-
-    if (user.roles.filter((r) => r.id === selected.id).length === 0) {
-      let updated = [];
-      if (user.roles) {
-        updated = [...user.roles];
-      }
+    if (!updated.find((r) => r.id === selected.id)) {
       updated.push(selected);
       setUser((previousUser) => ({
         ...previousUser,
