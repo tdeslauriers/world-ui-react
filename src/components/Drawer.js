@@ -39,7 +39,9 @@ const Drawer = () => {
           )}
         </div>
       )}
-      {["GALLERY_READ", "GALLERY_EDIT"].some((s) => scopes.includes(s)) && (
+      {["GALLERY_READ", "GALLERY_EDIT", "GALLERY_ADMIN"].some((s) =>
+        scopes.includes(s)
+      ) && (
         <div className="menu">
           <button onClick={() => handleMenuClick("gallery")}>Gallery</button>
           {menuGalleryOpen && <div className="menu-dropdown">Placeholder</div>}

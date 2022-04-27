@@ -70,9 +70,21 @@ const ProfilesAll = () => {
               <td>{user.firstname}</td>
               <td>{user.lastname}</td>
               <td>{new Date(user.dateCreated).toLocaleDateString()}</td>
-              <td>{user.enabled.toString()}</td>
-              <td>{user.accountExpired.toString()}</td>
-              <td>{user.accountLocked.toString()}</td>
+              <td>
+                <strong className={user.enabled ? "success" : "alert"}>
+                  {user.enabled.toString()}
+                </strong>
+              </td>
+              <td>
+                <strong className={user.accountExpired ? "alert" : "success"}>
+                  {user.accountExpired.toString()}
+                </strong>
+              </td>
+              <td>
+                <strong className={user.accountLocked ? "alert" : "success"}>
+                  {user.accountLocked.toString()}
+                </strong>
+              </td>
             </tr>
           ))}
         </tbody>
