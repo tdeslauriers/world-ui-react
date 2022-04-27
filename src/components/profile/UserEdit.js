@@ -21,8 +21,6 @@ const User = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
-  const [roles, setRoles] = useState([]);
-  const [selectedRole, setSelectedRole] = useState({ title: "Select Role" });
   const [errors, setErrors] = useState({});
   const [saveDisabled, setSaveDisabled] = useState(false);
 
@@ -30,7 +28,7 @@ const User = () => {
   const { user: currentUser } = useSelector((state) => state.auth);
   const { users: allUsers } = useSelector((state) => state);
   const { profile: reduxProfile } = useSelector((state) => state.profile);
-  const { roles: selectRoles } = useSelector((state) => state);
+  const { roles } = useSelector((state) => state);
   const { message: userMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
@@ -41,7 +39,6 @@ const User = () => {
         setUser(response);
         setUpAddresses(response);
         setUpPhones(response);
-        setUpRoles(response);
       })
       .catch((error) => {
         const message = error.message || error.status;
@@ -79,14 +76,6 @@ const User = () => {
     }));
   };
 
-  const setUpRoles = (user) => {
-    let userRoles = [];
-    if (user.roles) {
-      userRoles = [...user.roles];
-    }
-    setRoles(userRoles);
-  };
-
   useEffect(() => {
     if (id) {
       if (allUsers.length === 0) {
@@ -100,14 +89,14 @@ const User = () => {
         setUser(exists);
         setUpAddresses(exists);
         setUpPhones(exists);
-        setUpRoles(exists);
-
-        // if admin: get roles for selection
-        if (scopes.includes("PROFILE_ADMIN")) {
-          !selectRoles.length && dispatch(getRolesAll());
-        }
       }
     }
+
+    if (roles.length === 0 && currentUser.roles.includes("PROFILE_ADMIN")) {
+      dispatch(getRolesAll());
+      console.log("dispatched");
+    }
+
     if (location.pathname === "/profile/edit") {
       reduxProfile ? setUser(reduxProfile) : dispatch(getProfile());
     }
@@ -119,8 +108,6 @@ const User = () => {
   useEffect(() => {
     Object.keys(errors).length === 0 && setSaveDisabled(false);
   }, [errors]);
-
-  const scopes = currentUser != null ? currentUser.roles : [];
 
   const handleProfileChange = (event) => {
     event.preventDefault();
@@ -210,29 +197,32 @@ const User = () => {
 
   const handleRoleSelect = (event) => {
     event.preventDefault();
-    let selected = selectRoles.find(
-      (role) => role.title === event.target.value
-    );
-    setSelectedRole(selected);
-  };
+    let selected = roles.find((role) => role.title === event.target.value);
 
-  const handleAddRole = (event) => {
-    event.preventDefault();
-    let updated = [...roles];
-    if (selectedRole.title !== "Select Role") {
-      updated.push(selectedRole);
-      setRoles(updated);
+    if (user.roles.filter((r) => r.id === selected.id).length === 0) {
+      let updated = [];
+      if (user.roles) {
+        updated = [...user.roles];
+      }
+      updated.push(selected);
+      setUser((previousUser) => ({
+        ...previousUser,
+        roles: updated,
+      }));
     }
-    setSelectedRole({ title: "Select Role" }); // hackery nonsense.
   };
 
   const handleRemoveRole = (event) => {
     event.preventDefault();
-    let updated = roles.filter(
+    let updated = user.roles.filter(
       (role) =>
-        role !== roles.find((role) => role.id === parseInt(event.target.id))
+        role !==
+        user.roles.find((role) => role.id === parseInt(event.target.id))
     );
-    setRoles(updated);
+    setUser((previousUser) => ({
+      ...previousUser,
+      roles: updated,
+    }));
   };
 
   const handleSave = (event) => {
@@ -265,10 +255,7 @@ const User = () => {
       ? (savedUser.addresses = updatedAddresses)
       : (savedUser.addresses = []);
 
-    // roles
-    savedUser.roles = roles;
-
-    if (id && scopes.includes("PROFILE_ADMIN")) {
+    if (id && currentUser.roles.includes("PROFILE_ADMIN")) {
       dispatch(updateUser(savedUser))
         .unwrap()
         .then(() => {
@@ -287,10 +274,12 @@ const User = () => {
     }
   };
 
-  const handleCancel = (event) =>
+  const handleCancel = (event) => {
+    event.preventDefault();
     location.state?.from
       ? navigate(location.state.from)
       : navigate(`/users/${id}`);
+  };
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
@@ -301,15 +290,12 @@ const User = () => {
       {user && (
         <ProfileForm
           profile={user}
-          scopes={scopes}
+          scopes={currentUser.roles}
           onProfileChange={handleProfileChange}
           onAddressChange={handleAddressChange}
           onPhoneChange={handlePhoneChange}
           roles={roles}
-          rolesForSelect={selectRoles}
-          roleSelected={selectedRole}
           onRoleSelect={handleRoleSelect}
-          onAddRole={handleAddRole}
           onRemoveRole={handleRemoveRole}
           saveDisabled={saveDisabled}
           onSave={handleSave}

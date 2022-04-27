@@ -122,49 +122,36 @@ const ProfileForm = ({
                 <div className="child-column profile-form">
                   {isAdmin && (
                     <div>
-                      <div className="top-column">
-                        <div className="child-column">
-                          <select
-                            className="form-control"
-                            name="title"
-                            value={props.roleSelected.title}
-                            onChange={props.onRoleSelect}
-                          >
-                            <option
-                              key={"role-0"}
-                              value="Select Role"
-                              disabled
-                              hidden
-                            >
-                              Select Role
+                      <select
+                        className="form-control"
+                        name="title"
+                        value="Select Role"
+                        onChange={props.onRoleSelect}
+                      >
+                        <option
+                          key={"role-0"}
+                          value="Select Role"
+                          disabled
+                          hidden
+                        >
+                          Select Role
+                        </option>
+                        {props.roles &&
+                          props.roles.map((r) => (
+                            <option key={`role-${r.id}`} value={r.title}>
+                              {r.title}
                             </option>
-                            {props.rolesForSelect &&
-                              props.rolesForSelect.map((r) => (
-                                <option key={`role-${r.id}`} value={r.title}>
-                                  {r.title}
-                                </option>
-                              ))}
-                          </select>
-                        </div>
-                        <div className="child-column">
-                          <div className="btngroup">
-                            <button
-                              className="btn-profile"
-                              onClick={props.onAddRole}
-                            >
-                              Add Permission
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+                          ))}
+                      </select>
+
                       <hr />
                     </div>
                   )}
 
-                  {props.roles && (
+                  {profile.roles && profile.roles && (
                     <ProfileRoles
                       className="roles"
-                      roles={props.roles}
+                      roles={profile.roles}
                       isAdmin={isAdmin}
                       removeRole={props.onRemoveRole}
                     />
