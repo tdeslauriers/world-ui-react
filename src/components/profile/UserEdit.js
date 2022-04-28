@@ -13,7 +13,11 @@ import { updateUser } from "../../slices/users";
 import { getRolesAll } from "../../slices/roles";
 import ProfileForm from "./ProfileForm";
 import { getProfile, updateProfile } from "../../slices/profile";
-import { commonNameChars, isNumbersOnly } from "../../common/useValidation";
+import {
+  commonNameChars,
+  isNumbersOnly,
+  noSpecialChars,
+} from "../../common/useValidation";
 
 const User = () => {
   const [loading, setLoading] = useState(false);
@@ -105,8 +109,19 @@ const User = () => {
   }, [dispatch, allUsers, id, reduxProfile, userMessage]);
 
   useEffect(() => {
-    Object.keys(errors).length === 0 && setSaveDisabled(false);
-  }, [errors]);
+    let isDisabled = false;
+    user.addresses &&
+      user.addresses.forEach((a) => {
+        if (a.errors && Object.keys(a.errors).length !== 0) {
+          isDisabled = true;
+        }
+      });
+
+    setSaveDisabled(isDisabled);
+
+    // get rid of errors state object
+    // Object.keys(errors).length === 0 && setSaveDisabled(false);
+  }, [errors, user]);
 
   const handleProfileChange = (event) => {
     event.preventDefault();
@@ -124,8 +139,6 @@ const User = () => {
           [event.target.name]: !previousUser.accountLocked,
         }));
         break;
-
-      // first or last name
       default:
         if (!commonNameChars(event.target.value)) {
           setErrors((previous) => ({
@@ -154,24 +167,41 @@ const User = () => {
 
   const handleAddressChange = (event) => {
     event.preventDefault();
-    let updated = user.addresses.map((address) => {
-      if (address.id === parseInt(event.target.id)) {
+    let updated = user.addresses.map((a) => {
+      if (a.id === parseInt(event.target.id)) {
         switch (event.target.name) {
           case "removeAddress":
-            return { ...address, removed: true };
+            return { ...a, removed: true };
           case "undoRemove":
-            return { ...address, removed: false };
+            return { ...a, removed: false };
+          case "address":
+            if (!noSpecialChars(event.target.value)) {
+              a.errors = {
+                ...errors,
+                address:
+                  "Special characters are not allowed in street address.",
+              };
+              setSaveDisabled(true);
+            } else {
+              a.errors && delete a.errors.address;
+              if (a.errors && Object.keys(a.errors).length === 0) {
+                delete a.errors;
+              }
+            }
+            return { ...a, [event.target.name]: event.target.value };
           default:
-            return { ...address, [event.target.name]: event.target.value };
+            return { ...a, [event.target.name]: event.target.value };
         }
       }
-      return address;
+      return a;
     });
     setUser((previousUser) => ({
       ...previousUser,
       addresses: updated,
     }));
   };
+
+  console.log("address has errors? ", user.addresses);
 
   const handlePhoneChange = (event) => {
     event.preventDefault();

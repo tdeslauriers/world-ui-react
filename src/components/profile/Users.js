@@ -14,8 +14,8 @@ const headers = [
   { id: "lastname", label: "Lastname" },
   { id: "dateCreated", label: "Date Created" },
   { id: "enabled", label: "Enabled?" },
-  { id: "accountExpired", label: "Expired?" },
   { id: "accountLocked", label: "Locked?" },
+  { id: "accountExpired", label: "Expired?" },
 ];
 
 const ProfilesAll = () => {
@@ -76,13 +76,13 @@ const ProfilesAll = () => {
                 </strong>
               </td>
               <td>
-                <strong className={user.accountExpired ? "alert" : "success"}>
-                  {user.accountExpired ? "Expired" : "Current"}
+                <strong className={user.accountLocked ? "alert" : "success"}>
+                  {user.accountLocked ? "Locked" : "Unlocked"}
                 </strong>
               </td>
               <td>
-                <strong className={user.accountLocked ? "alert" : "success"}>
-                  {user.accountLocked ? "Locked" : "Unlocked"}
+                <strong className={user.accountExpired ? "alert" : "success"}>
+                  {user.accountExpired ? "Expired" : "Current"}
                 </strong>
               </td>
             </tr>

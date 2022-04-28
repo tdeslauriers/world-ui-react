@@ -3,6 +3,11 @@ export function commonNameChars(field) {
   return regex.test(field);
 }
 
+export function noSpecialChars(field) {
+  const regex = /^[\p{L}\p{N}\p{Zs}\p{Pd}\p{Pc}.,]+$/u;
+  return regex.test(field);
+}
+
 export function isNumbersOnly(field) {
   const regex = /^[\p{N}]+$/u;
   return regex.test(field);
@@ -14,5 +19,3 @@ export function isPhoneLength(phone) {
   }
   return false;
 }
-
-

@@ -12,6 +12,9 @@ export const AddressForm = ({ address, onChange }) => {
         value={address.address}
         onChange={onChange}
       />
+      {address.errors && address.errors.address && (
+        <div className="alert">{address.errors.address}</div>
+      )}
       <input
         className="form-control"
         placeholder="City"

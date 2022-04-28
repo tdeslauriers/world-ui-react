@@ -60,7 +60,7 @@ const ProfileForm = ({
                         }
                         name="accountLocked"
                         type="button"
-                        value={profile.accountLocked ? "UnLock" : "Lock"}
+                        value={profile.accountLocked ? "Unlock" : "Lock"}
                         onClick={onProfileChange}
                       />
                     </>
