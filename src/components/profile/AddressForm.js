@@ -1,7 +1,7 @@
 import React from "react";
 import { STATES_MENU } from ".";
 
-export const AddressForm = ({ address, onChange }) => {
+export const AddressForm = ({ address, onChange, onBlur }) => {
   return (
     <div>
       <input
@@ -11,6 +11,7 @@ export const AddressForm = ({ address, onChange }) => {
         name="address"
         value={address.address}
         onChange={onChange}
+        onBlur={onBlur}
       />
       {address.errors && address.errors.address && (
         <div className="alert">{address.errors.address}</div>
@@ -22,7 +23,11 @@ export const AddressForm = ({ address, onChange }) => {
         name="city"
         value={address.city}
         onChange={onChange}
+        onBlur={onBlur}
       />
+      {address.errors && address.errors.city && (
+        <div className="alert">{address.errors.city}</div>
+      )}
       <select
         className="form-control"
         id={address.id}
@@ -47,8 +52,11 @@ export const AddressForm = ({ address, onChange }) => {
         name="zip"
         value={address.zip}
         onChange={onChange}
+        onBlur={onBlur}
       />
-      {address.zipError && <div className="alert">{address.zipError}</div>}
+      {address.errors && address.errors.zip && (
+        <div className="alert">{address.errors.zip}</div>
+      )}
     </div>
   );
 };

@@ -95,9 +95,10 @@ const ProfileForm = ({
                       placeholder="First Name"
                       value={profile.firstname}
                       onChange={onProfileChange}
+                      onBlur={props.onProfileBlur}
                     />
-                    {props.errors.firstname && (
-                      <div className="alert">{props.errors.firstname}</div>
+                    {profile.errors && profile.errors.firstname && (
+                      <div className="alert">{profile.errors.firstname}</div>
                     )}
                     <input
                       className="form-control"
@@ -106,9 +107,10 @@ const ProfileForm = ({
                       placeholder="Last Name"
                       value={profile.lastname}
                       onChange={onProfileChange}
+                      onBlur={props.onProfileBlur}
                     />
-                    {props.errors.lastname && (
-                      <div className="alert">{props.errors.lastname}</div>
+                    {profile.errors && profile.errors.lastname && (
+                      <div className="alert">{profile.errors.lastname}</div>
                     )}
                     <div>
                       Member since:{" "}
@@ -169,7 +171,7 @@ const ProfileForm = ({
                       {a.removed ? (
                         <div className="top-column">
                           <div className="child-column">
-                            <div className="alert success">
+                            <div className="success">
                               Address Removed (on Save)
                             </div>
                           </div>
@@ -210,7 +212,11 @@ const ProfileForm = ({
                             </div>
                           )}
 
-                          <AddressForm address={a} onChange={onAddressChange} />
+                          <AddressForm
+                            address={a}
+                            onChange={onAddressChange}
+                            onBlur={props.onAddressBlur}
+                          />
                         </div>
                       )}
                     </div>

@@ -15,8 +15,10 @@ import ProfileForm from "./ProfileForm";
 import { getProfile, updateProfile } from "../../slices/profile";
 import {
   commonNameChars,
-  isNumbersOnly,
-  noSpecialChars,
+  ERRORS,
+  isValidCity,
+  isValidStreet,
+  isValidZip,
 } from "../../common/useValidation";
 
 const User = () => {
@@ -25,7 +27,6 @@ const User = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
-  const [errors, setErrors] = useState({});
   const [saveDisabled, setSaveDisabled] = useState(false);
 
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -110,6 +111,9 @@ const User = () => {
 
   useEffect(() => {
     let isDisabled = false;
+    if (user.errors) {
+      isDisabled = true;
+    }
     user.addresses &&
       user.addresses.forEach((a) => {
         if (a.errors && Object.keys(a.errors).length !== 0) {
@@ -118,10 +122,7 @@ const User = () => {
       });
 
     setSaveDisabled(isDisabled);
-
-    // get rid of errors state object
-    // Object.keys(errors).length === 0 && setSaveDisabled(false);
-  }, [errors, user]);
+  }, [user]);
 
   const handleProfileChange = (event) => {
     event.preventDefault();
@@ -140,29 +141,21 @@ const User = () => {
         }));
         break;
       default:
-        if (!commonNameChars(event.target.value)) {
-          setErrors((previous) => ({
-            ...previous,
-            [event.target.name]:
-              event.target.name.replace(/\w\S*/g, function (name) {
-                return (
-                  name.charAt(0).toUpperCase() + name.substr(1).toLowerCase()
-                );
-              }) +
-              "s may only include common name characters like letters, dashes, apostrophes, etc.",
-          }));
-          setSaveDisabled(true);
-        } else {
-          let cleanup = Object.assign({}, errors);
-          cleanup[event.target.name] && delete cleanup[event.target.name];
-          setErrors(cleanup);
-        }
         setUser((previousUser) => ({
           ...previousUser,
           [event.target.name]: event.target.value,
         }));
         break;
     }
+  };
+
+  const handleProfileBlur = (event) => {
+    event.preventDefault();
+    validate(event, user, commonNameChars);
+    setUser((previousUser) => ({
+      ...previousUser,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   const handleAddressChange = (event) => {
@@ -174,21 +167,6 @@ const User = () => {
             return { ...a, removed: true };
           case "undoRemove":
             return { ...a, removed: false };
-          case "address":
-            if (!noSpecialChars(event.target.value)) {
-              a.errors = {
-                ...errors,
-                address:
-                  "Special characters are not allowed in street address.",
-              };
-              setSaveDisabled(true);
-            } else {
-              a.errors && delete a.errors.address;
-              if (a.errors && Object.keys(a.errors).length === 0) {
-                delete a.errors;
-              }
-            }
-            return { ...a, [event.target.name]: event.target.value };
           default:
             return { ...a, [event.target.name]: event.target.value };
         }
@@ -201,7 +179,50 @@ const User = () => {
     }));
   };
 
-  console.log("address has errors? ", user.addresses);
+  const handleAddressBlur = (event) => {
+    event.preventDefault();
+    let validated = user.addresses.map((a) => {
+      if (a.id === parseInt(event.target.id)) {
+        switch (event.target.name) {
+          case "address":
+            validate(event, a, isValidStreet);
+            break;
+          case "city":
+            validate(event, a, isValidCity);
+            break;
+          case "zip":
+            validate(event, a, isValidZip);
+            break;
+          default:
+            break;
+        }
+      }
+      return a;
+    });
+    setUser((previousUser) => ({
+      ...previousUser,
+      addresses: validated,
+    }));
+  };
+
+  const validate = (event, x, validator) => {
+    console.log("fires on tab?");
+    const n = event.target.name;
+    const v = event.target.value;
+    if (!validator(v)) {
+      x.errors = {
+        ...x.errors,
+        [n]: ERRORS[n],
+      };
+      setSaveDisabled(true);
+    } else {
+      x.errors && delete x.errors[n];
+      if (x.errors && Object.keys(x.errors).length === 0) {
+        delete x.errors;
+      }
+    }
+    return x;
+  };
 
   const handlePhoneChange = (event) => {
     event.preventDefault();
@@ -320,7 +341,9 @@ const User = () => {
           profile={user}
           scopes={currentUser.roles}
           onProfileChange={handleProfileChange}
+          onProfileBlur={handleProfileBlur}
           onAddressChange={handleAddressChange}
+          onAddressBlur={handleAddressBlur}
           onPhoneChange={handlePhoneChange}
           roles={roles}
           onRoleSelect={handleRoleSelect}
@@ -328,7 +351,6 @@ const User = () => {
           saveDisabled={saveDisabled}
           onSave={handleSave}
           onCancel={handleCancel}
-          errors={errors}
         />
       )}
     </>
