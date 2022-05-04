@@ -1,6 +1,7 @@
 import {
   commonNameChars,
   isNumbersOnly,
+  isValidPhone,
   noSpecialChars,
 } from "./useValidation";
 
@@ -33,5 +34,14 @@ describe("No Special Characters", () => {
     expect(commonNameChars("<script>alert('xss')</script>")).toEqual(false);
     expect(noSpecialChars("123 W. *Main St.")).toEqual(false);
     expect(noSpecialChars("123 W. Main St.")).toEqual(true);
+  });
+});
+
+describe("10 digits only.", () => {
+  test("should return false if anything but digits present", () => {
+    expect(isValidPhone("Tom")).toEqual(false);
+    expect(isValidPhone("@%#&(*$ ")).toEqual(false);
+    expect(isValidPhone("123456")).toEqual(false);
+    expect(isValidPhone("2225556666")).toEqual(true);
   });
 });

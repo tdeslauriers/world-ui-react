@@ -6,7 +6,8 @@ export const ERRORS = {
   lastname: "Last name " + allowedChars,
   address: "Street address may not include special characters.",
   city: "City names " + allowedChars,
-  zip: "Zip code must be 5 numbers only.",
+  zip: "Zip code must be 5 digits only.",
+  phone: "Phone numbers may be 10 digits only.",
 };
 
 export function commonNameChars(field) {
@@ -22,13 +23,6 @@ export function noSpecialChars(field) {
 export function isNumbersOnly(field) {
   const regex = /^[\p{N}]+$/u;
   return regex.test(field);
-}
-
-export function isPhoneLength(phone) {
-  if (phone.length === 9) {
-    return true;
-  }
-  return false;
 }
 
 export function isValidStreet(street) {
@@ -47,6 +41,13 @@ export function isValidCity(city) {
 
 export function isValidZip(zip) {
   if ((isNumbersOnly(zip) && zip.length === 5) || zip === "") {
+    return true;
+  }
+  return false;
+}
+
+export function isValidPhone(phone) {
+  if ((isNumbersOnly(phone) && phone.length === 10) || phone === "") {
     return true;
   }
   return false;

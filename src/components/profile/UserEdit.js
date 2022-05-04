@@ -17,6 +17,7 @@ import {
   commonNameChars,
   ERRORS,
   isValidCity,
+  isValidPhone,
   isValidStreet,
   isValidZip,
 } from "../../common/useValidation";
@@ -120,7 +121,12 @@ const User = () => {
           isDisabled = true;
         }
       });
-
+    user.phones &&
+      user.phones.forEach((p) => {
+        if (p.errors && Object.keys(p.errors).length !== 0) {
+          isDisabled = true;
+        }
+      });
     setSaveDisabled(isDisabled);
   }, [user]);
 
@@ -190,10 +196,8 @@ const User = () => {
           case "city":
             validate(event, a, isValidCity);
             break;
-          case "zip":
-            validate(event, a, isValidZip);
-            break;
           default:
+            validate(event, a, isValidZip);
             break;
         }
       }
@@ -206,7 +210,6 @@ const User = () => {
   };
 
   const validate = (event, x, validator) => {
-    console.log("fires on tab?");
     const n = event.target.name;
     const v = event.target.value;
     if (!validator(v)) {
@@ -242,6 +245,44 @@ const User = () => {
     setUser((previousUser) => ({
       ...previousUser,
       phones: updated,
+    }));
+  };
+
+  const handlePhoneBlur = (event) => {
+    event.preventDefault();
+    let validated = user.phones.map((p) => {
+      if (p.id === parseInt(event.target.id)) {
+        switch (event.target.name) {
+          case "phone":
+            validate(event, p, isValidPhone);
+            break;
+          default:
+            user.phones.forEach((p) => {
+              console.log(p);
+              let typeCount = user.phones.filter(
+                (phone) => phone.type === p.type && !phone.removed
+              );
+              if (typeCount.length > 1) {
+                p.errors = {
+                  ...p.errors,
+                  type: "May only enter one type of each phone.",
+                };
+                setSaveDisabled(true);
+              } else {
+                p.errors && delete p.errors.type;
+                if (p.errors && Object.keys(p.errors).length === 0) {
+                  delete p.errors;
+                }
+              }
+            });
+            break;
+        }
+      }
+      return p;
+    });
+    setUser((previousUser) => ({
+      ...previousUser,
+      phones: validated,
     }));
   };
 
@@ -345,6 +386,7 @@ const User = () => {
           onAddressChange={handleAddressChange}
           onAddressBlur={handleAddressBlur}
           onPhoneChange={handlePhoneChange}
+          onPhoneBlur={handlePhoneBlur}
           roles={roles}
           onRoleSelect={handleRoleSelect}
           onRemoveRole={handleRemoveRole}

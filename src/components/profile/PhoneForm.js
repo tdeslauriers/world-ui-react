@@ -1,7 +1,8 @@
 import React from "react";
 import { PHONE_MENU } from ".";
+import { AddressForm } from "./AddressForm";
 
-const PhoneForm = ({ phone, onChange }) => {
+const PhoneForm = ({ phone, onChange, onBlur }) => {
   return (
     <div>
       <input
@@ -11,7 +12,11 @@ const PhoneForm = ({ phone, onChange }) => {
         name="phone"
         value={phone.phone}
         onChange={onChange}
+        onBlur={onBlur}
       />
+      {phone.errors && phone.errors.phone && (
+        <div className="alert">{phone.errors.phone}</div>
+      )}
       <select
         className="form-control"
         id={phone.id}
@@ -19,6 +24,7 @@ const PhoneForm = ({ phone, onChange }) => {
         value={phone.type}
         defaultValue="Select Type"
         onChange={onChange}
+        onBlur={onBlur}
       >
         <option value="Select Type" disabled hidden>
           Select Type
@@ -29,6 +35,9 @@ const PhoneForm = ({ phone, onChange }) => {
           </option>
         ))}
       </select>
+      {phone.errors && phone.errors.type && (
+        <div className="alert">{phone.errors.type}</div>
+      )}
     </div>
   );
 };

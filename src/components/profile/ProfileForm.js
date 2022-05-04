@@ -231,7 +231,7 @@ const ProfileForm = ({
                       {p.removed ? (
                         <div className="top-column">
                           <div className="child-column">
-                            <div className="alert success">{`${p.type.replace(
+                            <div className="success">{`${p.type.replace(
                               /\w\S*/g,
                               function (type) {
                                 return (
@@ -277,7 +277,11 @@ const ProfileForm = ({
                               </div>
                             </div>
                           )}
-                          <PhoneForm phone={p} onChange={onPhoneChange} />
+                          <PhoneForm
+                            phone={p}
+                            onChange={onPhoneChange}
+                            onBlur={props.onPhoneBlur}
+                          />
                         </div>
                       )}
                     </div>
