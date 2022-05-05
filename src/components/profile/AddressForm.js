@@ -32,8 +32,7 @@ export const AddressForm = ({ address, onChange, onBlur }) => {
         className="form-control"
         id={address.id}
         name="state"
-        value={address.state}
-        defaultValue={"Select State"}
+        value={address.state ? address.state : "Select State"}
         onChange={onChange}
       >
         <option key={0} value="Select State" disabled hidden>

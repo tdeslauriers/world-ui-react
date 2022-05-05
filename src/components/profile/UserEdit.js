@@ -121,6 +121,7 @@ const User = () => {
           isDisabled = true;
         }
       });
+
     user.phones &&
       user.phones.forEach((p) => {
         if (p.errors && Object.keys(p.errors).length !== 0) {
@@ -257,26 +258,23 @@ const User = () => {
             validate(event, p, isValidPhone);
             break;
           default:
-            user.phones.forEach((p) => {
-              console.log(p);
-              let typeCount = user.phones.filter(
-                (phone) => phone.type === p.type && !phone.removed
-              );
-              if (typeCount.length > 1) {
-                p.errors = {
-                  ...p.errors,
-                  type: "May only enter one type of each phone.",
-                };
-                setSaveDisabled(true);
-              } else {
-                p.errors && delete p.errors.type;
-                if (p.errors && Object.keys(p.errors).length === 0) {
-                  delete p.errors;
-                }
-              }
-            });
+            let dupe = user.phones.filter((phone) => phone.type === p.type);
+            if (dupe.length > 1) {
+              p.errors = {
+                ...p.errors,
+                type: ERRORS.phoneType,
+              };
+              setSaveDisabled(true);
+            }
             break;
         }
+      }
+      return p;
+    });
+    validated.map((p) => {
+      let dupes = validated.filter((phone) => phone.type === p.type);
+      if (dupes.length < 2) {
+        p.errors && delete p.errors.type;
       }
       return p;
     });

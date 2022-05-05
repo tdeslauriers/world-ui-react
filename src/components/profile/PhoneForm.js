@@ -1,6 +1,5 @@
 import React from "react";
 import { PHONE_MENU } from ".";
-import { AddressForm } from "./AddressForm";
 
 const PhoneForm = ({ phone, onChange, onBlur }) => {
   return (
@@ -21,8 +20,7 @@ const PhoneForm = ({ phone, onChange, onBlur }) => {
         className="form-control"
         id={phone.id}
         name="type"
-        value={phone.type}
-        defaultValue="Select Type"
+        value={phone.type ? phone.type : "Select Type"}
         onChange={onChange}
         onBlur={onBlur}
       >

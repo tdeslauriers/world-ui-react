@@ -7,7 +7,8 @@ export const ERRORS = {
   address: "Street address may not include special characters.",
   city: "City names " + allowedChars,
   zip: "Zip code must be 5 digits only.",
-  phone: "Phone numbers may be 10 digits only.",
+  phone: "Phone numbers must be 10 digits only, eg, 1112223333.",
+  phoneType: "May only have one of each type of phone number.",
 };
 
 export function commonNameChars(field) {
