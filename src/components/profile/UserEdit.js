@@ -247,7 +247,9 @@ const User = () => {
     });
     // moving validation to here from blur; better ui experience.
     updated.map((p) => {
-      let dupeTypes = updated.filter((phone) => phone.type === p.type);
+      let dupeTypes = updated.filter(
+        (phone) => phone.type === p.type && p.type
+      );
       if (dupeTypes.length > 1) {
         p.errors = { ...p.errors, type: ERRORS.phoneType };
       } else {
