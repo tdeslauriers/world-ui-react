@@ -248,13 +248,14 @@ const User = () => {
     // moving validation to here from blur; better ui experience.
     updated.map((p) => {
       let dupeTypes = updated.filter(
-        (phone) => phone.type === p.type && p.type
+        (phone) => phone.type === p.type && phone.type
       );
       if (dupeTypes.length > 1) {
         p.errors = { ...p.errors, type: ERRORS.phoneType };
       } else {
         p.errors && delete p.errors.type;
       }
+
       return p;
     });
     setUser((previousUser) => ({
@@ -272,7 +273,9 @@ const User = () => {
             validate(event, p, isValidPhone);
             break;
           default:
-            let dupe = user.phones.filter((phone) => phone.type === p.type);
+            let dupe = user.phones.filter(
+              (phone) => phone.type === p.type && phone.type
+            );
             if (dupe.length > 1) {
               p.errors = {
                 ...p.errors,
