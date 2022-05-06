@@ -70,7 +70,9 @@ const User = () => {
   const setUpPhones = (user) => {
     let userPhones = [];
     if (user.phones) {
-      userPhones = [...user.phones];
+      user.phones.forEach((p) => {
+        userPhones.push(Object.assign({}, p));
+      });
     }
     let toAdd = 3 - userPhones.length;
     for (let i = 0; i < toAdd; i++) {
@@ -234,14 +236,24 @@ const User = () => {
       if (phone.id === parseInt(event.target.id)) {
         switch (event.target.name) {
           case "removePhone":
-            return { ...phone, removed: true };
+            return { ...phone, undoType: phone.type, type: "", removed: true };
           case "undoRemove":
-            return { ...phone, removed: false };
+            return { ...phone, removed: false, type: phone.undoType };
           default:
             return { ...phone, [event.target.name]: event.target.value };
         }
       }
       return phone;
+    });
+    // moving validation to here from blur; better ui experience.
+    updated.map((p) => {
+      let dupeTypes = updated.filter((phone) => phone.type === p.type);
+      if (dupeTypes.length > 1) {
+        p.errors = { ...p.errors, type: ERRORS.phoneType };
+      } else {
+        p.errors && delete p.errors.type;
+      }
+      return p;
     });
     setUser((previousUser) => ({
       ...previousUser,
@@ -268,13 +280,6 @@ const User = () => {
             }
             break;
         }
-      }
-      return p;
-    });
-    validated.map((p) => {
-      let dupes = validated.filter((phone) => phone.type === p.type);
-      if (dupes.length < 2) {
-        p.errors && delete p.errors.type;
       }
       return p;
     });
