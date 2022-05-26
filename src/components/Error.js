@@ -8,18 +8,20 @@ const Error = ({ ...props }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleGoBack = (event) =>
+  const handleGoBack = (event) => {
+    console.log(location.state);
     location.state?.from ? navigate(location.state.from) : navigate(`/home`);
+  };
 
   return (
     <div className="error">
       <div className="alert">What? That's not even a thing...</div>
       <br />
-      <div>Try something else, but better</div>
+      <div>Try something else, but better.</div>
       <br />
       <div>
         {location.state?.from && (
-          <button className="btn-cancel" onClick={handleGoBack}>
+          <button className="btn-cancel btn-error" onClick={handleGoBack}>
             Go Back
           </button>
         )}

@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Navigate,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 import eventBus from "../../security/EventBus";
 import profileService from "../../services/profileService";
 import { setMessage } from "../../slices/message";
@@ -24,8 +19,6 @@ const User = () => {
   const { users: allUsers } = useSelector((state) => state);
   const { message: userMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
-
-  const scopes = currentUser != null ? currentUser.roles : [];
 
   const getUser = async (id) => {
     await profileService

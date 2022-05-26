@@ -22,7 +22,7 @@ import {
   isValidZip,
 } from "../../common/useValidation";
 
-const User = () => {
+const UserEdit = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
   const navigate = useNavigate();
@@ -105,8 +105,15 @@ const User = () => {
     }
 
     if (location.pathname === "/profile/edit") {
-      reduxProfile ? setUser(reduxProfile) : dispatch(getProfile());
+      if (reduxProfile) {
+        setUser(reduxProfile);
+        setUpAddresses(reduxProfile);
+        setUpPhones(reduxProfile);
+      } else {
+        dispatch(getProfile());
+      }
     }
+
     if (userMessage && userMessage === "Request failed with status code 401") {
       eventBus.dispatch("logout");
     }
@@ -374,9 +381,7 @@ const User = () => {
 
   const handleCancel = (event) => {
     event.preventDefault();
-    location.state?.from
-      ? navigate(location.state.from)
-      : navigate(`/users/${id}`);
+    location.state?.from ? navigate(location.state.from) : navigate(`/home`);
   };
 
   if (!isLoggedIn) {
@@ -407,4 +412,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default UserEdit;

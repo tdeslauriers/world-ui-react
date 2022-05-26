@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const AUTH_API_URL = "https://localhost:8443"; // dev only
+const AUTH_API_URL = "http://localhost:8080"; // dev only
 
 const login = (username, password) => {
   return axios
