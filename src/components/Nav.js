@@ -23,6 +23,26 @@ const Nav = ({ isLoggedIn, logOut }) => {
                 Home
               </NavLink>
             </li>
+            <li className="list-item-nav">
+              <NavLink
+                to={"/about"}
+                className="link-nav"
+                activeClassName="active"
+              >
+                About
+              </NavLink>
+            </li>
+            <li className="list-item-nav">
+              <a
+                href="https://www.github.com/tdeslauriers"
+                className="link-nav"
+                activeClassName="active"
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub
+              </a>
+            </li>
           </ul>
         </div>
         <div className="child-column childnav">

@@ -97,6 +97,7 @@ button:disabled {
     border-radius: 4px;
     width: 100%;
     padding: .5em 1em;
+    margin-top: .6em;
 }
 
 .alert {
@@ -104,6 +105,7 @@ button:disabled {
     border-radius: 4px;
     border: 1px solid #d45726;
     margin-bottom: 10px;
+    margin-top: .6em;
     padding: .5em 1em;
 }
 
@@ -193,7 +195,7 @@ input:focus {
 
 .btn-cancel:hover, .btn-cancel:focus { 
    
-    background-color: #5a1270; 
+    background-color: #7f1a9e; 
     outline:none;
     transition: background-position 0.1s linear; 
 }

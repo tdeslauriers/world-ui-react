@@ -27,14 +27,14 @@
 
 .btngroup {
     float: right;
-   
+    margin-top: .6em;
     
 }
 
 .btn-profile {
     float: left;
     width: auto;
-    margin-left: .3em;
+    margin-right: .3em;
     margin-bottom: .3em;
 }
 

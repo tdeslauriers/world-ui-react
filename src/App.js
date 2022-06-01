@@ -18,6 +18,7 @@ import User from "./components/profile/User";
 import Roles from "./components/profile/roles/Roles";
 import RoleEdit from "./components/profile/roles/RoleEdit";
 import Error from "./components/Error";
+import About from "./components/About";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -53,6 +54,7 @@ const App = () => {
             <Route path="*" element={<Error />} />
             <Route exact path="/" element={<Home />} />
             <Route exact path="/home" element={<Home />} />
+            <Route exact path="/about" element={<About />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/profile">
