@@ -1,7 +1,7 @@
 import axios from "axios";
 import authHeader from "./authHeader";
 
-const PROFILE_API_URL = "http://localhost:8080/profiles";
+const PROFILE_API_URL = "http://localhost/api/auth/profiles";
 
 const getProfile = () => {
   return axios

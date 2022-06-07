@@ -1,7 +1,7 @@
 import axios from "axios";
 import authHeader from "./authHeader";
 
-const ROLES_API_URL = "http://localhost:8080/roles";
+const ROLES_API_URL = "http://localhost/api/auth/roles";
 
 const getAllRoles = () => {
   return axios
