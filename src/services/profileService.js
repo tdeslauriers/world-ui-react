@@ -1,11 +1,14 @@
 import axios from "axios";
 import authHeader from "./authHeader";
 
-const PROFILE_API_URL = "http://localhost/api/auth/profiles";
+const apiURL =
+  process.env.REACT_APP_API_BASE_URL +
+  process.env.REACT_APP_API_AUTH +
+  "/profiles";
 
 const getProfile = () => {
   return axios
-    .get(PROFILE_API_URL + "/user", { headers: authHeader() })
+    .get(apiURL + "/user", { headers: authHeader() })
     .then((response) => {
       return response.data;
     });
@@ -13,7 +16,7 @@ const getProfile = () => {
 
 const updateProfile = (userdata) => {
   return axios
-    .put(PROFILE_API_URL + "/user", userdata, { headers: authHeader() })
+    .put(apiURL + "/user", userdata, { headers: authHeader() })
     .then((response) => {
       return response.data;
     });
@@ -21,7 +24,7 @@ const updateProfile = (userdata) => {
 
 const getProfilesAll = () => {
   return axios
-    .get(PROFILE_API_URL + "/all", { headers: authHeader() })
+    .get(apiURL + "/all", { headers: authHeader() })
     .then((response) => {
       return response.data;
     });
@@ -29,7 +32,7 @@ const getProfilesAll = () => {
 
 const getUserById = (id) => {
   return axios
-    .get(PROFILE_API_URL + `/${id}`, { headers: authHeader() })
+    .get(apiURL + `/${id}`, { headers: authHeader() })
     .then((response) => {
       return response.data;
     });
@@ -37,7 +40,7 @@ const getUserById = (id) => {
 
 const updateUser = (userdata) => {
   return axios
-    .put(PROFILE_API_URL + "/edit", userdata, { headers: authHeader() })
+    .put(apiURL + "/edit", userdata, { headers: authHeader() })
     .then((response) => {
       return response.data;
     });

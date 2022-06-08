@@ -1,10 +1,11 @@
 import axios from "axios";
 
-const AUTH_API_URL = "http://localhost/api/auth"; // dev only
+const apiURL =
+  process.env.REACT_APP_API_BASE_URL + process.env.REACT_APP_API_AUTH;
 
 const login = (username, password) => {
   return axios
-    .post(AUTH_API_URL + "/login", { username, password })
+    .post(apiURL + "/login", { username, password })
     .then((response) => {
       if (response.data.access_token) {
         localStorage.setItem("user", JSON.stringify(response.data));
@@ -18,7 +19,7 @@ const logout = () => {
 };
 
 const register = (username, password, confirmPassword, firstname, lastname) => {
-  return axios.post(AUTH_API_URL + "/register", {
+  return axios.post(apiURL + "/register", {
     username,
     password,
     confirmPassword,
