@@ -9,10 +9,9 @@ const Error = ({ ...props }) => {
   const navigate = useNavigate();
 
   const handleGoBack = (event) => {
-    console.log(location.state);
     location.state?.from ? navigate(location.state.from) : navigate(`/home`);
   };
-
+  console.log(location);
   return (
     <div className="error">
       <div className="alert">What? That's not even a thing...</div>

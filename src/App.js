@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./slices/auth";
 import EventBus from "./security/EventBus";
 import AuthVerify from "./security/AuthVerify";
-import Gallery from "./components/gallery/Gallery";
+import Gallery from "./components/gallery/Album";
 import Authorized from "./security/Authorized";
 import Nav from "./components/Nav";
 import Users from "./components/profile/Users";
@@ -19,6 +19,7 @@ import Roles from "./components/profile/roles/Roles";
 import RoleEdit from "./components/profile/roles/RoleEdit";
 import Error from "./components/Error";
 import About from "./components/About";
+import Album from "./components/gallery/Album";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -132,15 +133,17 @@ const App = () => {
                 }
               />
             </Route>
-            <Route
-              exact
-              path="/gallery"
-              element={
-                <Authorized allowedScopes={["GALLERY_READ"]}>
-                  <Gallery />
-                </Authorized>
-              }
-            />
+            <Route exact path="/gallery">
+              <Route
+                exact
+                path={":album"}
+                element={
+                  <Authorized allowedScopes={["GALLERY_READ", "GALLERY_EDIT"]}>
+                    <Album />
+                  </Authorized>
+                }
+              />
+            </Route>
           </Routes>
         </div>
       </Router>
