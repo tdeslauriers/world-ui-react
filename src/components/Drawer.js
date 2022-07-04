@@ -4,22 +4,30 @@ import { NavLink } from "react-router-dom";
 import "./Drawer.css";
 
 import { getAlbums } from "../slices/albums";
+import galleryService from "../services/galleryService";
+import { setMessage } from "../slices/message";
 
 const Drawer = () => {
   const [menuAdminOpen, setMenuAdminOpen] = useState(false);
   const [menuGalleryOpen, setMenuGalleryOpen] = useState(false);
+  const [menuAlbums, setMenuAlbums] = useState([]);
 
   const { roles: scopes } = useSelector((state) => state.auth.user);
-  const { albums: menuAlbums } = useSelector((state) => state);
+  // const { menus: menuAlbums } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
     // get albums for gallery menu
-    if (
-      ["GALLERY_READ", "GALLERY_EDIT"].some((s) => scopes.includes(s)) &&
-      !menuAlbums.length
-    ) {
-      dispatch(getAlbums());
+    if (menuAlbums.length === 0) {
+      galleryService
+        .getAlbums()
+        .then((response) => {
+          setMenuAlbums(response);
+        })
+        .catch((error) => {
+          const message = error.message || error.status;
+          dispatch(setMessage(message));
+        });
     }
   }, [dispatch, scopes, menuAlbums]);
 

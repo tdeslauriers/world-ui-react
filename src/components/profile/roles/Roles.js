@@ -54,7 +54,7 @@ const Roles = () => {
           </div>
         </div>
       </div>
-
+      <hr />
       <TableContainer>
         <TableHead />
         <tbody>

@@ -49,6 +49,7 @@ const ProfilesAll = () => {
   return (
     <div>
       <h3>User Profiles</h3>
+      <hr />
       <TableContainer>
         <TableHead />
         <tbody>

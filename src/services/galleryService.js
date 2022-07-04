@@ -13,12 +13,12 @@ const getAlbums = () => {
 };
 
 const getAlbum = (album) => {
-    return axios
-    .get(apiURL + `albums/${album}`, {headers: authHeader()})
-    .then(response => {
-        return response.data;
-    })
-}
+  return axios
+    .get(apiURL + `/albums/${album}`, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
 
 const galleryService = {
   getAlbums,
