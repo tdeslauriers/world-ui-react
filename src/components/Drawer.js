@@ -69,7 +69,7 @@ const Drawer = () => {
                 menuAlbums.map((a) => (
                   <NavLink
                     key={a.id}
-                    to={`/gallery/${a.album}`}
+                    to={`/albums/${a.album}`}
                     className="link-nav"
                   >
                     {a.album}

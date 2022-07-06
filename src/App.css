@@ -46,7 +46,7 @@ a:hover, a:focus{
 
 
 h3 {
-    color: rgb(130, 202, 130);
+    color: #82CA82
 }
 
 strong {
@@ -217,4 +217,10 @@ input:focus {
 
 .child-column {
     flex: 1
+}
+
+.btngroup {
+    float: right;
+    margin-top: .6em;
+    
 }

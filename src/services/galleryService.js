@@ -20,9 +20,18 @@ const getAlbum = (album) => {
     });
 };
 
+const getImage = (filename) => {
+  return axios
+    .get(apiURL + `/images/${filename}`, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 const galleryService = {
   getAlbums,
   getAlbum,
+  getImage,
 };
 
 export default galleryService;

@@ -134,7 +134,7 @@ const App = () => {
                 }
               />
             </Route>
-            <Route exact path="/gallery">
+            <Route exact path="/albums">
               <Route
                 exact
                 path={":album"}

@@ -1,0 +1,17 @@
+
+
+.image {
+    width: 55%;
+    border-radius: 4px;
+}
+
+.img-button {
+    float: left;
+    width: auto;
+    margin-right: .3em;
+    margin-bottom: .3em;
+}
+
+.album-nav {
+    margin-top: .6em;
+}

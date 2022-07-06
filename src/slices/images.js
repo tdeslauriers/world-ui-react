@@ -2,32 +2,32 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import galleryService from "../services/galleryService";
 import { setMessage } from "./message";
 
-export const getAlbum = createAsyncThunk(
-  "albums/getAlbum",
-  async (album, thunkAPI) => {
+export const getImage = createAsyncThunk(
+  "images/getImage",
+  async (filename, thunkApi) => {
     try {
-      const data = await galleryService.getAlbum(album);
+      const data = await galleryService.getImage(filename);
       return data;
     } catch (error) {
       const message = error.message || error.status;
 
-      thunkAPI.dispatch(setMessage(message));
-      return thunkAPI.rejectWithValue();
+      thunkApi.dispatch(setMessage(message));
+      return thunkApi.rejectWithValue();
     }
   }
 );
 
 const initialState = [];
 
-const albumsSlice = createSlice({
-  name: "albums",
+const usersSlice = createSlice({
+  name: "images",
   initialState,
   extraReducers: {
-    [getAlbum.fulfilled]: (state, action) => {
+    [getImage.fulfilled]: (state, action) => {
       state.push(action.payload);
     },
   },
 });
 
-const { reducer } = albumsSlice;
+const { reducer } = usersSlice;
 export default reducer;

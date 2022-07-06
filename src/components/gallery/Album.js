@@ -15,7 +15,7 @@ const Album = () => {
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { albums: galleries } = useSelector((state) => state);
-  const { message: userMessage } = useSelector((state) => state.message);
+  const { message: albumMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,10 +30,13 @@ const Album = () => {
       setGallery(g);
     }
 
-    if (userMessage && userMessage === "Request failed with status code 401") {
+    if (
+      albumMessage &&
+      albumMessage === "Request failed with status code 401"
+    ) {
       eventBus.dispatch("logout");
     }
-  }, [dispatch, album, galleries, userMessage]);
+  }, [dispatch, album, galleries, albumMessage]);
 
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{ from: location }} />;
@@ -48,11 +51,17 @@ const Album = () => {
       <h4>Click on any picture to see the full size image.</h4>
       {gallery &&
         gallery.thumbnails &&
-        gallery.thumbnails.map((t) => (
+        gallery.thumbnails.map((t, i) => (
           <div className="thumbnail" key={t.filename}>
             <strong>{t.title}</strong>
             <div>{`${new Date(t.date).toLocaleDateString()}`}</div>
-            <NavLink to={`/images/${t.filename}`} >
+            <NavLink
+              to={`/images/${t.filename}`}
+              state={{
+                album: gallery,
+                albumIndex: i,
+              }}
+            >
               <img
                 id={t.filename}
                 className="thumbnail-pic"
