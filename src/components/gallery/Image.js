@@ -21,6 +21,7 @@ const Image = () => {
 
   // redux
   const { isLoggedIn } = useSelector((state) => state.auth);
+  const { user: currentUser } = useSelector((state) => state.auth);
   const { images: reduxImages } = useSelector((state) => state);
 
   const { message: imageMessage } = useSelector((state) => state.message);
@@ -98,7 +99,7 @@ const Image = () => {
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
-  console.log(location.state);
+
   return (
     <div>
       {picture && (
@@ -117,6 +118,18 @@ const Image = () => {
                 >
                   Return to {location.state?.album.album} album
                 </button>
+
+                {["GALLERY_EDIT"].some((r) =>
+                  currentUser.roles.includes(r)
+                ) && (
+                  <NavLink
+                    to={`/images/${picture.filename}/edit`}
+                    replace
+                    state={{ from: location }}
+                  >
+                    <button className="img-button">Edit</button>
+                  </NavLink>
+                )}
               </div>
             </div>
             <div className="child-column">

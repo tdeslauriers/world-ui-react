@@ -21,6 +21,7 @@ import Error from "./components/Error";
 import About from "./components/About";
 import Album from "./components/gallery/Album";
 import Image from "./components/gallery/Image";
+import ImageEdit from "./components/gallery/ImageEdit";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -152,6 +153,15 @@ const App = () => {
                 element={
                   <Authorized allowedScopes={["GALLERY_READ", "GALLERY_EDIT"]}>
                     <Image />
+                  </Authorized>
+                }
+              />
+              <Route
+                exact
+                path={":filename/edit"}
+                element={
+                  <Authorized allowedScopes={["GALLERY_EDIT"]}>
+                    <ImageEdit />
                   </Authorized>
                 }
               />

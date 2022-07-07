@@ -3,6 +3,12 @@
 .image {
     width: 55%;
     border-radius: 4px;
+    
+}
+
+.img-edit {
+    
+    margin-top: .5em;
 }
 
 .img-button {
@@ -12,6 +18,17 @@
     margin-bottom: .3em;
 }
 
+.img-form {
+    color: rgb(130, 202, 130);
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+    margin-left: .5em;
+    margin-right: .5em;
+}
+
 .album-nav {
     margin-top: .6em;
+}
+
+.pic-box {
+    margin-left: 1em;
 }
