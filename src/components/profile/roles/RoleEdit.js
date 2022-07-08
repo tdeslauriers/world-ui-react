@@ -53,6 +53,7 @@ const RoleEdit = () => {
   }, [dispatch, allRoles, id, roleMessage]);
 
   const handleRoleChange = (event) => {
+    event.preventDefault();
     setRole((previousRole) => ({
       ...previousRole,
       [event.target.name]: event.target.value,

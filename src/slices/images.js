@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import galleryService from "../services/galleryService";
+
 import { setMessage } from "./message";
 
 export const getImage = createAsyncThunk(
@@ -17,6 +18,21 @@ export const getImage = createAsyncThunk(
   }
 );
 
+export const updateImage = createAsyncThunk(
+  "images/updateImage",
+  async (image, thunkApi) => {
+    try {
+      const response = await galleryService.updateImage(image);
+      return image;
+    } catch (error) {
+      const message = error.message || error.status;
+
+      thunkApi.dispatch(setMessage(message));
+      return thunkApi.rejectWithValue();
+    }
+  }
+);
+
 const initialState = [];
 
 const usersSlice = createSlice({
@@ -25,6 +41,13 @@ const usersSlice = createSlice({
   extraReducers: {
     [getImage.fulfilled]: (state, action) => {
       state.push(action.payload);
+    },
+    [updateImage.fulfilled]: (state, action) => {
+      const index = state.findIndex((image) => image.id === action.payload.id);
+      state[index] = {
+        ...state[index],
+        ...action.payload,
+      };
     },
   },
 });

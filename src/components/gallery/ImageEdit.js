@@ -7,7 +7,7 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
-import { getImage } from "../../slices/images";
+import { getImage, updateImage } from "../../slices/images";
 import ProgressiveImage from "react-progressive-graceful-image";
 import { type } from "@testing-library/user-event/dist/type";
 
@@ -34,6 +34,45 @@ const ImageEdit = () => {
     }
   }, [dispatch, filename, reduxImages, imageMessage]);
 
+  const handleImageChange = (event) => {
+    event.preventDefault();
+    console.log(event.target.name);
+    switch (event.target.name) {
+      case "published":
+        setImage((previousImage) => ({
+          ...previousImage,
+          [event.target.name]: !previousImage.published,
+        }));
+        break;
+      default:
+        setImage((previousImage) => ({
+          ...previousImage,
+          [event.target.name]: event.target.value,
+        }));
+        break;
+    }
+  };
+
+  const handleSave = (event) => {
+    event.preventDefault();
+    dispatch(updateImage(image))
+      .unwrap()
+      .then(() => {
+        if (location.state?.from) {
+          navigate(location.state.from);
+        } else {
+          navigate(`/images/${filename}`);
+        }
+      });
+  };
+
+  const handleCancel = (event) => {
+    event.preventDefault();
+    location.state?.from
+      ? navigate(location.state.from)
+      : navigate(`/images/${image.filename}`);
+  };
+
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
@@ -56,8 +95,15 @@ const ImageEdit = () => {
               </div>
               <div className="child-column">
                 <div className="btngroup">
-                  <button className="img-button">Save</button>
-                  <button className="btn-cancel img-button">Cancel</button>
+                  <button className="img-button" onClick={handleSave}>
+                    Save
+                  </button>
+                  <button
+                    className="btn-cancel img-button"
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </button>
                 </div>
               </div>
             </div>
@@ -67,25 +113,47 @@ const ImageEdit = () => {
             <div className="img-form">
               <div className="top-column">
                 <div className="child-column">
-                  <h4>
-                    Picture taken:{" "}
-                    <strong>{`${new Date(
-                      image.date
-                    ).toLocaleDateString()}`}</strong>
-                  </h4>
+                  <div className="top-column">
+                    <div className="child-column">
+                      <h4>
+                        Picture taken:{" "}
+                        <strong>{`${new Date(
+                          image.date
+                        ).toLocaleDateString()}`}</strong>
+                      </h4>
+                    </div>
+                    <div className="child-column">
+                      <input
+                        className={
+                          image.published
+                            ? "img-button btn-alert"
+                            : "img-button button"
+                        }
+                        name="published"
+                        type="button"
+                        style={{ float: "right" }}
+                        value={image.published ? "Un-publish" : "Publish"}
+                        onClick={handleImageChange}
+                      />
+                    </div>
+                  </div>
+
                   <input
                     className="form-control"
                     name="title"
                     type="text"
                     placeholder="Title"
                     value={image.title}
+                    onChange={handleImageChange}
                   />
                   <textarea
                     className="form-control"
-                    title="description"
+                    name="description"
                     type="text"
+                    rows={4}
                     placeholder="Description"
                     value={image.description}
+                    onChange={handleImageChange}
                   />
                 </div>
                 <div className="child-column">

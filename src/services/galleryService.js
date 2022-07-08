@@ -28,10 +28,19 @@ const getImage = (filename) => {
     });
 };
 
+const updateImage = (image) => {
+  return axios
+    .put(apiURL, image, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 const galleryService = {
   getAlbums,
   getAlbum,
   getImage,
+  updateImage,
 };
 
 export default galleryService;
