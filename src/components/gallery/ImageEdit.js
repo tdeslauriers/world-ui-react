@@ -36,7 +36,6 @@ const ImageEdit = () => {
 
   const handleImageChange = (event) => {
     event.preventDefault();
-    console.log(event.target.name);
     switch (event.target.name) {
       case "published":
         setImage((previousImage) => ({
@@ -55,7 +54,15 @@ const ImageEdit = () => {
 
   const handleSave = (event) => {
     event.preventDefault();
-    dispatch(updateImage(image))
+
+    dispatch(
+      updateImage({
+        id: image.id,
+        title: image.title,
+        description: image.description,
+        published: image.published,
+      })
+    )
       .unwrap()
       .then(() => {
         if (location.state?.from) {

@@ -20,6 +20,14 @@ const getAlbum = (album) => {
     });
 };
 
+const getUnpublished = () => {
+  return axios
+    .get(apiURL + "/images/unpublished", { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 const getImage = (filename) => {
   return axios
     .get(apiURL + `/images/${filename}`, { headers: authHeader() })
@@ -30,7 +38,7 @@ const getImage = (filename) => {
 
 const updateImage = (image) => {
   return axios
-    .put(apiURL, image, { headers: authHeader() })
+    .put(apiURL + "/images", image, { headers: authHeader() })
     .then((response) => {
       return response.data;
     });
@@ -39,6 +47,7 @@ const updateImage = (image) => {
 const galleryService = {
   getAlbums,
   getAlbum,
+  getUnpublished,
   getImage,
   updateImage,
 };

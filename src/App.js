@@ -22,6 +22,7 @@ import About from "./components/About";
 import Album from "./components/gallery/Album";
 import Image from "./components/gallery/Image";
 import ImageEdit from "./components/gallery/ImageEdit";
+import Unpublished from "./components/gallery/Unpublished";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -142,6 +143,15 @@ const App = () => {
                 element={
                   <Authorized allowedScopes={["GALLERY_READ", "GALLERY_EDIT"]}>
                     <Album />
+                  </Authorized>
+                }
+              />
+              <Route
+                exact
+                path={"unpublished"}
+                element={
+                  <Authorized allowedScopes={["GALLERY_EDIT"]}>
+                    <Unpublished />
                   </Authorized>
                 }
               />

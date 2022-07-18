@@ -35,7 +35,7 @@ export const updateImage = createAsyncThunk(
 
 const initialState = [];
 
-const usersSlice = createSlice({
+const imageSlice = createSlice({
   name: "images",
   initialState,
   extraReducers: {
@@ -52,5 +52,5 @@ const usersSlice = createSlice({
   },
 });
 
-const { reducer } = usersSlice;
+const { reducer } = imageSlice;
 export default reducer;
