@@ -99,7 +99,7 @@ const Image = () => {
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
-
+  console.log(picture.albumImages);
   return (
     <div>
       {picture && (
@@ -166,11 +166,28 @@ const Image = () => {
             </div>
           </div>
           <hr />
-          <h3>
-            <strong>{picture.title ? `${picture.title}: ` : null}</strong>
-            {picture.date && new Date(picture.date).toLocaleDateString()}
-          </h3>
-          <h4>{picture.description && picture.description}</h4>
+
+          <div className="top-column">
+            <div className="child-column">
+              <h3>
+                <strong>{picture.title ? `${picture.title}: ` : null}</strong>
+                {picture.date && new Date(picture.date).toLocaleDateString()}
+              </h3>
+              <h4>{picture.description && picture.description}</h4>
+            </div>
+            <div className="child-column">
+              <h3>
+                {" "}
+                Appears in album(s):{" "}
+                {picture.albumImages &&
+                  picture.albumImages.map((ai) => (
+                    <NavLink to={`/albums/${ai.album.album}`}>
+                      {ai.album.album}
+                    </NavLink>
+                  ))}
+              </h3>
+            </div>
+          </div>
           <ProgressiveImage
             src={`data:image/jpeg;base64, ${picture.image}`}
             placeholder={`data:image/jpeg;base64, ${picture.thumbnail}`}

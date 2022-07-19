@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import { getImage, updateImage } from "../../slices/images";
 import ProgressiveImage from "react-progressive-graceful-image";
-import { type } from "@testing-library/user-event/dist/type";
 
 const ImageEdit = () => {
   const [loading, setLoading] = useState(false);
@@ -65,11 +64,9 @@ const ImageEdit = () => {
     )
       .unwrap()
       .then(() => {
-        if (location.state?.from) {
-          navigate(location.state.from);
-        } else {
-          navigate(`/images/${filename}`);
-        }
+        location.state?.from
+          ? navigate(location.state.from)
+          : navigate(`/images/${filename}`);
       });
   };
 

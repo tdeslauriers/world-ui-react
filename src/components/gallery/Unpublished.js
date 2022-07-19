@@ -68,12 +68,21 @@ const Unpublished = () => {
             unpublished.map((up) => (
               <tr key={up.id}>
                 <td>
-                  <NavLink to={`/images/${up.filename}/edit`}><button className="btn-table">Edit</button></NavLink>
+                  <NavLink
+                    to={`/images/${up.filename}/edit`}
+                    className="btn-table"
+                    replace
+                    state={{ from: location }}
+                  >
+                    <button>Edit</button>
+                  </NavLink>
                 </td>
                 <td>{up.filename}</td>
                 <td>{`${new Date(up.date).toLocaleDateString()}`}</td>
-                <td >
-                  <strong className={up.published ? "success" : "alert"}>{up.published ? "Published" : "Unpublished"}</strong>
+                <td>
+                  <strong className={up.published ? "success" : "alert"}>
+                    {up.published ? "Published" : "Unpublished"}
+                  </strong>
                 </td>
                 <td>
                   <img

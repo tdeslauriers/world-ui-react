@@ -29,14 +29,14 @@
 }
 
 a {
-    color: #9821bd;
+    color: #af35d4;
     
     text-decoration: none;
     font-size: calc(12px + 1vmin);
 }
 
 a:visited {
-    color: #6b1885;  
+    color: #af35d4;  
 }
 
 a:hover, a:focus{

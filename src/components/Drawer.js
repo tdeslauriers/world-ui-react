@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import "./Drawer.css";
 
-import { getAlbums } from "../slices/albums";
 import galleryService from "../services/galleryService";
 import { setMessage } from "../slices/message";
 
@@ -64,18 +63,27 @@ const Drawer = () => {
         <div className="menu">
           <button onClick={() => handleMenuClick("gallery")}>Gallery</button>
           {menuGalleryOpen && menuAlbums && (
-            <div className="menu-dropdown">
-              {menuAlbums &&
-                menuAlbums.map((a) => (
-                  <NavLink
-                    key={a.id}
-                    to={`/albums/${a.album}`}
-                    className="link-nav"
-                  >
-                    {a.album}
+            <>
+              {["GALLERY_EDIT"].some((s) => scopes.includes(s)) && (
+                <div className="menu-dropdown">
+                  <NavLink className="link-nav" to={"/images/unpublished"}>
+                    Unpublished
                   </NavLink>
-                ))}
-            </div>
+                </div>
+              )}
+              <div className="menu-dropdown">
+                {menuAlbums &&
+                  menuAlbums.map((a) => (
+                    <NavLink
+                      key={a.id}
+                      to={`/albums/${a.album}`}
+                      className="link-nav"
+                    >
+                      {a.album}
+                    </NavLink>
+                  ))}
+              </div>
+            </>
           )}
         </div>
       )}

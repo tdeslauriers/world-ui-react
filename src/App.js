@@ -146,15 +146,6 @@ const App = () => {
                   </Authorized>
                 }
               />
-              <Route
-                exact
-                path={"unpublished"}
-                element={
-                  <Authorized allowedScopes={["GALLERY_EDIT"]}>
-                    <Unpublished />
-                  </Authorized>
-                }
-              />
             </Route>
             <Route exact path="/images">
               <Route
@@ -172,6 +163,15 @@ const App = () => {
                 element={
                   <Authorized allowedScopes={["GALLERY_EDIT"]}>
                     <ImageEdit />
+                  </Authorized>
+                }
+              />
+              <Route
+                exact
+                path={"unpublished"}
+                element={
+                  <Authorized allowedScopes={["GALLERY_EDIT"]}>
+                    <Unpublished />
                   </Authorized>
                 }
               />

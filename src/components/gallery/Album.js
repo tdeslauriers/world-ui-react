@@ -41,7 +41,7 @@ const Album = () => {
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
-
+  
   return (
     <div>
       <h3>
