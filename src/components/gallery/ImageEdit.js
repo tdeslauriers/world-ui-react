@@ -8,6 +8,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { getImage, updateImage } from "../../slices/images";
+
 import ProgressiveImage from "react-progressive-graceful-image";
 
 const ImageEdit = () => {
@@ -19,6 +20,7 @@ const ImageEdit = () => {
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { images: reduxImages } = useSelector((state) => state);
+  const { albums: reduxAlbums } = useSelector((state) => state);
   const { message: imageMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
@@ -31,7 +33,7 @@ const ImageEdit = () => {
         dispatch(getImage(filename));
       }
     }
-  }, [dispatch, filename, reduxImages, imageMessage]);
+  }, [dispatch, filename, reduxImages, reduxAlbums, imageMessage]);
 
   const handleImageChange = (event) => {
     event.preventDefault();

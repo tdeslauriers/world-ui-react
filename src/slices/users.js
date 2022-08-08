@@ -42,7 +42,7 @@ const usersSlice = createSlice({
       return [...action.payload.profiles];
     },
     [getUsersAll.rejected]: (state, action) => {
-      state.profiles = null;
+      state.users = null;
     },
     [updateUser.fulfilled]: (state, action) => {
       const index = state.findIndex((user) => user.id === action.payload.id);

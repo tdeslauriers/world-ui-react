@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, NavLink, useLocation, useNavigate } from "react-router-dom";
 import useTable from "../../common/useTable";
 import eventBus from "../../security/EventBus";
-import { getUnpublished } from "../../slices/albums";
+import { getUnpublished } from "../../slices/unpublished";
 
 const headers = [
   { id: "options", label: "Options" },
@@ -15,32 +15,19 @@ const headers = [
 
 const Unpublished = () => {
   const [loading, setLoading] = useState(false);
-  const [unpublished, setUnpublished] = useState([]);
+
   const location = useLocation();
 
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const { albums: reduxAlbums } = useSelector((state) => state);
+  const { unpublished: reduxUnpublished } = useSelector(
+    (state) => state.unpublished
+  );
   const { message: reduxMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!reduxAlbums.length) {
+    if (!reduxUnpublished.unpublishedImages) {
       dispatch(getUnpublished());
-    }
-
-    if (
-      reduxAlbums.length !== 0 &&
-      !reduxAlbums.find((ra) => ra.album === "unpublished")
-    ) {
-      dispatch(getUnpublished());
-    }
-
-    if (
-      reduxAlbums.length !== 0 &&
-      reduxAlbums.find((ra) => ra.album === "unpublished")
-    ) {
-      const unpub = reduxAlbums.find((ra) => ra.album === "unpublished");
-      setUnpublished(unpub.thumbnails);
     }
 
     if (
@@ -49,9 +36,12 @@ const Unpublished = () => {
     ) {
       eventBus.dispatch("logout");
     }
-  }, [dispatch, reduxAlbums, unpublished]);
+  }, [dispatch]);
 
-  const { TableContainer, TableHead } = useTable(unpublished, headers);
+  const { TableContainer, TableHead } = useTable(
+    reduxUnpublished.unpublishedImages,
+    headers
+  );
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
@@ -61,11 +51,12 @@ const Unpublished = () => {
     <div>
       <h3>Unpublished Photos/Images</h3>
       <hr />
-      <TableContainer>
-        <TableHead />
-        <tbody>
-          {unpublished.length &&
-            unpublished.map((up) => (
+      {reduxUnpublished.unpublishedImages &&
+      reduxUnpublished.unpublishedImages.length ? (
+        <TableContainer>
+          <TableHead />
+          <tbody>
+            {reduxUnpublished.unpublishedImages.map((up) => (
               <tr key={up.id}>
                 <td>
                   <NavLink
@@ -94,8 +85,11 @@ const Unpublished = () => {
                 </td>
               </tr>
             ))}
-        </tbody>
-      </TableContainer>
+          </tbody>
+        </TableContainer>
+      ) : (
+        <div>None.</div>
+      )}
     </div>
   );
 };

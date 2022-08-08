@@ -17,21 +17,6 @@ export const getAlbum = createAsyncThunk(
   }
 );
 
-export const getUnpublished = createAsyncThunk(
-  "albums/getUnpublished",
-  async (unpublished, thunkAPI) => {
-    try {
-      const data = await galleryService.getUnpublished();
-      return { album: "unpublished", thumbnails: data };
-    } catch (error) {
-      const message = error.message || error.status;
-
-      thunkAPI.dispatch(setMessage(message));
-      return thunkAPI.rejectWithValue();
-    }
-  }
-);
-
 const initialState = [];
 
 const albumsSlice = createSlice({
@@ -39,9 +24,6 @@ const albumsSlice = createSlice({
   initialState,
   extraReducers: {
     [getAlbum.fulfilled]: (state, action) => {
-      state.push(action.payload);
-    },
-    [getUnpublished.fulfilled]: (state, action) => {
       state.push(action.payload);
     },
   },

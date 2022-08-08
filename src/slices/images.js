@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import galleryService from "../services/galleryService";
+import { getUnpublished } from "./albums";
 
 import { setMessage } from "./message";
 
@@ -23,7 +24,7 @@ export const updateImage = createAsyncThunk(
   async (image, thunkApi) => {
     try {
       const response = await galleryService.updateImage(image);
-      return image;
+      return response;
     } catch (error) {
       const message = error.message || error.status;
 
