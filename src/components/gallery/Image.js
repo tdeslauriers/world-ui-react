@@ -99,7 +99,7 @@ const Image = () => {
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
-  console.log(picture.albumImages);
+
   return (
     <div>
       {picture && (

@@ -19,9 +19,7 @@ const Unpublished = () => {
   const location = useLocation();
 
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const { unpublished: reduxUnpublished } = useSelector(
-    (state) => state.unpublished
-  );
+  const { unpublished: reduxUnpublished } = useSelector((state) => state);
   const { message: reduxMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
