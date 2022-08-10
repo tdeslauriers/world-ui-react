@@ -14,6 +14,7 @@ import {
 } from "../../slices/unpublished";
 
 import ProgressiveImage from "react-progressive-graceful-image";
+import { addToLocalAlbums, removeFromLocalAlbums } from "../../slices/albums";
 
 const ImageEdit = () => {
   const [loading, setLoading] = useState(false);
@@ -38,14 +39,7 @@ const ImageEdit = () => {
         dispatch(getImage(filename));
       }
     }
-  }, [
-    dispatch,
-    filename,
-    reduxImages,
-    reduxUnpublished,
-    reduxAlbums,
-    imageMessage,
-  ]);
+  }, [dispatch, filename, reduxImages, imageMessage]);
 
   const handleImageChange = (event) => {
     event.preventDefault();
@@ -78,9 +72,13 @@ const ImageEdit = () => {
     )
       .unwrap()
       .then(() => {
-        image.published
-          ? dispatch(removeFromUnpublished(image))
-          : dispatch(addToUnpublished(image));
+        if (image.published) {
+          dispatch(removeFromUnpublished(image));
+          dispatch(addToLocalAlbums(image));
+        } else {
+          dispatch(addToUnpublished(image));
+          dispatch(removeFromLocalAlbums(image));
+        }
 
         location.state?.from
           ? navigate(location.state.from)

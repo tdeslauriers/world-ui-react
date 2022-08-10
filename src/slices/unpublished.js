@@ -33,13 +33,12 @@ const unpublishedSlice = createSlice({
       };
 
       if (!state.unpublishedImages) {
-        state.unpublishedImages = [...image];
+        state.unpublishedImages = [image];
       }
       if (state.unpublishedImages && state.unpublishedImages.length) {
         const index = state.unpublishedImages.findIndex(
           (i) => i.id === image.id
         );
-        console.log(index);
         if (index > -1) {
           state.unpublishedImages[index] = {
             ...state.unpublishedImages[index],
