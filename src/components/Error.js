@@ -9,7 +9,7 @@ const Error = ({ ...props }) => {
   const navigate = useNavigate();
 
   const handleGoBack = (event) => {
-    location.state?.from ? navigate(location.state.from) : navigate(`/home`);
+    navigate(-2);
   };
   console.log(location);
   return (

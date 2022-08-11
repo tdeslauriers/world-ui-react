@@ -100,6 +100,14 @@ const Image = () => {
     return <Navigate to="/login" state={{ from: location }} />;
   }
 
+  if (
+    picture.published !== undefined &&
+    !picture.published &&
+    !["GALLERY_EDIT"].some((r) => currentUser.roles.includes(r))
+  ) {
+    navigate("/error", { state: { from: location } });
+  }
+
   return (
     <div>
       {picture && (
@@ -181,7 +189,7 @@ const Image = () => {
                 Appears in album(s):{" "}
                 {picture.albumImages &&
                   picture.albumImages.map((ai) => (
-                    <NavLink to={`/albums/${ai.album.album}`}>
+                    <NavLink key={ai.album.id} to={`/albums/${ai.album.album}`}>
                       {ai.album.album}
                     </NavLink>
                   ))}

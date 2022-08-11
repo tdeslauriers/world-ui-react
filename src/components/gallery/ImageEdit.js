@@ -25,8 +25,6 @@ const ImageEdit = () => {
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { images: reduxImages } = useSelector((state) => state);
-  const { unpublished: reduxUnpublished } = useSelector((state) => state);
-  const { albums: reduxAlbums } = useSelector((state) => state);
   const { message: imageMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 

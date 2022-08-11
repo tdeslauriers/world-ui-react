@@ -91,6 +91,17 @@ button:disabled {
     cursor: not-allowed;
 }
 
+select, select:hover {
+    background-color: #717171;
+    color: rgb(203, 206, 203)
+  }
+  
+  option {
+    color: rgb(203, 206, 203);
+    background-color: rgb(34, 36, 34);
+
+  }
+
 .success {
     color:#218b17;
     border: 1px solid #218b17;

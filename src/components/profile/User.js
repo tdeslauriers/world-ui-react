@@ -15,7 +15,6 @@ const User = () => {
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { profile: reduxProfile } = useSelector((state) => state.profile);
-  const { user: currentUser } = useSelector((state) => state.auth);
   const { users: allUsers } = useSelector((state) => state);
   const { message: userMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
