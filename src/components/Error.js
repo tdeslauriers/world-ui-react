@@ -11,7 +11,7 @@ const Error = ({ ...props }) => {
   const handleGoBack = (event) => {
     navigate(-2);
   };
-  console.log(location);
+
   return (
     <div className="error">
       <div className="alert">What? That's not even a thing...</div>
