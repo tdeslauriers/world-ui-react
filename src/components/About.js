@@ -75,7 +75,10 @@ const About = () => {
           </div>
         </li>
         <ul>
-          <li>Web client serving the user interface/user experience.</li>
+          <li>
+            <strong>NodeJs</strong> web client serving the user interface/user
+            experience.
+          </li>
           <li>
             <strong>ReactJS:</strong> single page application (SPA) framework
             developed by Facebook and open-sourced.
