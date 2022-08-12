@@ -22,10 +22,10 @@ const About = () => {
         that tech to design new features or to rebuild a component herein. For
         me, hands-on experience is the only way to truely learn something. The
         site began as an <strong>AngularJS</strong> learning project, was
-        rebuilt it as a <strong>Spring Boot</strong> monolith, rebuilt again as
-        a <strong>Spring Cloud</strong> microservice cluster, and what you see
-        now is <strong>Micronaut</strong> and <strong>React</strong>... mostly,
-        so far.
+        rebuilt as a <strong>Spring Boot</strong> monolith, rebuilt again as a{" "}
+        <strong>Spring Cloud</strong> microservice cluster, and what you see now
+        is <strong>Micronaut</strong> and <strong>React</strong>... mostly, so
+        far.
       </p>
       <p>
         Relevant to my career as a <strong> data security professional</strong>,
@@ -70,18 +70,18 @@ const About = () => {
               target="_blank"
               rel="noreferrer"
             >
-              <span style={{ fontWeight: "normal" }}>code on github.</span>
+              <span style={{ fontWeight: "normal" }}>source code (GitHub)</span>
             </a>
           </div>
         </li>
         <ul>
-          <li>
-            <strong>NodeJs</strong> web client serving the user interface/user
-            experience.
-          </li>
+          <li>Web client serving the user interface/user experience.</li>
           <li>
             <strong>ReactJS:</strong> single page application (SPA) framework
             developed by Facebook and open-sourced.
+          </li>
+          <li>
+            Implemented in <strong>Java Script</strong>.
           </li>
           <li>
             It looks like <strong>Material-UI</strong>, but it isn't. I really
@@ -100,7 +100,7 @@ const About = () => {
               target="_blank"
               rel="noreferrer"
             >
-              <span style={{ fontWeight: "normal" }}>code on github.</span>
+              <span style={{ fontWeight: "normal" }}>source code (GitHub)</span>
             </a>
           </div>
           <ul>
@@ -114,11 +114,12 @@ const About = () => {
               created by Grails.
             </li>
             <li>
-              I have implmented this service in <strong>Java 17</strong>.
+              Implemented in <strong>Java 17</strong>.
             </li>
             <li>
-              Persistance layer is <strong>MariaDb</strong>: open source
-              relational database (sql); a fork of MySql.
+              Persistance layer is <strong>MariaDB Galera Cluster</strong>: open
+              source relational database (sql) fork of <strong>MySql</strong>;
+              includes virutally synchronous data replication.
             </li>
           </ul>
         </li>
@@ -130,7 +131,7 @@ const About = () => {
               target="_blank"
               rel="noreferrer"
             >
-              <span style={{ fontWeight: "normal" }}>code on github.</span>
+              <span style={{ fontWeight: "normal" }}>source code (GitHub)</span>
             </a>
           </div>
           <ul>
@@ -140,11 +141,12 @@ const About = () => {
               created by Grails.
             </li>
             <li>
-              I have implmented this service in <strong>Java 17</strong>.
+              Implmented in <strong>Java 17</strong>.
             </li>
             <li>
-              Persistance layer is <strong>MariaDb</strong>: open source
-              relational database (sql); a fork of MySql.
+              Persistance layer is <strong>MariaDB Galera Cluster</strong>: open
+              source relational database (sql) fork of <strong>MySql</strong>;
+              includes virutally synchronous data replication.
             </li>
           </ul>
         </li>
@@ -157,8 +159,8 @@ const About = () => {
         </li>
         <li className="list-about-item">
           <strong>Istio</strong>: extends Kubernetes to establish a
-          programmable, application-aware network using <strong>Envoy</strong>{" "}
-          service proxies.
+          programmable, application-aware network (service mesh) using{" "}
+          <strong>Envoy</strong> service proxies.
         </li>
         <li className="list-about-item">
           <strong>Docker</strong> containers: open source operating system
@@ -167,6 +169,26 @@ const About = () => {
         <li className="list-about-item">
           Hosting: various old, busted computers at my house.
         </li>
+      </ul>
+      <h3>Support:</h3>
+      <ul className="list-about">
+        <div className="list-about-item" style={{ fontWeight: "bold" }}>
+          Stager:{" "}
+          <a
+            href="https://github.com/tdeslauriers/stager"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span style={{ fontWeight: "normal" }}>source code (GitHub)</span>
+          </a>
+        </div>
+        <ul>
+          <li>
+            Automated local <strong>Golang</strong> application that reads
+            images from a staging directory, loads them to the gallery service
+            database, and maps them therein for UI consumption.
+          </li>
+        </ul>
       </ul>
     </div>
   );
