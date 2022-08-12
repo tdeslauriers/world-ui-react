@@ -10,7 +10,7 @@ const About = () => {
       <p>
         I wanted a place to host family pictures of/for my family and friends
         since I dont post photos of us on social media generally. Over the
-        years, the site has become my Frankenstein's monster or, as my friend
+        years, the site has become my Frankenstein's monster or as my friend
         Mike said,{" "}
         <span style={{ fontStyle: "italic" }}>
           "the most over-engineered image server of all time."
@@ -19,13 +19,13 @@ const About = () => {
       <p>
         When I want to learn about coding languages, frameworks,
         design-patterns, etc., I will read and/or take a course, and then use
-        that tech to design new feature or to rebuild a component herein. For
+        that tech to design new features or to rebuild a component herein. For
         me, hands-on experience is the only way to truely learn something. The
-        site began as an <strong>AngularJS</strong> learning project, but I have
-        rebuilt it as a <strong>Spring Boot</strong> monolith, a{" "}
-        <strong>Spring Cloud</strong> microservice cluster, and what you see now
-        is <strong>Micronaut</strong> and <strong>React</strong>... mostly, for
-        now.
+        site began as an <strong>AngularJS</strong> learning project, was
+        rebuilt it as a <strong>Spring Boot</strong> monolith, rebuilt again as
+        a <strong>Spring Cloud</strong> microservice cluster, and what you see
+        now is <strong>Micronaut</strong> and <strong>React</strong>... mostly,
+        so far.
       </p>
       <p>
         Relevant to my career as a <strong> data security professional</strong>,
@@ -60,7 +60,7 @@ const About = () => {
         . If it is in the skills section, it is/was a component of this site.
       </p>
       <h2>Tech Stack:</h2>
-      <h3>Front End:</h3>
+      <h3>Front end:</h3>
       <ul className="list-about">
         <li className="list-about-item">
           <div className="list-about-item" style={{ fontWeight: "bold" }}>
@@ -75,6 +75,7 @@ const About = () => {
           </div>
         </li>
         <ul>
+          <li>Web client serving the user interface/user experience.</li>
           <li>
             <strong>ReactJS:</strong> single page application (SPA) framework
             developed by Facebook and open-sourced.
@@ -86,7 +87,7 @@ const About = () => {
           </li>
         </ul>
       </ul>
-      <h3>Backend:</h3>
+      <h3>Back end:</h3>
       <ul className="list-about">
         <li className="list-about-item">
           <div className="list-about-item" style={{ fontWeight: "bold" }}>
@@ -145,10 +146,10 @@ const About = () => {
           </ul>
         </li>
       </ul>
-      <h3>Infrastructure</h3>
+      <h3>Infrastructure:</h3>
       <ul className="list-about">
         <li className="list-about-item">
-          <strong>Kubernetes</strong>: open-source system for automating
+          <strong>Kubernetes (K8s)</strong>: open-source system for automating
           deployment, scaling, and management of containerized applications.
         </li>
         <li className="list-about-item">
@@ -161,7 +162,7 @@ const About = () => {
           virtualization and hub provider.
         </li>
         <li className="list-about-item">
-          Hosted: various old, busted computers at my house.
+          Hosting: various old, busted computers at my house.
         </li>
       </ul>
     </div>
