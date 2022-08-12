@@ -8,15 +8,18 @@ const About = () => {
         About the <strong>deslauriers.world</strong> site:
       </h2>
       <p>
-        I wanted a place to host family pictures of/for my family and friends,
+        I wanted a place to host family pictures of/for my family and friends
         since I dont post photos of us on social media generally. Over the
-        years, the site has become my Frankenstein's monster. Or, as my friend
-        Mike said, the most over-engineered image server of all time.
+        years, the site has become my Frankenstein's monster or, as my friend
+        Mike said,{" "}
+        <span style={{ fontStyle: "italic" }}>
+          "the most over-engineered image server of all time."
+        </span>
       </p>
       <p>
         When I want to learn about coding languages, frameworks,
         design-patterns, etc., I will read and/or take a course, and then use
-        that tech to rebuild a component herein or to design new feature. For
+        that tech to design new feature or to rebuild a component herein. For
         me, hands-on experience is the only way to truely learn something. The
         site began as an <strong>AngularJS</strong> learning project, but I have
         rebuilt it as a <strong>Spring Boot</strong> monolith, a{" "}
@@ -26,17 +29,17 @@ const About = () => {
       </p>
       <p>
         Relevant to my career as a <strong> data security professional</strong>,
-        I build each part to the highest security spec I can. Then, I attack the
-        site and try to beat my own controls. Why?
+        I build each part to the highest security spec I can, then I attack the
+        site trying to beat my own controls. Why?
         <ul>
           <li>
-            Hacking real sites is{" "}
+            Hacking real websites is{" "}
             <span style={{ color: "#d45726", fontWeight: "bold" }}>crime</span>,
             a big one.
           </li>
           <li>
             <strong>Penetration testing </strong> labs are helpful for learning,
-            but by being intentionally vulnerable, they dont emulate real
+            but by being intentionally vulnerable, they don't emulate real
             scenarios. If you want that, you have to build it yourself.
           </li>
           <li>
@@ -101,6 +104,7 @@ const About = () => {
               This registers users, validates authentication credentials,
               manages roles/scopes, and mints <strong>jwt tokens</strong>.
             </li>
+            <li>Serves user-profile content.</li>
             <li>
               <strong>Micronaut</strong>: a JVM-based microservice framework
               created by Grails.
