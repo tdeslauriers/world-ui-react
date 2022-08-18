@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./slices/auth";
 import EventBus from "./security/EventBus";
 import AuthVerify from "./security/AuthVerify";
-import Gallery from "./components/gallery/Album";
 import Authorized from "./security/Authorized";
 import Nav from "./components/Nav";
 import Users from "./components/profile/Users";

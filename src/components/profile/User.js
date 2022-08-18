@@ -52,9 +52,9 @@ const User = () => {
       setUser(reduxProfile);
     }
 
-    if (userMessage && userMessage === "Request failed with status code 401") {
-      eventBus.dispatch("logout");
-    }
+    // if (userMessage && userMessage === "Request failed with status code 401") {
+    //   eventBus.dispatch("logout");
+    // }
   }, [dispatch, allUsers, id, userMessage, reduxProfile]);
 
   if (!isLoggedIn) {

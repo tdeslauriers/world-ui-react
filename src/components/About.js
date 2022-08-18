@@ -8,10 +8,9 @@ const About = () => {
         About the <strong>deslauriers.world</strong> site:
       </h2>
       <p>
-        I wanted a place to host family pictures of/for my family and friends
-        since I dont post photos of us on social media generally. Over the
-        years, the site has become my Frankenstein's monster or as my friend
-        Mike said,{" "}
+        I wanted a place to host pictures of/for my family and friends since I
+        dont post photos of us on social media generally. Over the years, the
+        site has become my Frankenstein's monster or as my friend Mike said,{" "}
         <span style={{ fontStyle: "italic" }}>
           "the most over-engineered image server of all time."
         </span>

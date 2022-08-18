@@ -17,7 +17,10 @@ const Drawer = () => {
 
   useEffect(() => {
     // get albums for gallery menu
-    if (menuAlbums.length === 0) {
+    if (
+      menuAlbums.length === 0 &&
+      ["GALLERY_READ, GALLERY_EDIT"].some((s) => scopes.includes(s))
+    ) {
       galleryService
         .getAlbums()
         .then((response) => {
