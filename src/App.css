@@ -3,7 +3,7 @@
     background-color: #131313;
     min-height: 100vh;
     font-size: calc(12px + 1vmin);
-    color: rgb(203, 206, 203);
+    color: rgb(183, 185, 183);
 }
 
 .container {
@@ -43,7 +43,9 @@ a:hover, a:focus{
     text-decoration: underline;
 }
 
-
+h2 {
+    color: rgb(203, 206, 203);
+}
 
 h3 {
     color: #82CA82

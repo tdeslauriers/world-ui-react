@@ -17,36 +17,15 @@ const About = () => {
       </p>
       <p>
         When I want to learn about coding languages, frameworks,
-        design-patterns, etc., I will read and/or take a course, and then use
-        that tech to design new features or to rebuild a component herein. For
-        me, hands-on experience is the only way to truely learn something. The
-        site began as an <strong>AngularJS</strong> learning project, was
-        rebuilt as a <strong>Spring Boot</strong> monolith, rebuilt again as a{" "}
-        <strong>Spring Cloud</strong> microservice cluster, and what you see now
-        is <strong>Micronaut</strong> and <strong>React</strong>... mostly, so
-        far.
+        design-patterns, etc., I will read and/or take a course, and then get
+        practical experience by designing new features or rebuilding a component
+        herein. The site began as an <strong>AngularJS</strong> learning
+        project, was rebuilt as a <strong>Spring Boot</strong> monolith, rebuilt
+        again as a <strong>Spring Cloud</strong> microservice cluster, and what
+        you see now is <strong>Micronaut</strong> and <strong>React</strong>...
+        mostly, so far.
       </p>
-      <p>
-        Relevant to my career as a <strong> data security professional</strong>,
-        I build each part to the highest security spec I can, then I attack the
-        site trying to beat my own controls. Why?
-        <ul>
-          <li>
-            Hacking real websites is{" "}
-            <span style={{ color: "#d45726", fontWeight: "bold" }}>crime</span>,
-            a big one.
-          </li>
-          <li>
-            <strong>Penetration testing </strong> labs are helpful for learning,
-            but by being intentionally vulnerable, they don't emulate real
-            scenarios. If you want that, you have to build it yourself.
-          </li>
-          <li>
-            Playing both sides of the equation makes me much better at my job,
-            especially the brass tacks where it matters most.
-          </li>
-        </ul>
-      </p>
+
       <p>
         Finally, this site represents a body of work, serving as validation of{" "}
         <a
@@ -56,7 +35,7 @@ const About = () => {
         >
           my resume
         </a>
-        . If it is in the skills section, it is/was a component of this site.
+        .
       </p>
       <h2>Tech Stack:</h2>
       <h3>Front end:</h3>
@@ -83,9 +62,8 @@ const About = () => {
             Implemented in <strong>Java Script</strong>.
           </li>
           <li>
-            It looks like <strong>Material-UI</strong>, but it isn't. I really
-            love MUI's aesthetic, but I wanted to learn how to do stylesheets au
-            naturale, so this is all plain <strong>CSS</strong>.
+            It looks like Material-UI, but it isn't: all plain{" "}
+            <strong>CSS</strong>.
           </li>
         </ul>
       </ul>
@@ -105,7 +83,7 @@ const About = () => {
           <ul>
             <li>
               This registers users, validates authentication credentials,
-              manages roles/scopes, and mints <strong>jwt tokens</strong>.
+              manages roles/scopes, and mints jwt tokens.
             </li>
             <li>Serves user-profile content.</li>
             <li>
@@ -117,8 +95,8 @@ const About = () => {
             </li>
             <li>
               Persistance layer is <strong>MariaDB Galera Cluster</strong>: open
-              source relational database (sql) fork of <strong>MySql</strong>;
-              includes virutally synchronous data replication.
+              source relational database (sql) fork of MySql; includes virutally
+              synchronous data replication.
             </li>
           </ul>
         </li>
@@ -144,8 +122,8 @@ const About = () => {
             </li>
             <li>
               Persistance layer is <strong>MariaDB Galera Cluster</strong>: open
-              source relational database (sql) fork of <strong>MySql</strong>;
-              includes virutally synchronous data replication.
+              source relational database (sql) fork of MySql; includes virutally
+              synchronous data replication.
             </li>
           </ul>
         </li>
@@ -160,10 +138,6 @@ const About = () => {
           <strong>Istio</strong>: extends Kubernetes to establish a
           programmable, application-aware network (service mesh) using{" "}
           <strong>Envoy</strong> service proxies.
-        </li>
-        <li className="list-about-item">
-          <strong>Docker</strong> containers: open source operating system
-          virtualization and hub provider.
         </li>
         <li className="list-about-item">
           Hosting: various old, busted computers at my house.
