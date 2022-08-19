@@ -9,8 +9,8 @@ const About = () => {
       </h2>
       <p>
         I wanted a place to host pictures of/for my family and friends since I
-        dont post photos of us on social media generally. Over the years, the
-        site has become my Frankenstein's monster or as my friend Mike said,{" "}
+        don't post photos of us on social media generally. Over the years, the
+        site has become my Frankenstein's monster or as a friend said,{" "}
         <span style={{ fontStyle: "italic" }}>
           "the most over-engineered image server of all time."
         </span>
@@ -82,8 +82,8 @@ const About = () => {
           </div>
           <ul>
             <li>
-              This registers users, validates authentication credentials,
-              manages roles/scopes, and mints jwt tokens.
+              Registers users, validates authentication credentials, manages
+              roles/scopes, and mints jwt tokens.
             </li>
             <li>Serves user-profile content.</li>
             <li>
@@ -112,7 +112,7 @@ const About = () => {
             </a>
           </div>
           <ul>
-            <li>This serves the images hosted by the site.</li>
+            <li>Serves the images hosted by the site.</li>
             <li>
               <strong>Micronaut</strong>: a JVM-based microservice framework
               created by Grails.
@@ -159,7 +159,7 @@ const About = () => {
           <li>
             Automated local <strong>Golang</strong> application that reads
             images from a staging directory, loads them to the gallery service
-            database, and maps them therein for UI consumption.
+            database, and maps them for UI consumption.
           </li>
         </ul>
       </ul>
