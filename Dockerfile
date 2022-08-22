@@ -1,4 +1,10 @@
 FROM nginx:alpine
 
-COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+RUN rm -rf /usr/share/nginx/html/*
+
 COPY build /usr/share/nginx/html
+
+COPY nginx/nginx.conf /etc/nginx/
+
+CMD ["nginx", "-g", "daemon off;"]
