@@ -27,6 +27,7 @@ const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
 
   const { isLoggedIn } = useSelector((state) => state.auth);
+  const { user: currentUser } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -40,7 +41,7 @@ const App = () => {
       setContainerClassName("container"); // temporary
     });
 
-    if (isLoggedIn) {
+    if (isLoggedIn && currentUser.roles && currentUser.roles.length > 1) {
       setContainerClassName("containerDrawer");
     }
     return () => EventBus.remove("logout");
@@ -50,7 +51,9 @@ const App = () => {
     <div className="App">
       <Router>
         <Nav isLoggedIn={isLoggedIn} logOut={logOut} />
-        {isLoggedIn && <Drawer />}
+        {isLoggedIn && currentUser.roles && currentUser.roles.length > 1 && (
+          <Drawer />
+        )}
         <AuthVerify logOut={logOut} />
         <div className={containerClassName}>
           <Routes>
