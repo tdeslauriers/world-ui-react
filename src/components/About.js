@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import "./About.css";
 
 const About = () => {
@@ -31,7 +32,7 @@ const About = () => {
         <a
           href="https://www.linkedin.com/in/tomdeslauriers/"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           my resume
         </a>
@@ -46,7 +47,7 @@ const About = () => {
             <a
               href="https://github.com/tdeslauriers/world-ui-react"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               <span style={{ fontWeight: "normal" }}>source code (GitHub)</span>
             </a>
@@ -75,7 +76,7 @@ const About = () => {
             <a
               href="https://github.com/tdeslauriers/world-auth-java"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               <span style={{ fontWeight: "normal" }}>source code (GitHub)</span>
             </a>
@@ -106,7 +107,7 @@ const About = () => {
             <a
               href="https://github.com/tdeslauriers/gallery"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               <span style={{ fontWeight: "normal" }}>source code (GitHub)</span>
             </a>
@@ -150,7 +151,7 @@ const About = () => {
           <a
             href="https://github.com/tdeslauriers/stager"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             <span style={{ fontWeight: "normal" }}>source code (GitHub)</span>
           </a>

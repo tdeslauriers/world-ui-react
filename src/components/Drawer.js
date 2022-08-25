@@ -47,7 +47,7 @@ const Drawer = () => {
 
   return (
     <div className="sidebar">
-      {scopes.includes("PROFILE_ADMIN") && (
+      {scopes && scopes.includes("PROFILE_ADMIN") && (
         <div className="menu">
           <button onClick={() => handleMenuClick("admin")}>Admin</button>
           {menuAdminOpen && (
@@ -62,34 +62,35 @@ const Drawer = () => {
           )}
         </div>
       )}
-      {["GALLERY_READ", "GALLERY_EDIT"].some((s) => scopes.includes(s)) && (
-        <div className="menu">
-          <button onClick={() => handleMenuClick("gallery")}>Gallery</button>
-          {menuGalleryOpen && menuAlbums && (
-            <>
-              {["GALLERY_EDIT"].some((s) => scopes.includes(s)) && (
-                <div className="menu-dropdown">
-                  <NavLink className="link-nav" to={"/images/unpublished"}>
-                    Unpublished
-                  </NavLink>
-                </div>
-              )}
-              <div className="menu-dropdown">
-                {menuAlbums &&
-                  menuAlbums.map((a) => (
-                    <NavLink
-                      key={a.id}
-                      to={`/albums/${a.album}`}
-                      className="link-nav"
-                    >
-                      {a.album}
+      {scopes &&
+        ["GALLERY_READ", "GALLERY_EDIT"].some((s) => scopes.includes(s)) && (
+          <div className="menu">
+            <button onClick={() => handleMenuClick("gallery")}>Gallery</button>
+            {menuGalleryOpen && menuAlbums.length && (
+              <>
+                {["GALLERY_EDIT"].some((s) => scopes.includes(s)) && (
+                  <div className="menu-dropdown">
+                    <NavLink className="link-nav" to={"/images/unpublished"}>
+                      Unpublished
                     </NavLink>
-                  ))}
-              </div>
-            </>
-          )}
-        </div>
-      )}
+                  </div>
+                )}
+                <div className="menu-dropdown">
+                  {menuAlbums.length &&
+                    menuAlbums.map((a) => (
+                      <NavLink
+                        key={a.id}
+                        to={`/albums/${a.album}`}
+                        className="link-nav"
+                      >
+                        {a.album}
+                      </NavLink>
+                    ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
     </div>
   );
 };

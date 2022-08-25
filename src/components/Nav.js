@@ -38,7 +38,7 @@ const Nav = ({ isLoggedIn, logOut }) => {
                 className="link-nav"
                 activeClassName="active"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 GitHub
               </a>
