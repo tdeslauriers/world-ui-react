@@ -42,127 +42,74 @@ const About = () => {
       <h3>Front end:</h3>
       <ul className="list-about">
         <li className="list-about-item">
-          <div className="list-about-item" style={{ fontWeight: "bold" }}>
-            world-ui:{" "}
+          <div className="list-about-item">
             <a
               href="https://github.com/tdeslauriers/world-ui-react"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span style={{ fontWeight: "normal" }}>source code (GitHub)</span>
-            </a>
+              <span style={{ fontWeight: "bold" }}>world-ui (GitHub):</span>
+            </a>{" "}
+            <strong>ReactJS</strong> web client serving the user interface/user
+            experience.
           </div>
         </li>
-        <ul>
-          <li>Web client serving the user interface/user experience.</li>
-          <li>
-            <strong>ReactJS:</strong> single page application (SPA) framework
-            developed by Facebook and open-sourced.
-          </li>
-          <li>
-            Implemented in <strong>Java Script</strong>.
-          </li>
-          <li>
-            It looks like Material-UI, but it isn't: all plain{" "}
-            <strong>CSS</strong>.
-          </li>
-        </ul>
       </ul>
       <h3>Back end:</h3>
       <ul className="list-about">
         <li className="list-about-item">
-          <div className="list-about-item" style={{ fontWeight: "bold" }}>
-            auth service:{" "}
+          <div className="list-about-item">
             <a
               href="https://github.com/tdeslauriers/world-auth-java"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span style={{ fontWeight: "normal" }}>source code (GitHub)</span>
-            </a>
+              <span style={{ fontWeight: "bold" }}>auth service (GitHub):</span>
+            </a>{" "}
+            <strong>Micronaut</strong> microservice which registers users,
+            validates authentication credentials, manages roles/scopes, mints
+            jwt tokens, and serves user profile content. Persistance layer is{" "}
+            <strong>MariaDB Galera Cluster</strong>.
           </div>
-          <ul>
-            <li>
-              Registers users, validates authentication credentials, manages
-              roles/scopes, and mints jwt tokens.
-            </li>
-            <li>Serves user-profile content.</li>
-            <li>
-              <strong>Micronaut</strong>: a JVM-based microservice framework
-              created by Grails.
-            </li>
-            <li>
-              Implemented in <strong>Java 17</strong>.
-            </li>
-            <li>
-              Persistance layer is <strong>MariaDB Galera Cluster</strong>: open
-              source relational database (sql) fork of MySql; includes virutally
-              synchronous data replication.
-            </li>
-          </ul>
         </li>
         <li className="list-about-item">
-          <div className="list-about-item" style={{ fontWeight: "bold" }}>
-            gallery service:{" "}
+          <div className="list-about-item">
             <a
               href="https://github.com/tdeslauriers/gallery"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span style={{ fontWeight: "normal" }}>source code (GitHub)</span>
-            </a>
+              <span style={{ fontWeight: "bold" }}>
+                gallery service (GitHub):
+              </span>
+            </a>{" "}
+            <strong>Micronaut</strong> microservice that serves the albums and
+            images hosted by the site. Persistance layer is{" "}
+            <strong>MariaDB Galera Cluster</strong>.
           </div>
-          <ul>
-            <li>Serves the images hosted by the site.</li>
-            <li>
-              <strong>Micronaut</strong>: a JVM-based microservice framework
-              created by Grails.
-            </li>
-            <li>
-              Implmented in <strong>Java 17</strong>.
-            </li>
-            <li>
-              Persistance layer is <strong>MariaDB Galera Cluster</strong>: open
-              source relational database (sql) fork of MySql; includes virutally
-              synchronous data replication.
-            </li>
-          </ul>
         </li>
       </ul>
       <h3>Infrastructure:</h3>
       <ul className="list-about">
         <li className="list-about-item">
-          <strong>Kubernetes (K8s)</strong>: open-source system for automating
-          deployment, scaling, and management of containerized applications.
-        </li>
-        <li className="list-about-item">
-          <strong>Istio</strong>: extends Kubernetes to establish a
-          programmable, application-aware network (service mesh) using{" "}
-          <strong>Envoy</strong> service proxies.
-        </li>
-        <li className="list-about-item">
-          Hosting: various old, busted computers at my house.
+          <strong>Kubernetes (K8s)</strong> cluster running on various old,
+          busted computers at my house.
         </li>
       </ul>
       <h3>Support:</h3>
       <ul className="list-about">
-        <div className="list-about-item" style={{ fontWeight: "bold" }}>
-          Stager:{" "}
+        <div className="list-about-item">
           <a
             href="https://github.com/tdeslauriers/stager"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span style={{ fontWeight: "normal" }}>source code (GitHub)</span>
-          </a>
+            <span style={{ fontWeight: "bold" }}>Stager (GitHub):</span>
+          </a>{" "}
+          automated local <strong>Golang</strong> application that reads images
+          from a staging directory, loads them to the gallery service database,
+          and maps them for UI consumption.
         </div>
-        <ul>
-          <li>
-            Automated local <strong>Golang</strong> application that reads
-            images from a staging directory, loads them to the gallery service
-            database, and maps them for UI consumption.
-          </li>
-        </ul>
       </ul>
     </div>
   );

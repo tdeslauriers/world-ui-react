@@ -5,7 +5,7 @@ import { Navigate, NavLink, useLocation, useParams } from "react-router-dom";
 import eventBus from "../../security/EventBus";
 
 import { getAlbum } from "../../slices/albums";
-import { setMessage } from "../../slices/message";
+import Loading from "../../common/Loading";
 
 const Album = () => {
   const [loading, setLoading] = useState(false);
@@ -20,6 +20,7 @@ const Album = () => {
 
   useEffect(() => {
     if (galleries.filter((g) => g.album === album).length === 0) {
+      setLoading(true);
       dispatch(getAlbum(album));
     }
 
@@ -28,6 +29,7 @@ const Album = () => {
     if (galleries) {
       const g = galleries.find((a) => a.album === album);
       setGallery(g);
+      setLoading(false);
     }
 
     if (
@@ -41,7 +43,11 @@ const Album = () => {
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
-  
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div>
       <h3>

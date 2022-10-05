@@ -11,6 +11,7 @@ import {
 import { getImage } from "../../slices/images";
 import eventBus from "../../security/EventBus";
 import ProgressiveImage from "react-progressive-graceful-image";
+import Loading from "../../common/Loading";
 
 const Image = () => {
   const [loading, setLoading] = useState(false);
@@ -29,6 +30,7 @@ const Image = () => {
 
   useEffect(() => {
     if (!reduxImages.length) {
+      setLoading(true);
       dispatch(getImage(filename));
     }
 
@@ -36,7 +38,9 @@ const Image = () => {
       const p = reduxImages.find((i) => i.filename === filename);
       if (p) {
         setPicture(p);
+        setLoading(false);
       } else {
+        setLoading(true);
         dispatch(getImage(filename));
       }
     }
@@ -106,6 +110,10 @@ const Image = () => {
     !["GALLERY_EDIT"].some((r) => currentUser.roles.includes(r))
   ) {
     navigate("/error", { state: { from: location } });
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (

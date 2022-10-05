@@ -1,11 +1,18 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import logo from "../common/logo.png";
 import "./Nav.css";
 
 const Nav = ({ isLoggedIn, logOut }) => {
   return (
     <div>
       <nav className="top-column topnav">
+        <img
+          src={logo}
+          style={{ height: "2.5em", marginTop: ".1em", marginLeft: ".4em" }}
+          className="world-logo"
+          alt="logo"
+        />
         <div className="child-column childnav">
           <ul className="listnav-1">
             <li className="list-item-nav">

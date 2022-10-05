@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, NavLink, useLocation } from "react-router-dom";
+import Loading from "../../common/Loading";
 import useTable from "../../common/useTable";
 import eventBus from "../../security/EventBus";
 import { getUnpublished } from "../../slices/unpublished";
@@ -25,8 +26,10 @@ const Unpublished = () => {
 
   useEffect(() => {
     if (!reduxUnpublished.unpublishedImages) {
+      setLoading(true);
       dispatch(getUnpublished());
     }
+    setLoading(false);
 
     if (
       reduxMessage &&
@@ -34,7 +37,7 @@ const Unpublished = () => {
     ) {
       eventBus.dispatch("logout");
     }
-  }, [dispatch]);
+  }, [dispatch, reduxMessage, reduxUnpublished]);
 
   const { TableContainer, TableHead } = useTable(
     reduxUnpublished.unpublishedImages,
@@ -43,6 +46,10 @@ const Unpublished = () => {
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (

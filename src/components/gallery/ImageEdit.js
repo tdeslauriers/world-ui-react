@@ -15,6 +15,7 @@ import {
 
 import ProgressiveImage from "react-progressive-graceful-image";
 import { addToLocalAlbums, removeFromLocalAlbums } from "../../slices/albums";
+import Loading from "../../common/Loading";
 
 const ImageEdit = () => {
   const [loading, setLoading] = useState(false);
@@ -33,7 +34,9 @@ const ImageEdit = () => {
       const exists = reduxImages.find((p) => p.filename === filename);
       if (exists) {
         setImage(exists);
+        setLoading(false);
       } else {
+        setLoading(true);
         dispatch(getImage(filename));
       }
     }
@@ -93,6 +96,10 @@ const ImageEdit = () => {
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (
