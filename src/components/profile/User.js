@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation, useParams } from "react-router-dom";
+import Loading from "../../common/Loading";
 import eventBus from "../../security/EventBus";
 import profileService from "../../services/profileService";
 import { setMessage } from "../../slices/message";
@@ -35,6 +36,7 @@ const User = () => {
   useEffect(() => {
     if (id) {
       if (allUsers.length === 0) {
+        setLoading(true);
         getUser(id);
       }
 
@@ -44,6 +46,7 @@ const User = () => {
         });
 
         setUser(exists);
+        setLoading(false);
       }
     } else {
       if (!reduxProfile) {
@@ -52,13 +55,17 @@ const User = () => {
       setUser(reduxProfile);
     }
 
-    // if (userMessage && userMessage === "Request failed with status code 401") {
-    //   eventBus.dispatch("logout");
-    // }
+    if (userMessage && userMessage === "Request failed with status code 401") {
+      eventBus.dispatch("logout");
+    }
   }, [dispatch, allUsers, id, userMessage, reduxProfile]);
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return <>{user && <ProfileView profile={user} />}</>;

@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import galleryService from "../services/galleryService";
-import { getUnpublished } from "./albums";
 
 import { setMessage } from "./message";
 

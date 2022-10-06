@@ -21,6 +21,7 @@ import {
   isValidStreet,
   isValidZip,
 } from "../../common/useValidation";
+import Loading from "../../common/Loading";
 
 const UserEdit = () => {
   const [loading, setLoading] = useState(false);
@@ -45,6 +46,7 @@ const UserEdit = () => {
         setUser(response);
         setUpAddresses(response);
         setUpPhones(response);
+        setLoading(false);
       })
       .catch((error) => {
         const message = error.message || error.status;
@@ -87,6 +89,7 @@ const UserEdit = () => {
   useEffect(() => {
     if (id) {
       if (allUsers.length === 0) {
+        setLoading(true);
         getUser(id);
       }
 
@@ -386,6 +389,10 @@ const UserEdit = () => {
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (

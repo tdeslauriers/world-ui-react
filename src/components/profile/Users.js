@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, NavLink, useLocation } from "react-router-dom";
+import Loading from "../../common/Loading";
 import useTable from "../../common/useTable";
 import eventBus from "../../security/EventBus";
 import { getUsersAll } from "../../slices/users";
@@ -30,8 +31,14 @@ const ProfilesAll = () => {
 
   useEffect(() => {
     if (!allUsers.length) {
+      setLoading(true);
       dispatch(getUsersAll());
     }
+
+    if (allUsers.length) {
+      setLoading(false);
+    }
+
     if (
       reduxMessage &&
       reduxMessage === "Request failed with status code 401"
@@ -44,6 +51,10 @@ const ProfilesAll = () => {
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (

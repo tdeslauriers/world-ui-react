@@ -6,13 +6,14 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
+import Loading from "../../../common/Loading";
 import eventBus from "../../../security/EventBus";
 import roleService from "../../../services/roleService";
 import { setMessage } from "../../../slices/message";
 import { saveRole, updateRole } from "../../../slices/roles";
 
 const RoleEdit = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [role, setRole] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,6 +38,7 @@ const RoleEdit = () => {
 
   useEffect(() => {
     if (id && allRoles.length === 0) {
+      setLoading(true);
       getRole(id);
     }
 
@@ -45,6 +47,7 @@ const RoleEdit = () => {
         return r.id === parseInt(id);
       });
       setRole(exists);
+      setLoading(false);
     }
 
     if (roleMessage && roleMessage === "Request failed with status code 401") {
@@ -94,6 +97,10 @@ const RoleEdit = () => {
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (

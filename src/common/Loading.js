@@ -6,6 +6,7 @@ const Loading = () => {
   return (
     <div>
       <img src={logo} className="App-logo" alt="logo" />
+      <h2 style={{ textAlign: "center" }}>Loading...</h2>
     </div>
   );
 };

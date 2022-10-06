@@ -54,7 +54,9 @@ const Album = () => {
         Album: <strong>{gallery && gallery.album}</strong>
       </h3>
       <hr></hr>
-      <h4>Click on any picture to see the full size image.</h4>
+      <h4>
+        Click on any picture to see the full size image and description/context.
+      </h4>
       {gallery &&
         gallery.thumbnails &&
         gallery.thumbnails.map((t, i) => (
@@ -75,7 +77,6 @@ const Album = () => {
                 src={`data:image/jpeg;base64, ${t.thumbnail}`}
               />
             </NavLink>
-            
           </div>
         ))}
     </div>
