@@ -75,7 +75,7 @@ const Album = () => {
                 src={`data:image/jpeg;base64, ${t.thumbnail}`}
               />
             </NavLink>
-            <p>{t.description && t.description}</p>
+            
           </div>
         ))}
     </div>
