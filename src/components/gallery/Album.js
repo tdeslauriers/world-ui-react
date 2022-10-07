@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./Album.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, NavLink, useLocation, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import eventBus from "../../security/EventBus";
 
 import { getAlbum } from "../../slices/albums";
 import Loading from "../../common/Loading";
 
 const Album = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [gallery, setGallery] = useState({});
   const { album } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { albums: galleries } = useSelector((state) => state);
@@ -23,8 +24,6 @@ const Album = () => {
       setLoading(true);
       dispatch(getAlbum(album));
     }
-
-    setGallery(galleries.find((g) => g.album === album));
 
     if (galleries) {
       const g = galleries.find((a) => a.album === album);
@@ -41,7 +40,13 @@ const Album = () => {
   }, [dispatch, album, galleries, albumMessage]);
 
   if (!isLoggedIn) {
-    return <Navigate to="/login" state={{ from: location }} />;
+    navigate("/login", { state: { from: location } });
+  }
+
+  if (albumMessage) {
+    navigate("/error", {
+      state: { from: location, errorMessage: albumMessage },
+    });
   }
 
   if (loading) {

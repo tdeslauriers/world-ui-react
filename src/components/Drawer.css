@@ -1,6 +1,6 @@
 .sidebar {
     height: 100%; 
-    width: 10vw; 
+    width: min-content; 
     position: fixed; 
     background-color: rgb(38, 39, 38);
     box-shadow:  0 -1px 15px rgb(16, 17, 17);
@@ -22,6 +22,6 @@
     margin-right: .6em;
     margin-left: .6em;
     margin-bottom: .7em;
-    
+    transition: inherit;
     border-radius: 4px;
 }

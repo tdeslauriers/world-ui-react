@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../common/Loading";
 import eventBus from "../../security/EventBus";
 import profileService from "../../services/profileService";
@@ -13,6 +13,7 @@ const User = () => {
   const [user, setUser] = useState({});
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { profile: reduxProfile } = useSelector((state) => state.profile);
@@ -61,7 +62,13 @@ const User = () => {
   }, [dispatch, allUsers, id, userMessage, reduxProfile]);
 
   if (!isLoggedIn) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
+    navigate("/login", { state: { from: location } });
+  }
+
+  if (userMessage) {
+    navigate("/error", {
+      state: {from: location, errorMessage: userMessage },
+    });
   }
 
   if (loading) {

@@ -67,8 +67,8 @@ const About = () => {
             </a>{" "}
             <strong>Micronaut</strong> microservice which registers users,
             validates authentication credentials, manages roles/scopes, mints
-            jwt tokens, and serves user profile content. Persistance layer is{" "}
-            <strong>MariaDB Galera Cluster</strong>.
+            jwt tokens, and serves user profile content. Persistance layer is a{" "}
+            <strong>MariaDB Galera</strong> cluster.
           </div>
         </li>
         <li className="list-about-item">
@@ -83,8 +83,8 @@ const About = () => {
               </span>
             </a>{" "}
             <strong>Micronaut</strong> microservice that serves the albums and
-            images hosted by the site. Persistance layer is{" "}
-            <strong>MariaDB Galera Cluster</strong>.
+            images hosted by the site. Persistance layer is a{" "}
+            <strong>MariaDB Galera</strong> cluster.
           </div>
         </li>
       </ul>

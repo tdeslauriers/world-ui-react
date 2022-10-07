@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Image.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Navigate,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getImage, updateImage } from "../../slices/images";
 import {
   addToUnpublished,
@@ -95,7 +90,13 @@ const ImageEdit = () => {
   };
 
   if (!isLoggedIn) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
+    navigate("/login", { state: { from: location } });
+  }
+
+  if (imageMessage) {
+    navigate("/error", {
+      state: { from: location, errorMessage: imageMessage },
+    });
   }
 
   if (loading) {

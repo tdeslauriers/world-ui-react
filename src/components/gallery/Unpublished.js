@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../common/Loading";
 import useTable from "../../common/useTable";
 import eventBus from "../../security/EventBus";
@@ -18,6 +18,7 @@ const Unpublished = () => {
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { unpublished: reduxUnpublished } = useSelector((state) => state);
@@ -45,7 +46,13 @@ const Unpublished = () => {
   );
 
   if (!isLoggedIn) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
+    navigate("/login", { state: { from: location } });
+  }
+
+  if (reduxMessage) {
+    navigate("/error", {
+      state: { from: location, errorMessage: reduxMessage },
+    });
   }
 
   if (loading) {

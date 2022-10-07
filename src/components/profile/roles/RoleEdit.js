@@ -29,6 +29,7 @@ const RoleEdit = () => {
       .getRoleById(id)
       .then((response) => {
         setRole(response);
+        setLoading(false);
       })
       .catch((error) => {
         const message = error.message || error.status;
@@ -96,7 +97,13 @@ const RoleEdit = () => {
   };
 
   if (!isLoggedIn) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
+    navigate("/login", { state: { from: location } });
+  }
+
+  if (roleMessage) {
+    navigate("/error", {
+      state: { from: location, errorMessage: roleMessage },
+    });
   }
 
   if (loading) {

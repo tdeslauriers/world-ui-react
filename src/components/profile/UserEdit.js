@@ -388,7 +388,13 @@ const UserEdit = () => {
   };
 
   if (!isLoggedIn) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
+    navigate("/login", { state: { from: location } });
+  }
+
+  if (userMessage) {
+    navigate("/error", {
+      state: { from: location, errorMessage: userMessage },
+    });
   }
 
   if (loading) {

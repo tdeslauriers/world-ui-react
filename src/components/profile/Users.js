@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../common/Loading";
 import useTable from "../../common/useTable";
 import eventBus from "../../security/EventBus";
@@ -22,6 +22,7 @@ const headers = [
 const ProfilesAll = () => {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // redux
   const { users: allUsers } = useSelector((state) => state);
@@ -50,7 +51,7 @@ const ProfilesAll = () => {
   const { TableContainer, TableHead } = useTable(allUsers, headers);
 
   if (!isLoggedIn) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
+    navigate("/login", { state: { from: location } });
   }
 
   if (loading) {

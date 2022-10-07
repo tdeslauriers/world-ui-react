@@ -1,10 +1,8 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "./Error.css";
 
 const Error = ({ ...props }) => {
-  const { isLoggedIn } = useSelector((state) => state.auth);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -14,7 +12,10 @@ const Error = ({ ...props }) => {
 
   return (
     <div className="error">
-      <div className="alert">What? That's not even a thing...</div>
+      <div className="alert">
+        <div>What? That's not even a thing...</div>
+        <div>{location.state?.errorMessage}</div>
+      </div>
       <br />
       <div>Try something else, but better.</div>
       <br />

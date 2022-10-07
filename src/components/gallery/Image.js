@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Image.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Navigate,
-  NavLink,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getImage } from "../../slices/images";
 import eventBus from "../../security/EventBus";
 import ProgressiveImage from "react-progressive-graceful-image";
@@ -101,7 +95,13 @@ const Image = () => {
   };
 
   if (!isLoggedIn) {
-    return <Navigate to="/login" state={{ from: location }} />;
+    navigate("/login", { state: { from: location } });
+  }
+
+  if (imageMessage) {
+    navigate("/error", {
+      state: { from: location, errorMessage: imageMessage },
+    });
   }
 
   if (
