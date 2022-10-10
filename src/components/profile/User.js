@@ -67,7 +67,7 @@ const User = () => {
 
   if (userMessage) {
     navigate("/error", {
-      state: {from: location, errorMessage: userMessage },
+      state: { from: location },
     });
   }
 

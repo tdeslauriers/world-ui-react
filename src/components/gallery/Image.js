@@ -100,7 +100,7 @@ const Image = () => {
 
   if (imageMessage) {
     navigate("/error", {
-      state: { from: location, errorMessage: imageMessage },
+      state: { from: location },
     });
   }
 

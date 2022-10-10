@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Navigate,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../../common/Loading";
 import eventBus from "../../../security/EventBus";
 import roleService from "../../../services/roleService";
@@ -102,7 +97,7 @@ const RoleEdit = () => {
 
   if (roleMessage) {
     navigate("/error", {
-      state: { from: location, errorMessage: roleMessage },
+      state: { from: location },
     });
   }
 

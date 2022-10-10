@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import galleryService from "../services/galleryService";
-import { setMessage } from "./message";
+import { clearMessage, setMessage } from "./message";
 
 export const getAlbum = createAsyncThunk(
   "albums/getAlbum",

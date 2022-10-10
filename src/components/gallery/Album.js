@@ -44,9 +44,7 @@ const Album = () => {
   }
 
   if (albumMessage) {
-    navigate("/error", {
-      state: { from: location, errorMessage: albumMessage },
-    });
+    navigate("/error", { state: { from: location } });
   }
 
   if (loading) {

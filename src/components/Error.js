@@ -1,20 +1,31 @@
-import React from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { clearMessage } from "../slices/message";
 import "./Error.css";
 
-const Error = ({ ...props }) => {
+const Error = () => {
+  const { message: reduxMessage } = useSelector((state) => state.message);
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch, reduxMessage]);
 
   const handleGoBack = (event) => {
     navigate(-2);
+  };
+
+  const handleGoHome = (event) => {
+    navigate("/home");
   };
 
   return (
     <div className="error">
       <div className="alert">
         <div>What? That's not even a thing...</div>
-        <div>{location.state?.errorMessage}</div>
       </div>
       <br />
       <div>Try something else, but better.</div>
@@ -25,9 +36,10 @@ const Error = ({ ...props }) => {
             Go Back
           </button>
         )}
-        <NavLink to={"/home"}>
-          <button>Go Home</button>
-        </NavLink>
+
+        <button className="homeBtn" onClick={handleGoHome}>
+          Go Home
+        </button>
       </div>
     </div>
   );

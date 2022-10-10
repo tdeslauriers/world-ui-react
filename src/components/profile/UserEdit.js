@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Navigate,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import eventBus from "../../security/EventBus";
 import profileService from "../../services/profileService";
 import { setMessage } from "../../slices/message";
@@ -393,7 +388,7 @@ const UserEdit = () => {
 
   if (userMessage) {
     navigate("/error", {
-      state: { from: location, errorMessage: userMessage },
+      state: { from: location },
     });
   }
 
