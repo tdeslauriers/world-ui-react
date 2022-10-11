@@ -14,11 +14,11 @@ const Error = () => {
     dispatch(clearMessage());
   }, [dispatch, reduxMessage]);
 
-  const handleGoBack = (event) => {
+  const handleGoBack = () => {
     navigate(-2);
   };
 
-  const handleGoHome = (event) => {
+  const handleGoHome = () => {
     navigate("/home");
   };
 

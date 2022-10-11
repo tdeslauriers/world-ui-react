@@ -4,7 +4,12 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../common/Loading";
 import useTable from "../../common/useTable";
 import eventBus from "../../security/EventBus";
-import { getUnpublished } from "../../slices/unpublished";
+import { removeFromLocalAlbums } from "../../slices/albums";
+import { deleteImage } from "../../slices/images";
+import {
+  getUnpublished,
+  removeFromUnpublished,
+} from "../../slices/unpublished";
 
 const headers = [
   { id: "options", label: "Options" },
@@ -45,6 +50,18 @@ const Unpublished = () => {
     headers
   );
 
+  const handleDeleteClick = (event) => {
+    event.preventDefault();
+    const deleted = reduxUnpublished.unpublishedImages.find(
+      (up) => up.id === parseInt(event.target.id)
+    );
+    dispatch(deleteImage(deleted.filename))
+      .unwrap()
+      .then(() => {
+        dispatch(removeFromUnpublished(deleted));
+      });
+  };
+
   if (!isLoggedIn) {
     navigate("/login", { state: { from: location } });
   }
@@ -73,12 +90,21 @@ const Unpublished = () => {
                 <td>
                   <NavLink
                     to={`/images/${up.filename}/edit`}
-                    className="btn-table"
+                    className="img-button"
                     replace
                     state={{ from: location }}
                   >
                     <button>Edit</button>
                   </NavLink>
+                  <button
+                    id={up.id}
+                    filename={up.filename}
+                    name="deleteImage"
+                    className="img-button btn-alert"
+                    onClick={handleDeleteClick}
+                  >
+                    Delete
+                  </button>
                 </td>
                 <td>{up.filename}</td>
                 <td>{`${new Date(up.date).toLocaleDateString()}`}</td>

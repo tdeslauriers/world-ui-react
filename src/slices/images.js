@@ -33,6 +33,21 @@ export const updateImage = createAsyncThunk(
   }
 );
 
+export const deleteImage = createAsyncThunk(
+  "images/deleteImage",
+  async (filename, thunkApi) => {
+    try {
+      const response = await galleryService.deleteImage(filename);
+      return filename;
+    } catch (error) {
+      const message = error.message || error.status;
+
+      thunkApi.dispatch(setMessage(message));
+      return thunkApi.rejectWithValue();
+    }
+  }
+);
+
 const initialState = [];
 
 const imageSlice = createSlice({
@@ -48,6 +63,10 @@ const imageSlice = createSlice({
         ...state[index],
         ...action.payload,
       };
+    },
+    [deleteImage.fulfilled]: (state, action) => {
+      // action.payload is filename returned artificially by thunk
+      return state.filter((image) => image.filename !== action.payload);
     },
   },
 });

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Image.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getImage, updateImage } from "../../slices/images";
+import { deleteImage, getImage, updateImage } from "../../slices/images";
 import {
   addToUnpublished,
   removeFromUnpublished,

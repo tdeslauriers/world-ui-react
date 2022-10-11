@@ -44,12 +44,19 @@ const updateImage = (image) => {
     });
 };
 
+const deleteImage = (filename) => {
+  return axios.delete(apiURL + `/images/${filename}`, {
+    headers: authHeader(),
+  });
+};
+
 const galleryService = {
   getAlbums,
   getAlbum,
   getUnpublished,
   getImage,
   updateImage,
+  deleteImage,
 };
 
 export default galleryService;
