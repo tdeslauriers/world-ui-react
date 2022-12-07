@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import eventBus from "../../security/EventBus";
 import profileService from "../../services/profileService";
+import addressService from "../../services/addressService";
 import { setMessage } from "../../slices/message";
-import { updateUser } from "../../slices/users";
+import { updateUser, deleteUserAddress } from "../../slices/users";
 import { getRolesAll } from "../../slices/roles";
 import ProfileForm from "./ProfileForm";
 import { getProfile, updateProfile } from "../../slices/profile";
@@ -185,6 +186,7 @@ const UserEdit = () => {
             return { ...a, [event.target.name]: event.target.value };
         }
       }
+
       return a;
     });
     setUser((previousUser) => ({
@@ -347,6 +349,14 @@ const UserEdit = () => {
     savedUser.phones = updatedPhones;
 
     // addresses
+    user.addresses.forEach((a) => {
+      if (a.removed && !a.temp) {
+        dispatch(deleteUserAddress(a.id));
+      }
+    });
+
+    // addresses
+
     let updatedAddresses = user.addresses.filter(
       (address) => address.address && !address.removed
     );

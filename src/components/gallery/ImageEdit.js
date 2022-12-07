@@ -143,9 +143,10 @@ const ImageEdit = () => {
                     <div className="child-column">
                       <h4>
                         Picture taken:{" "}
-                        <strong>{`${new Date(
-                          image.date
-                        ).toLocaleDateString()}`}</strong>
+                        <strong>{`${new Date(image.date).toLocaleDateString(
+                          "en-US",
+                          { timeZone: "UTC" }
+                        )}`}</strong>
                       </h4>
                     </div>
                     <div className="child-column">

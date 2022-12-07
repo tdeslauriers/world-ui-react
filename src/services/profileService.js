@@ -23,11 +23,9 @@ const updateProfile = (userdata) => {
 };
 
 const getProfilesAll = () => {
-  return axios
-    .get(apiURL + "/all", { headers: authHeader() })
-    .then((response) => {
-      return response.data;
-    });
+  return axios.get(apiURL, { headers: authHeader() }).then((response) => {
+    return response.data;
+  });
 };
 
 const getUserById = (id) => {

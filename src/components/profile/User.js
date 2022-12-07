@@ -26,6 +26,7 @@ const User = () => {
       .getUserById(id)
       .then((response) => {
         setUser(response);
+        setLoading(false);
       })
       .catch((error) => {
         const message = error.message || error.status;

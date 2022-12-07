@@ -65,7 +65,9 @@ const Album = () => {
         gallery.thumbnails.map((t, i) => (
           <div className="thumbnail" key={t.filename}>
             <strong>{t.title}</strong>
-            <div>{`${new Date(t.date).toLocaleDateString()}`}</div>
+            <div>{`${new Date(t.date).toLocaleDateString("en-US", {
+              timeZone: "UTC",
+            })}`}</div>
             <NavLink
               to={`/images/${t.filename}`}
               state={{

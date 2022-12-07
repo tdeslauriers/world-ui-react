@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import profileService from "../services/profileService";
 import { setMessage } from "./message";
+import addressService from "../services/addressService";
 
 export const getUsersAll = createAsyncThunk(
   "users/getUsersAll",
@@ -32,6 +33,21 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const deleteUserAddress = createAsyncThunk(
+  "users/deleteAddress",
+  async (id, thunkAPI) => {
+    try {
+      const res = await addressService.deleteUserAddress(id);
+      return res; // need deleted id to remove from redux
+    } catch (error) {
+      const message = error.message || error.status;
+
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 const initialState = [];
 
 const usersSlice = createSlice({
@@ -48,6 +64,12 @@ const usersSlice = createSlice({
       const index = state.findIndex((user) => user.id === action.payload.id);
       // removing spreader to account for deleted property: []
       state[index] = action.payload;
+    },
+    [deleteUserAddress.fulfilled]: (state, action) => {
+      const removed = state.map((user) =>
+        user.addresses.filter((address) => address.id !== action.payload.id)
+      );
+      state = removed;
     },
   },
 });
