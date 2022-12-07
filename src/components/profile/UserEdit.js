@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import eventBus from "../../security/EventBus";
 import profileService from "../../services/profileService";
-import addressService from "../../services/addressService";
 import { setMessage } from "../../slices/message";
-import { updateUser, deleteUserAddress } from "../../slices/users";
+import { updateUser } from "../../slices/users";
 import { getRolesAll } from "../../slices/roles";
 import ProfileForm from "./ProfileForm";
 import { getProfile, updateProfile } from "../../slices/profile";
@@ -40,46 +39,13 @@ const UserEdit = () => {
       .getUserById(id)
       .then((response) => {
         setUser(response);
-        setUpAddresses(response);
-        setUpPhones(response);
+
         setLoading(false);
       })
       .catch((error) => {
         const message = error.message || error.status;
         dispatch(setMessage(message));
       });
-  };
-
-  const setUpAddresses = (user) => {
-    let userAddresses = [];
-    if (user.addresses) {
-      userAddresses = [...user.addresses];
-    }
-    let toAdd = 1 - userAddresses.length;
-    for (let i = 0; i < toAdd; i++) {
-      userAddresses.push({ id: i, temp: true });
-    }
-    setUser((previousUser) => ({
-      ...previousUser,
-      addresses: userAddresses,
-    }));
-  };
-
-  const setUpPhones = (user) => {
-    let userPhones = [];
-    if (user.phones) {
-      user.phones.forEach((p) => {
-        userPhones.push(Object.assign({}, p));
-      });
-    }
-    let toAdd = 3 - userPhones.length;
-    for (let i = 0; i < toAdd; i++) {
-      userPhones.push({ id: i, temp: true });
-    }
-    setUser((previousUser) => ({
-      ...previousUser,
-      phones: userPhones,
-    }));
   };
 
   useEffect(() => {
@@ -94,8 +60,6 @@ const UserEdit = () => {
           return u.id === parseInt(id);
         });
         setUser(exists);
-        setUpAddresses(exists);
-        setUpPhones(exists);
       }
     }
 
@@ -106,8 +70,6 @@ const UserEdit = () => {
     if (location.pathname === "/profile/edit") {
       if (reduxProfile) {
         setUser(reduxProfile);
-        setUpAddresses(reduxProfile);
-        setUpPhones(reduxProfile);
       } else {
         dispatch(getProfile());
       }
@@ -173,27 +135,7 @@ const UserEdit = () => {
     }));
   };
 
-  const handleAddressChange = (event) => {
-    event.preventDefault();
-    let updated = user.addresses.map((a) => {
-      if (a.id === parseInt(event.target.id)) {
-        switch (event.target.name) {
-          case "removeAddress":
-            return { ...a, removed: true };
-          case "undoRemove":
-            return { ...a, removed: false };
-          default:
-            return { ...a, [event.target.name]: event.target.value };
-        }
-      }
 
-      return a;
-    });
-    setUser((previousUser) => ({
-      ...previousUser,
-      addresses: updated,
-    }));
-  };
 
   const handleAddressBlur = (event) => {
     event.preventDefault();
@@ -237,69 +179,6 @@ const UserEdit = () => {
     return x;
   };
 
-  const handlePhoneChange = (event) => {
-    event.preventDefault();
-    let updated = user.phones.map((phone) => {
-      if (phone.id === parseInt(event.target.id)) {
-        switch (event.target.name) {
-          case "removePhone":
-            return { ...phone, undoType: phone.type, type: "", removed: true };
-          case "undoRemove":
-            return { ...phone, removed: false, type: phone.undoType };
-          default:
-            return { ...phone, [event.target.name]: event.target.value };
-        }
-      }
-      return phone;
-    });
-    // moving validation to here from blur; better ui experience.
-    updated.map((p) => {
-      let dupeTypes = updated.filter(
-        (phone) => phone.type === p.type && phone.type
-      );
-      if (dupeTypes.length > 1) {
-        p.errors = { ...p.errors, type: ERRORS.phoneType };
-      } else {
-        p.errors && delete p.errors.type;
-      }
-
-      return p;
-    });
-    setUser((previousUser) => ({
-      ...previousUser,
-      phones: updated,
-    }));
-  };
-
-  const handlePhoneBlur = (event) => {
-    event.preventDefault();
-    let validated = user.phones.map((p) => {
-      if (p.id === parseInt(event.target.id)) {
-        switch (event.target.name) {
-          case "phone":
-            validate(event, p, isValidPhone);
-            break;
-          default:
-            let dupe = user.phones.filter(
-              (phone) => phone.type === p.type && phone.type
-            );
-            if (dupe.length > 1) {
-              p.errors = {
-                ...p.errors,
-                type: ERRORS.phoneType,
-              };
-              setSaveDisabled(true);
-            }
-            break;
-        }
-      }
-      return p;
-    });
-    setUser((previousUser) => ({
-      ...previousUser,
-      phones: validated,
-    }));
-  };
 
   const handleRoleSelect = (event) => {
     event.preventDefault();
@@ -334,39 +213,6 @@ const UserEdit = () => {
     event.preventDefault();
 
     let savedUser = Object.assign({}, user);
-
-    // phones
-    let updatedPhones = user.phones.filter(
-      (phone) => phone.phone && !phone.removed
-    );
-    updatedPhones = updatedPhones.map((phone) => {
-      phone.temp && delete phone.id;
-      return phone;
-    });
-    updatedPhones.length > 0
-      ? (savedUser.phones = updatedPhones)
-      : (savedUser.phones = []);
-    savedUser.phones = updatedPhones;
-
-    // addresses
-    user.addresses.forEach((a) => {
-      if (a.removed && !a.temp) {
-        dispatch(deleteUserAddress(a.id));
-      }
-    });
-
-    // addresses
-
-    let updatedAddresses = user.addresses.filter(
-      (address) => address.address && !address.removed
-    );
-    updatedAddresses = updatedAddresses.map((address) => {
-      address.temp && delete address.id;
-      return address;
-    });
-    updatedAddresses.length > 0
-      ? (savedUser.addresses = updatedAddresses)
-      : (savedUser.addresses = []);
 
     if (id && currentUser.roles.includes("PROFILE_ADMIN")) {
       dispatch(updateUser(savedUser))
@@ -414,10 +260,7 @@ const UserEdit = () => {
           scopes={currentUser.roles}
           onProfileChange={handleProfileChange}
           onProfileBlur={handleProfileBlur}
-          onAddressChange={handleAddressChange}
           onAddressBlur={handleAddressBlur}
-          onPhoneChange={handlePhoneChange}
-          onPhoneBlur={handlePhoneBlur}
           roles={roles}
           onRoleSelect={handleRoleSelect}
           onRemoveRole={handleRemoveRole}
