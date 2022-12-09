@@ -8,6 +8,7 @@ import messageReducer from "./slices/message";
 import profileReducer from "./slices/profile";
 import usersReducer from "./slices/users";
 import rolesReducer from "./slices/roles";
+import tasktypesReducer from "./slices/tasktypes";
 
 const reducer = {
   auth: authReducer,
@@ -18,6 +19,7 @@ const reducer = {
   users: usersReducer,
   roles: rolesReducer,
   message: messageReducer,
+  tasktypes: tasktypesReducer,
 };
 
 const store = configureStore({

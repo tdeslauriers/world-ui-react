@@ -9,6 +9,7 @@ import { setMessage } from "../slices/message";
 const Drawer = () => {
   const [menuAdminOpen, setMenuAdminOpen] = useState(false);
   const [menuGalleryOpen, setMenuGalleryOpen] = useState(false);
+  const [menuAllowanceOpen, setMenuAllowanceOpen] = useState(false);
   const [menuAlbums, setMenuAlbums] = useState([]);
 
   const { roles: scopes } = useSelector((state) => state.auth.user);
@@ -40,6 +41,11 @@ const Drawer = () => {
         break;
       case "gallery":
         menuGalleryOpen ? setMenuGalleryOpen(false) : setMenuGalleryOpen(true);
+        break;
+      case "allowance":
+        menuAllowanceOpen
+          ? setMenuAllowanceOpen(false)
+          : setMenuAllowanceOpen(true);
         break;
       default:
     }
@@ -88,6 +94,25 @@ const Drawer = () => {
                     ))}
                 </div>
               </>
+            )}
+          </div>
+        )}
+      {scopes &&
+        ["ALLOWANCE_ADMIN", "ALLOWANCE_USER"].some((s) =>
+          scopes.includes(s)
+        ) && (
+          <div className="menu">
+            <button onClick={() => handleMenuClick("allowance")}>
+              Allowance
+            </button>
+            {menuAllowanceOpen && (
+              <div className="menu-dropdown">
+                {["ALLOWANCE_ADMIN"].some((s) => scopes.includes(s)) && (
+                  <NavLink className="link-nav" to={"/tasks"}>
+                    Tasks
+                  </NavLink>
+                )}
+              </div>
             )}
           </div>
         )}
