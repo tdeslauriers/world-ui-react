@@ -28,6 +28,14 @@ const updateTasktype = (tasktype) => {
     });
 };
 
+const archiveTasktype = (id) => {
+  return axios
+    .put(apiURL + "/archive", { archiveId: id }, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 const saveTasktype = (tasktype) => {
   return axios
     .post(apiURL, tasktype, { headers: authHeader() })
@@ -40,6 +48,7 @@ const tasktypeService = {
   getAllTasktypes,
   getTasktypeById,
   updateTasktype,
+  archiveTasktype,
   saveTasktype,
 };
 

@@ -4,7 +4,8 @@ import { Navigate, NavLink, useLocation } from "react-router-dom";
 import Loading from "../../common/Loading";
 import useTable from "../../common/useTable";
 import eventBus from "../../security/EventBus";
-import { getTasktypesAll } from "../../slices/tasktypes";
+import tasktypeService from "../../services/tasktypeService";
+import { getTasktypesAll, archiveTasktype } from "../../slices/tasktypes";
 import "./Task.css";
 
 const headers = [
@@ -45,6 +46,7 @@ const Tasks = () => {
 
   const handleArchiveClick = (event) => {
     event.preventDefault();
+    dispatch(archiveTasktype(parseInt(event.target.id)));
   };
 
   if (!isLoggedIn) {

@@ -32,6 +32,20 @@ export const updateTasktype = createAsyncThunk(
   }
 );
 
+export const archiveTasktype = createAsyncThunk(
+  "tasktypes/archiveTasktype",
+  async (id, thunkApi) => {
+    try {
+      const res = await tasktypeService.archiveTasktype(id);
+      return id; // 204
+    } catch (error) {
+      const message = error.message || error.status;
+
+      thunkApi.dispatch(setMessage(message));
+    }
+  }
+);
+
 export const saveTasktype = createAsyncThunk(
   "tasktypes/save",
   async (tasktype, thunkAPI) => {
@@ -65,6 +79,10 @@ const tasktypeSlice = createSlice({
         ...state[index],
         ...action.payload,
       };
+    },
+    [archiveTasktype.fulfilled]: (state, action) => {
+      const removeArchived = state.filter((t) => t.id !== action.payload);
+      return [...removeArchived];
     },
     [saveTasktype.fulfilled]: (state, action) => {
       state.push(action.payload);
