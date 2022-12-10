@@ -74,61 +74,6 @@ const ProfileView = ({ profile }) => {
             </div>
           )}
         </div>
-
-        <div className="top-column">
-          {profile.addresses ? (
-            <div className="child-column profile-record">
-              <h3>Address:</h3>
-              <hr></hr>
-              {profile.addresses.map((a, i) => (
-                <div key={i}>
-                  <div>
-                    Street: <strong>{a.address}</strong>
-                  </div>
-                  <div>
-                    City: <strong>{a.city}</strong>
-                  </div>
-                  <div>
-                    State: <strong>{a.state}</strong>
-                  </div>
-                  <div>
-                    Zip: <strong>{a.zip}</strong>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="child-column profile-record">
-              <h3>No Address Listed.</h3>
-              <hr />
-            </div>
-          )}
-
-          {profile.phones ? (
-            <div className="child-column profile-record">
-              <h3>Phones:</h3>
-              <hr></hr>
-              {profile.phones.map((p, i) => (
-                <div key={i}>
-                  <div>
-                    {`${p.type.replace(/\w\S*/g, function (type) {
-                      return (
-                        type.charAt(0).toUpperCase() +
-                        type.substr(1).toLowerCase()
-                      );
-                    })} Phone:`}{" "}
-                    <strong>{formatPhone(p.phone)}</strong>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="child-column profile-record">
-              <h3>No Phones Listed.</h3>
-              <hr />
-            </div>
-          )}
-        </div>
       </>
     </div>
   );

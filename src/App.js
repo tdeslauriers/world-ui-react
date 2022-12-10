@@ -22,6 +22,8 @@ import Album from "./components/gallery/Album";
 import Image from "./components/gallery/Image";
 import ImageEdit from "./components/gallery/ImageEdit";
 import Unpublished from "./components/gallery/Unpublished";
+import Tasks from "./components/allowance/Tasks";
+import TaskEdit from "./components/allowance/TaskEdit";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -174,6 +176,34 @@ const App = () => {
                 element={
                   <Authorized allowedScopes={["GALLERY_EDIT"]}>
                     <Unpublished />
+                  </Authorized>
+                }
+              />
+            </Route>
+            <Route exact path="/tasks">
+              <Route
+                index
+                element={
+                  <Authorized allowedScopes={["ALLOWANCE_ADMIN"]}>
+                    <Tasks />
+                  </Authorized>
+                }
+              />
+              <Route
+                exact
+                path={":id/edit"}
+                element={
+                  <Authorized allowedScopes={["ALLOWANCE_ADMIN"]}>
+                    <TaskEdit />
+                  </Authorized>
+                }
+              />
+              <Route
+                exact
+                path={"/tasks/add"}
+                element={
+                  <Authorized allowedScopes={["ALLOWANCE_ADMIN"]}>
+                    <TaskEdit />
                   </Authorized>
                 }
               />

@@ -65,12 +65,6 @@ const usersSlice = createSlice({
       // removing spreader to account for deleted property: []
       state[index] = action.payload;
     },
-    [deleteUserAddress.fulfilled]: (state, action) => {
-      const removed = state.map((user) =>
-        user.addresses.filter((address) => address.id !== action.payload.id)
-      );
-      state = removed;
-    },
   },
 });
 
