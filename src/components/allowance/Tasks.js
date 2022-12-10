@@ -5,6 +5,7 @@ import Loading from "../../common/Loading";
 import useTable from "../../common/useTable";
 import eventBus from "../../security/EventBus";
 import { getTasktypesAll } from "../../slices/tasktypes";
+import "./Task.css";
 
 const headers = [
   { id: "options", label: "Options" },
@@ -42,6 +43,10 @@ const Tasks = () => {
     }
   }, [dispatch, allTasktypes, reduxMessage]);
 
+  const handleArchiveClick = (event) => {
+    event.preventDefault();
+  };
+
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
@@ -74,6 +79,14 @@ const Tasks = () => {
                 <NavLink to={`/tasks/${tt.id}/edit`}>
                   <button className="btn-table">Edit</button>
                 </NavLink>
+                <button
+                  id={tt.id}
+                  name="archiveTask"
+                  className="btn-table btn-alert task-button"
+                  onClick={handleArchiveClick}
+                >
+                  Archive
+                </button>
               </td>
               <td>{tt.name}</td>
               <td>{tt.cadence.toUpperCase()}</td>
