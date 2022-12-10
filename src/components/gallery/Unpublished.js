@@ -4,12 +4,13 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../common/Loading";
 import useTable from "../../common/useTable";
 import eventBus from "../../security/EventBus";
-import { removeFromLocalAlbums } from "../../slices/albums";
+
 import { deleteImage } from "../../slices/images";
 import {
   getUnpublished,
   removeFromUnpublished,
 } from "../../slices/unpublished";
+import "./Image.css";
 
 const headers = [
   { id: "options", label: "Options" },
