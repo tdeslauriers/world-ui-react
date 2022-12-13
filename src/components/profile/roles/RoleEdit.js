@@ -106,7 +106,7 @@ const RoleEdit = () => {
   }
 
   return (
-    <div>
+    <>
       {role && (
         <>
           <form>
@@ -164,7 +164,7 @@ const RoleEdit = () => {
           </form>
         </>
       )}
-    </div>
+    </>
   );
 };
 
