@@ -52,10 +52,14 @@ const TaskEdit = () => {
     ) {
       eventBus.dispatch("logout");
     }
-  }, [dispatch, tasktypeMessage]);
+  }, [dispatch, allTasktypes, tasktypeMessage]);
 
   const handleFieldChange = (event) => {
     event.preventDefault();
+    setTasktype((previous) => ({
+      ...previous,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   const handleSave = (event) => {
@@ -108,6 +112,7 @@ const TaskEdit = () => {
         <>
           <input
             className="form-control"
+            name
             type="text"
             placeholder="Task"
             value={tasktype.name}
@@ -117,6 +122,7 @@ const TaskEdit = () => {
             className="form-control"
             id={tasktype.id}
             name="cadence"
+            text="text"
             value={
               tasktype.cadence
                 ? `${tasktype.cadence.replace(/\w\S*/g, function (type) {
@@ -141,7 +147,8 @@ const TaskEdit = () => {
           <select
             className="form-control"
             id={tasktype.id}
-            name="cadegory"
+            name="category"
+            text="text"
             value={
               tasktype.category
                 ? `${tasktype.category.replace(/\w\S*/g, function (type) {

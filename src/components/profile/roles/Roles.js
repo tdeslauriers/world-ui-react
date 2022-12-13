@@ -51,7 +51,7 @@ const Roles = () => {
   }
 
   return (
-    <div>
+    <>
       <div className="top-column">
         <div className="child-column">
           <h3>User Roles</h3>
@@ -82,7 +82,7 @@ const Roles = () => {
           ))}
         </tbody>
       </TableContainer>
-    </div>
+    </>
   );
 };
 

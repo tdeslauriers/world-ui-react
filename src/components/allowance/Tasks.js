@@ -58,7 +58,7 @@ const Tasks = () => {
   }
 
   return (
-    <div>
+    <>
       <div className="top-column">
         <div className="child-column">
           <h3>Tasks</h3>
@@ -97,7 +97,7 @@ const Tasks = () => {
           ))}
         </tbody>
       </TableContainer>
-    </div>
+    </>
   );
 };
 
