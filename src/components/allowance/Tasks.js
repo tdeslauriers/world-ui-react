@@ -91,7 +91,7 @@ const Tasks = () => {
                 </button>
               </td>
               <td>{tt.name}</td>
-              <td>{tt.cadence.toUpperCase()}</td>
+              <td>{tt.cadence}</td>
               <td>{tt.category}</td>
             </tr>
           ))}

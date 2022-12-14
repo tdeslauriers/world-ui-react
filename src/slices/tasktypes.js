@@ -50,7 +50,7 @@ export const saveTasktype = createAsyncThunk(
   "tasktypes/save",
   async (tasktype, thunkAPI) => {
     try {
-      const response = await tasktypeService.saveRole(tasktype);
+      const response = await tasktypeService.saveTasktype(tasktype);
       return response; // response will include role id, needs to be added
     } catch (error) {
       const message = error.message || error.status;
@@ -79,6 +79,9 @@ const tasktypeSlice = createSlice({
         ...state[index],
         ...action.payload,
       };
+    },
+    [saveTasktype.fulfilled]: (state, action) => {
+      state.push(action.payload);
     },
     [archiveTasktype.fulfilled]: (state, action) => {
       const removeArchived = state.filter((t) => t.id !== action.payload);

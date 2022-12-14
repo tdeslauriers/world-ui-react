@@ -6,6 +6,7 @@ import eventBus from "../../security/EventBus";
 import tasktypeService from "../../services/tasktypeService";
 import { setMessage } from "../../slices/message";
 import { CADENCE_MENU, CATEGORY_MENU } from ".";
+import { saveTasktype, updateTasktype } from "../../slices/tasktypes";
 
 const TaskEdit = () => {
   const [loading, setLoading] = useState(false);
@@ -64,6 +65,36 @@ const TaskEdit = () => {
 
   const handleSave = (event) => {
     event.preventDefault();
+
+    if (!id) {
+      const saved = {
+        name: tasktype.name,
+        cadence: tasktype.cadence,
+        category: tasktype.category,
+        archived: false,
+      };
+      dispatch(saveTasktype(saved))
+        .unwrap()
+        .then(() => {
+          if (location.state?.from) {
+            navigate(location.state.from);
+          } else {
+            navigate("/tasks");
+          }
+        });
+    }
+
+    if (id) {
+      dispatch(updateTasktype(tasktype))
+        .unwrap()
+        .then(() => {
+          if (location.state?.from) {
+            navigate(location.state.from);
+          } else {
+            navigate("/tasks");
+          }
+        });
+    }
   };
 
   const handleCancel = (event) => {
@@ -94,7 +125,9 @@ const TaskEdit = () => {
                 Edit Task: <strong>{tasktype.name}</strong>
               </h3>
             ) : (
-              <h3>Add Task</h3>
+              <h3>
+                Add Task: <strong>{tasktype.name}</strong>
+              </h3>
             )}
           </div>
           <div className="child-column">
@@ -112,7 +145,7 @@ const TaskEdit = () => {
         <>
           <input
             className="form-control"
-            name
+            name="name"
             type="text"
             placeholder="Task"
             value={tasktype.name}
