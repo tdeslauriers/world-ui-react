@@ -2,7 +2,7 @@ export const CADENCE_MENU = [
   "Daily",
   "Weekly",
   "Monthly",
-  "Ninety_Days",
+  "Ninety",
   "Adhoc",
 ];
 

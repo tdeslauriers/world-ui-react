@@ -3,7 +3,7 @@ import "./About.css";
 
 const About = () => {
   return (
-    <div>
+    <>
       <h2>
         About the <strong>deslauriers.world</strong> site:
       </h2>
@@ -22,8 +22,8 @@ const About = () => {
         herein. The site began as an <strong>AngularJS</strong> learning
         project, was rebuilt as a <strong>Spring Boot</strong> monolith, rebuilt
         again as a <strong>Spring Cloud</strong> microservice cluster, and what
-        you see now is <strong>Micronaut</strong> and <strong>React</strong>...
-        mostly, so far.
+        you see now is <strong>Micronaut</strong> and <strong>ReactJS</strong>
+        ... mostly, so far.
       </p>
 
       <p>
@@ -38,7 +38,9 @@ const About = () => {
         .
       </p>
       <h2>Tech Stack:</h2>
-      <h3>Front end:</h3>
+
+      {/* UI */}
+      <h3>UI/UX:</h3>
       <ul className="list-about">
         <li className="list-about-item">
           <div className="list-about-item">
@@ -54,7 +56,9 @@ const About = () => {
           </div>
         </li>
       </ul>
-      <h3>Back end:</h3>
+
+      {/* Microservices */}
+      <h3>Microservices:</h3>
       <ul className="list-about">
         <li className="list-about-item">
           <div className="list-about-item">
@@ -68,7 +72,7 @@ const About = () => {
             <strong>Micronaut</strong> microservice which registers users,
             validates authentication credentials, manages roles/scopes, mints
             jwt tokens, and serves user profile content. Persistance layer is a{" "}
-            <strong>MariaDB Galera</strong> cluster.
+            <strong>MariaDB </strong>.
           </div>
         </li>
         <li className="list-about-item">
@@ -84,10 +88,46 @@ const About = () => {
             </a>{" "}
             <strong>Micronaut</strong> microservice that serves the albums and
             images hosted by the site. Persistance layer is a{" "}
-            <strong>MariaDB Galera</strong> cluster.
+            <strong>MariaDB </strong>.
+          </div>
+        </li>
+        <li className="list-about-item">
+          <div className="list-about-item">
+            <a
+              href="https://github.com/tdeslauriers/world-gateway"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span style={{ fontWeight: "bold" }}>
+                gateway service (GitHub):
+              </span>
+            </a>{" "}
+            <strong>Micronaut</strong> microservice that provides
+            request-routing to the microservice cluster. However, it is not a
+            reverse proxy (only), it contains business logic like token
+            checking, service data collation, and input validation.
+          </div>
+        </li>
+        <li className="list-about-item">
+          <div className="list-about-item">
+            <a
+              href="https://github.com/tdeslauriers/allowance-reactive-hibernate"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span style={{ fontWeight: "bold" }}>
+                allowance service (GitHub):
+              </span>
+            </a>{" "}
+            <strong>Micronaut</strong> microservice utilzing{" "}
+            <strong>Hibernate Reactive</strong> to manage, automate, and track
+            the allowance application data. Persistance layer is a{" "}
+            <strong>MariaDB </strong>.
           </div>
         </li>
       </ul>
+
+      {/* Infrastructure */}
       <h3>Infrastructure:</h3>
       <ul className="list-about">
         <li className="list-about-item">
@@ -95,22 +135,40 @@ const About = () => {
           busted computers at my house.
         </li>
       </ul>
+
+      {/* Support */}
       <h3>Support:</h3>
       <ul className="list-about">
-        <div className="list-about-item">
-          <a
-            href="https://github.com/tdeslauriers/stager"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span style={{ fontWeight: "bold" }}>Stager (GitHub):</span>
-          </a>{" "}
-          automated local <strong>Golang</strong> application that reads images
-          from a staging directory, loads them to the gallery service database,
-          and maps them for UI consumption.
-        </div>
+        <li>
+          <div className="list-about-item">
+            <a
+              href="https://github.com/tdeslauriers/stager"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span style={{ fontWeight: "bold" }}>stager (GitHub):</span>
+            </a>{" "}
+            automated local <strong>Golang</strong> application that reads
+            images from a staging directory, loads them to the gallery service
+            database, and maps them for UI consumption.
+          </div>
+        </li>
+        <li>
+          <div className="list-about-item">
+            <a
+              href="https://github.com/tdeslauriers/chiller"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span style={{ fontWeight: "bold" }}>chiller (GitHub):</span>
+            </a>{" "}
+            automated local <strong>Golang</strong> application that calls the
+            supporting persistance microservices nightly and backs up their data
+            to an an offline database.
+          </div>
+        </li>
       </ul>
-    </div>
+    </>
   );
 };
 

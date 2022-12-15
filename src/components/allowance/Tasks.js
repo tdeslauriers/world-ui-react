@@ -61,7 +61,9 @@ const Tasks = () => {
     <>
       <div className="top-column">
         <div className="child-column">
-          <h3>Tasks</h3>
+          <h3>
+            Tasks: <strong>Create and edit tasks globally.</strong>
+          </h3>
         </div>
         <div className="child-column">
           <div className="btngroup">
