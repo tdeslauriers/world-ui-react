@@ -1,4 +1,5 @@
 import React from "react";
+import useSelect from "../../common/useSelect";
 import "./Profile.css";
 import ProfileRoles from "./ProfileRoles";
 
@@ -12,6 +13,8 @@ const ProfileForm = ({
   ...props
 }) => {
   const isAdmin = scopes.includes("PROFILE_ADMIN");
+  const Selector = useSelect("role", null, props.onRoleSelect);
+
   return (
     <div>
       <form>
@@ -120,32 +123,16 @@ const ProfileForm = ({
 
               <div className="child-column profile-form">
                 {isAdmin && (
-                  <div>
-                    <select
-                      className="form-control"
-                      name="title"
-                      value="Select Role"
-                      onChange={props.onRoleSelect}
-                    >
-                      <option
-                        key={"role-0"}
-                        value="Select Role"
-                        disabled
-                        hidden
-                      >
-                        Select Role
-                      </option>
-                      {props.roles &&
-                        props.roles.map((r) => (
-                          <option key={`role-${r.id}`} value={r.title}>
-                            {r.title}
-                          </option>
-                        ))}
-                    </select>
-
-                    <hr />
-                  </div>
+                  <Selector>
+                    {props.roles &&
+                      props.roles.map((r) => (
+                        <option key={`role-${r.id}`} value={r.title}>
+                          {r.title}
+                        </option>
+                      ))}
+                  </Selector>
                 )}
+                <hr />
 
                 {profile.roles && profile.roles && (
                   <ProfileRoles
