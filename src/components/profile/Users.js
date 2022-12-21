@@ -68,11 +68,11 @@ const ProfilesAll = () => {
           {allUsers.map((user) => (
             <tr key={user.id}>
               <td>
-                <NavLink to={`/users/${user.id}`}>
+                <NavLink to={`/users/${user.uuid}`}>
                   <button className="btn-table">View</button>
                 </NavLink>
                 <NavLink
-                  to={`/users/${user.id}/edit`}
+                  to={`/users/${user.uuid}/edit`}
                   replace
                   state={{ from: location }}
                 >

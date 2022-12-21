@@ -9,7 +9,7 @@ const ProfileView = ({ profile }) => {
   const editRoute =
     location.pathname === "/profile"
       ? "/profile/edit"
-      : `/users/${profile.id}/edit`;
+      : `/users/${profile.uuid}/edit`;
 
   const formatPhone = (phone) => {
     let areacode = phone.slice(0, 3);

@@ -23,7 +23,7 @@ const UserEdit = () => {
   const [user, setUser] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
-  const { id } = useParams();
+  const { uuid } = useParams();
   const [saveDisabled, setSaveDisabled] = useState(false);
 
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -36,7 +36,7 @@ const UserEdit = () => {
 
   const getUser = (id) => {
     profileService
-      .getUserById(id)
+      .getUserByUuid(id)
       .then((response) => {
         setUser(response);
 
@@ -49,15 +49,15 @@ const UserEdit = () => {
   };
 
   useEffect(() => {
-    if (id) {
+    if (uuid) {
       if (allUsers.length === 0) {
         setLoading(true);
-        getUser(id);
+        getUser(uuid);
       }
 
       if (allUsers.length > 0) {
         let exists = allUsers.find((u) => {
-          return u.id === parseInt(id);
+          return u.uuid === uuid;
         });
         setUser(exists);
       }
@@ -78,7 +78,7 @@ const UserEdit = () => {
     if (userMessage && userMessage === "Request failed with status code 401") {
       eventBus.dispatch("logout");
     }
-  }, [dispatch, allUsers, id, reduxProfile, userMessage]);
+  }, [dispatch, allUsers, uuid, reduxProfile, userMessage]);
 
   useEffect(() => {
     let isDisabled = false;
@@ -135,8 +135,6 @@ const UserEdit = () => {
     }));
   };
 
-
-
   const handleAddressBlur = (event) => {
     event.preventDefault();
     let validated = user.addresses.map((a) => {
@@ -179,7 +177,6 @@ const UserEdit = () => {
     return x;
   };
 
-
   const handleRoleSelect = (event) => {
     event.preventDefault();
     let updated = [];
@@ -214,13 +211,13 @@ const UserEdit = () => {
 
     let savedUser = Object.assign({}, user);
 
-    if (id && currentUser.roles.includes("PROFILE_ADMIN")) {
+    if (uuid && currentUser.roles.includes("PROFILE_ADMIN")) {
       dispatch(updateUser(savedUser))
         .unwrap()
         .then(() => {
           if (location.state?.from) {
             navigate(location.state.from);
-          } else navigate(`/users/${id}`);
+          } else navigate(`/users/${uuid}`);
         });
     } else {
       dispatch(updateProfile(savedUser))

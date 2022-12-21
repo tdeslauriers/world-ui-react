@@ -205,7 +205,7 @@ const Image = () => {
             </div>
           </div>
           <ProgressiveImage
-            src={`data:image/jpeg;base64, ${picture.image}`}
+            src={`data:image/jpeg;base64, ${picture.presentation}`}
             placeholder={`data:image/jpeg;base64, ${picture.thumbnail}`}
           >
             {(src) => (

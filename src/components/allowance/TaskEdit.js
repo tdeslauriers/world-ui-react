@@ -137,7 +137,7 @@ const TaskEdit = () => {
 
   const SelectAllowance = useSelect("name", null, handleAllowanceSelect);
 
-  // const { TableContainer, TableHead } = useTable(assignees, headers);
+  const { TableContainer, TableHead } = useTable(tasktype, headers);
 
   if (!isLoggedIn) {
     navigate("/login", { state: { from: location } });
@@ -218,6 +218,7 @@ const TaskEdit = () => {
                   ))}
               </SelectAllowance>
             )}
+            <hr />
           </div>
         </div>
       </form>

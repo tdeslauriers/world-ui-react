@@ -95,7 +95,7 @@ const App = () => {
               />
               <Route
                 exact
-                path=":id"
+                path=":uuid"
                 element={
                   <Authorized allowedScopes={["PROFILE_ADMIN"]}>
                     <User />
@@ -104,7 +104,7 @@ const App = () => {
               />
               <Route
                 exact
-                path=":id/edit"
+                path=":uuid/edit"
                 element={
                   <Authorized allowedScopes={["PROFILE_ADMIN"]}>
                     <UserEdit />

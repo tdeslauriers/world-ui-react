@@ -28,9 +28,9 @@ const getProfilesAll = () => {
   });
 };
 
-const getUserById = (id) => {
+const getUserByUuid = (uuid) => {
   return axios
-    .get(apiURL + `/${id}`, { headers: authHeader() })
+    .get(apiURL + `/${uuid}`, { headers: authHeader() })
     .then((response) => {
       return response.data;
     });
@@ -48,7 +48,7 @@ const profileService = {
   getProfile,
   updateProfile,
   getProfilesAll,
-  getUserById,
+  getUserByUuid,
   updateUser,
 };
 

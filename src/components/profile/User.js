@@ -11,7 +11,7 @@ import ProfileView from "./ProfileView";
 const User = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
-  const { id } = useParams();
+  const { uuid } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -21,9 +21,9 @@ const User = () => {
   const { message: userMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
-  const getUser = async (id) => {
+  const getUser = async (uuid) => {
     await profileService
-      .getUserById(id)
+      .getUserByUuid(uuid)
       .then((response) => {
         setUser(response);
         setLoading(false);
@@ -36,15 +36,15 @@ const User = () => {
   };
 
   useEffect(() => {
-    if (id) {
+    if (uuid) {
       if (allUsers.length === 0) {
         setLoading(true);
-        getUser(id);
+        getUser(uuid);
       }
 
       if (allUsers.length > 0) {
         let exists = allUsers.find((u) => {
-          return u.id === parseInt(id);
+          return u.uuid === uuid;
         });
 
         setUser(exists);
@@ -60,7 +60,7 @@ const User = () => {
     if (userMessage && userMessage === "Request failed with status code 401") {
       eventBus.dispatch("logout");
     }
-  }, [dispatch, allUsers, id, userMessage, reduxProfile]);
+  }, [dispatch, allUsers, uuid, userMessage, reduxProfile]);
 
   if (!isLoggedIn) {
     navigate("/login", { state: { from: location } });
