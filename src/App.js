@@ -24,6 +24,7 @@ import ImageEdit from "./components/gallery/ImageEdit";
 import Unpublished from "./components/gallery/Unpublished";
 import Tasks from "./components/allowance/Tasks";
 import TaskEdit from "./components/allowance/TaskEdit";
+import Daily from "./components/allowance/Daily";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -208,6 +209,15 @@ const App = () => {
                 }
               />
             </Route>
+            <Route
+              exact
+              path={"/daily"}
+              element={
+                <Authorized allowedScopes={["ALLOWANCE_USER"]}>
+                  <Daily />
+                </Authorized>
+              }
+            />
           </Routes>
         </div>
       </Router>

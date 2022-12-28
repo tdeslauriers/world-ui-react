@@ -90,6 +90,7 @@ const TaskEdit = () => {
         cadence: tasktype.cadence,
         category: tasktype.category,
         archived: false,
+        allowances: tasktype.allowances,
       };
       dispatch(saveTasktype(saved))
         .unwrap()
@@ -121,6 +122,22 @@ const TaskEdit = () => {
 
   const handleAllowanceSelect = (event) => {
     event.preventDefault();
+    let updated = [];
+    if (tasktype.allowances) {
+      updated = [...tasktype.allowances];
+    }
+    let selected = allAllowances.find((a) => a.userUuid === event.target.value);
+    if (!updated.find((a) => a.id === selected.id)) {
+      updated.push(selected);
+      setTasktype((previousTasktype) => ({
+        ...previousTasktype,
+        allowances: updated,
+      }));
+    }
+  };
+
+  const handleAllowanceRemove = (event) => {
+    event.preventDefault();
   };
 
   const SelectCadence = useSelect(
@@ -137,7 +154,7 @@ const TaskEdit = () => {
 
   const SelectAllowance = useSelect("name", null, handleAllowanceSelect);
 
-  const { TableContainer, TableHead } = useTable(tasktype, headers);
+  const { TableContainer, TableHead } = useTable(tasktype.allowances, headers);
 
   if (!isLoggedIn) {
     navigate("/login", { state: { from: location } });
@@ -212,13 +229,36 @@ const TaskEdit = () => {
               <SelectAllowance>
                 {allAllowances &&
                   allAllowances.map((a) => (
-                    <option key={a.id} value={`${a.firstname} ${a.lastname}`}>
+                    <option key={a.id} value={a.userUuid}>
                       {`${a.firstname} ${a.lastname}`}
                     </option>
                   ))}
               </SelectAllowance>
             )}
             <hr />
+            {tasktype.allowances ? (
+              <TableContainer>
+                <TableHead />
+                <tbody>
+                  {tasktype.allowances.map((a) => (
+                    <tr key={a.id}>
+                      <td>{a.firstname}</td>
+                      <td>{a.lastname}</td>
+                      <td>
+                        <button
+                          className="btn-alert"
+                          onClick={handleAllowanceRemove}
+                        >
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </TableContainer>
+            ) : (
+              <>No one assigned.</>
+            )}
           </div>
         </div>
       </form>

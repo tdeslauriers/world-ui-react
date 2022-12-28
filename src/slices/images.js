@@ -18,6 +18,21 @@ export const getImage = createAsyncThunk(
   }
 );
 
+export const getFullResolution = createAsyncThunk(
+  "images/getFullResolution",
+  async (filename, thunkApi) => {
+    try {
+      const data = await galleryService.getFullResolution(filename);
+      return data;
+    } catch (error) {
+      const message = error.message || error.status;
+
+      thunkApi.dispatch(setMessage(message));
+      return thunkApi.rejectWithValue();
+    }
+  }
+);
+
 export const updateImage = createAsyncThunk(
   "images/updateImage",
   async (image, thunkApi) => {
@@ -56,6 +71,13 @@ const imageSlice = createSlice({
   extraReducers: {
     [getImage.fulfilled]: (state, action) => {
       state.push(action.payload);
+    },
+    [getFullResolution.fulfilled]: (state, action) => {
+      const index = state.findIndex(
+        (image) => image.filename === action.payload.filename
+      );
+      state[index] = { ...state[index], image: action.payload.image };
+      console.log(state[index]);
     },
     [updateImage.fulfilled]: (state, action) => {
       const index = state.findIndex((image) => image.id === action.payload.id);

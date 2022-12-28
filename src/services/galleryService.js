@@ -30,7 +30,19 @@ const getUnpublished = () => {
 
 const getImage = (filename) => {
   return axios
-    .get(apiURL + `/images/${filename}`, { headers: authHeader() })
+    .get(apiURL + `/images/${filename}`, {
+      headers: authHeader(),
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+const getFullResolution = (filename) => {
+  return axios
+    .get(apiURL + `/images/fullresolution/${filename}`, {
+      headers: authHeader(),
+    })
     .then((response) => {
       return response.data;
     });
@@ -55,6 +67,7 @@ const galleryService = {
   getAlbum,
   getUnpublished,
   getImage,
+  getFullResolution,
   updateImage,
   deleteImage,
 };

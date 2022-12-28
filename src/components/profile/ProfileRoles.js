@@ -18,7 +18,7 @@ const ProfileRoles = ({ roles, isAdmin, removeRole }) => {
   const { TableContainer, TableHead } = useTable(roles, headers);
 
   return (
-    <div>
+    <>
       <TableContainer>
         <TableHead />
         <tbody>
@@ -48,7 +48,7 @@ const ProfileRoles = ({ roles, isAdmin, removeRole }) => {
           ))}
         </tbody>
       </TableContainer>
-    </div>
+    </>
   );
 };
 

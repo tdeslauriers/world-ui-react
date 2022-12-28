@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Image.css";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
-import { getImage } from "../../slices/images";
+import { getFullResolution, getImage } from "../../slices/images";
 import eventBus from "../../security/EventBus";
 import ProgressiveImage from "react-progressive-graceful-image";
 import Loading from "../../common/Loading";
@@ -53,6 +53,15 @@ const Image = () => {
       navigate(`/albums/${location.state.album.album}`);
     }
   };
+
+  //get full res
+  useEffect(() => {
+    if (picture.filename && picture.presentation && !picture.image) {
+      dispatch(getFullResolution(filename));
+      const p = reduxImages.find((i) => i.filename === filename);
+      setPicture(p);
+    }
+  }, [picture]);
 
   const handleNext = (event) => {
     event.preventDefault();
@@ -205,8 +214,8 @@ const Image = () => {
             </div>
           </div>
           <ProgressiveImage
-            src={`data:image/jpeg;base64, ${picture.presentation}`}
-            placeholder={`data:image/jpeg;base64, ${picture.thumbnail}`}
+            src={`data:image/jpeg;base64, ${picture.image}`}
+            placeholder={`data:image/jpeg;base64, ${picture.presentation}`}
           >
             {(src) => (
               <img className="image" src={src} alt={picture.filename} />
