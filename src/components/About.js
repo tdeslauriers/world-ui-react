@@ -71,7 +71,7 @@ const About = () => {
             </a>{" "}
             <strong>Micronaut</strong> microservice which registers users,
             validates authentication credentials, manages roles/scopes, mints
-            jwt tokens, and serves user profile content. Persistance layer is a{" "}
+            jwt tokens, and serves user profile content. Persistance layer is{" "}
             <strong>MariaDB </strong>.
           </div>
         </li>
@@ -87,7 +87,7 @@ const About = () => {
               </span>
             </a>{" "}
             <strong>Micronaut</strong> microservice that serves the albums and
-            images hosted by the site. Persistance layer is a{" "}
+            images hosted by the site. Persistance layer is{" "}
             <strong>MariaDB </strong>.
           </div>
         </li>
@@ -121,7 +121,7 @@ const About = () => {
             </a>{" "}
             <strong>Micronaut</strong> microservice utilzing{" "}
             <strong>Hibernate Reactive</strong> to manage, automate, and track
-            the allowance application data. Persistance layer is a{" "}
+            allowance application data. Persistance layer is{" "}
             <strong>MariaDB </strong>.
           </div>
         </li>
@@ -163,7 +163,7 @@ const About = () => {
               <span style={{ fontWeight: "bold" }}>chiller (GitHub):</span>
             </a>{" "}
             automated local <strong>Golang</strong> application that calls the
-            supporting persistance microservices nightly and backs up their data
+            supporting persistance microservices nightly, backing up their data
             to an an offline database.
           </div>
         </li>
