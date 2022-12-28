@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./Image.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { deleteImage, getImage, updateImage } from "../../slices/images";
+import {
+  deleteImage,
+  getFullResolution,
+  getImage,
+  updateImage,
+} from "../../slices/images";
 import {
   addToUnpublished,
   removeFromUnpublished,
@@ -36,6 +41,15 @@ const ImageEdit = () => {
       }
     }
   }, [dispatch, filename, reduxImages, imageMessage]);
+
+  //get full res
+  useEffect(() => {
+    if (image.filename && image.presentation && !image.image) {
+      dispatch(getFullResolution(filename));
+      const p = reduxImages.find((i) => i.filename === filename);
+      setImage(p);
+    }
+  }, [image]);
 
   const handleImageChange = (event) => {
     event.preventDefault();
@@ -197,7 +211,7 @@ const ImageEdit = () => {
                     <div>Full Resolution:</div>
                     <ProgressiveImage
                       src={`data:image/jpeg;base64, ${image.image}`}
-                      placeholder={`data:image/jpeg;base64, ${image.thumbnail}`}
+                      placeholder={`data:image/jpeg;base64, ${image.presentation}`}
                     >
                       {(src) => (
                         <img
