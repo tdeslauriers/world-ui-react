@@ -1,9 +1,36 @@
+:root {
+    --background: #131313;
+    --border: rgba(0,0,0,0.3);
+
+    --primary: #259c1a; 
+    --primary-shade: rgb(1, 119, 60);
+    --primary-hover: #016d16;
+    --primary-hover-shade: rgb(1, 39, 26);
+
+    --secondary: #af35d4;
+    --secondary-shade: rgb(108, 1, 134);
+    --secondary-hover: #7f1a9e;
+
+    --alert: #d45726;
+    --alert-shade: rgb(136, 16, 1);
+    --alert-hover: #691f01;
+    --alert-hover-shade: rgb(99, 12, 0);
+
+    --disabled: #292726;
+    --disabled-shade: rgb(14, 13, 13);
+
+    --text: rgb(183, 185, 183);
+    --text-h2: rgb(203, 206, 203);
+    --text-h3: #82CA82;
+    --text-disabled: rgb(110, 112, 110);
+}
+
 .App {
     display: flex;
-    background-color: #131313;
+    background-color: var(--background);
     min-height: 100vh;
     font-size: calc(12px + 1vmin);
-    color: rgb(183, 185, 183);
+    color: var(--text)
 }
 
 .container {
@@ -29,14 +56,14 @@
 }
 
 a {
-    color: #af35d4;
+    color: var(--secondary);
     
     text-decoration: none;
     font-size: calc(12px + 1vmin);
 }
 
 a:visited {
-    color: #af35d4;  
+    color: var(--secondary);  
 }
 
 a:hover, a:focus{
@@ -44,15 +71,15 @@ a:hover, a:focus{
 }
 
 h2 {
-    color: rgb(203, 206, 203);
+    color: var(--text-h2);
 }
 
 h3 {
-    color: #82CA82
+    color: var(--text-h3)
 }
 
 strong {
-    color:#218b17;
+    color:var(--primary);
 }
 
 hr {
@@ -63,50 +90,50 @@ hr {
 }
 
 button { 
-    background-color: #218b17; 
-    color: rgb(203, 206, 203);
+    background-color: var(--primary); 
+    color: var(--text-h2);
     font-size: calc(12px + 1vmin);
     width: 100%;
     padding: .5em 1em;
     line-height: normal; 
-    border: 1px solid rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
     border-radius: 4px;
     box-sizing: border-box;
-    box-shadow: inset 0 -1px 35px rgb(2, 94, 63);
+    box-shadow: inset 0 -1px 35px var(--primary-shade)
 
 }
 
 button:hover, button:focus { 
    
-    background-color: #016d16; 
+    background-color: var(--primary-hover); 
     outline:none;
     transition: background-position 0.1s linear; 
-    box-shadow: inset 0 -1px 45px rgb(1, 39, 26);
+    box-shadow: inset 0 -1px 45px var(--primary-hover-shade);
 }
 
 button:disabled {
-    background-color: #292726; 
-    color: rgb(110, 112, 110);
+    background-color: var(--disabled); 
+    color: var(--text-disabled);
     outline:none;
     transition: background-position 0.1s linear; 
-    box-shadow: inset 0 -1px 35px rgb(14, 13, 13);
+    box-shadow: inset 0 -1px 35px var(--disabled-shade);
     cursor: not-allowed;
 }
 
 select, select:hover {
     background-color: #717171;
-    color: rgb(203, 206, 203)
+    color: var(--text-h2)
   }
   
   option {
-    color: rgb(203, 206, 203);
+    color: var(--text-h2);
     background-color: rgb(34, 36, 34);
 
   }
 
 .success {
-    color:#218b17;
-    border: 1px solid #218b17;
+    color:var(--primary);
+    border: 1px solid var(--primary);
     border-radius: 4px;
     width: 100%;
     padding: .5em 1em;
@@ -114,9 +141,9 @@ select, select:hover {
 }
 
 .alert {
-    color:#d45726;
+    color:var(--alert);
     border-radius: 4px;
-    border: 1px solid #d45726;
+    border: 1px solid var(--alert);
     margin-bottom: 10px;
     margin-top: .6em;
     padding: .5em 1em;
@@ -132,14 +159,14 @@ select, select:hover {
 .form-control {
     width: 100%; 
     margin-bottom: .3em; 
-    background: rgba(0,0,0,0.3);
+    background: var(--border);
     outline: none;
     padding: .5em 1em;
-    color: rgb(203, 206, 203);
+    color: var(--text-h2);
     font-size: calc(12px + 1vmin);
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+    text-shadow: 1px 1px 1px var(--border);
     box-sizing: border-box;
-    border: 1px solid rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
     border-radius: 4px;
     box-shadow: inset 0 -1px 45px rgb(78, 80, 78);
 }
@@ -149,76 +176,76 @@ input:focus {
 }
 
 .button { 
-    background-color: #218b17; 
-    color: rgb(203, 206, 203);
+    background-color: var(--primary); 
+    color: var(--text-h2);
     font-size: calc(12px + 1vmin);
     width: 100%;
     padding: .5em 1em;
     line-height: normal; 
-    border: 1px solid rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
     border-radius: 4px;
     box-sizing: border-box;
-    box-shadow: inset 0 -1px 35px rgb(2, 94, 63);
+    box-shadow: inset 0 -1px 35px var(--primary-shade)
 
 }
 
 .button:hover, .button:focus { 
    
-    background-color: #016d16; 
+    background-color: var(--primary-hover); 
     outline:none;
     transition: background-position 0.1s linear; 
-    box-shadow: inset 0 -1px 45px rgb(1, 39, 26);
+    box-shadow: inset 0 -1px 45px var(--primary-hover-shade);
 }
 
 .button:disabled {
-    background-color: #292726; 
-    color: rgb(110, 112, 110);
+    background-color: var(--disabled); 
+    color: var(--text-disabled);
     outline:none;
     transition: background-position 0.1s linear; 
-    box-shadow: inset 0 -1px 35px rgb(14, 13, 13);
+    box-shadow: inset 0 -1px 35px var(--disabled-shade);
     cursor: not-allowed;
 }
 
 .btn-alert { 
-    background-color: #d44026; 
-    color: rgb(203, 206, 203);
+    background-color: var(--alert); 
+    color: var(--text-h2);
     font-size: calc(12px + 1vmin);
     width: 100%;
     padding: .5em 1em;
     line-height: normal; 
-    border: 1px solid rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
     border-radius: 4px;
     box-sizing: border-box;
-    box-shadow: inset 0 -1px 35px rgb(136, 16, 1);
+    box-shadow: inset 0 -1px 35px var(--alert-shade);
 
 }
 
 .btn-alert:hover, .btn-alert:focus { 
    
-    background-color: #691f01; 
+    background-color: var(--alert-hover); 
     outline:none;
     transition: background-position 0.1s linear; 
-    box-shadow: inset 0 -1px 45px rgb(99, 12, 0);
+    box-shadow: inset 0 -1px 45px var(--alert-hover-shade);
 }
 
 .btn-cancel {
-    background-color: #9821bd;
-    box-shadow: inset 0 -1px 35px rgb(108, 1, 134);
+    background-color: var(--secondary);
+    box-shadow: inset 0 -1px 35px var(--secondary-shade);
 }
 
 .btn-cancel:hover, .btn-cancel:focus { 
    
-    background-color: #7f1a9e; 
+    background-color: var(--secondary-hover); 
     outline:none;
     transition: background-position 0.1s linear; 
 }
 
 .btn-disabled {
-    background-color: #292726; 
-    color: rgb(110, 112, 110);
+    background-color: var(--disabled); 
+    color: var(--text-disabled);
     outline:none;
     transition: background-position 0.1s linear; 
-    box-shadow: inset 0 -1px 35px rgb(14, 13, 13);
+    box-shadow: inset 0 -1px 35px var(--disabled-shade);
     cursor: not-allowed;
 }
 

@@ -8,7 +8,7 @@ import { setMessage } from "../../../slices/message";
 import { saveRole, updateRole } from "../../../slices/roles";
 
 const RoleEdit = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [role, setRole] = useState({});
   const navigate = useNavigate();
   const location = useLocation();

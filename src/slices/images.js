@@ -77,7 +77,6 @@ const imageSlice = createSlice({
         (image) => image.filename === action.payload.filename
       );
       state[index] = { ...state[index], image: action.payload.image };
-      console.log(state[index]);
     },
     [updateImage.fulfilled]: (state, action) => {
       const index = state.findIndex((image) => image.id === action.payload.id);

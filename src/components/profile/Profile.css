@@ -1,5 +1,5 @@
 .profile-record {
-    color: rgb(130, 202, 130);
+    color: var(--text-h3);
     text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
     height: auto;
     margin: .5em;
@@ -12,7 +12,7 @@
 }
 
 .profile-form {
-    color: rgb(130, 202, 130);
+    color: var(--text-h3);
     text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
     margin-left: .5em;
     margin-right: .5em;

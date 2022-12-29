@@ -10,6 +10,7 @@ import usersReducer from "./slices/users";
 import rolesReducer from "./slices/roles";
 import tasktypesReducer from "./slices/tasktypes";
 import allowancesReducer from "./slices/allowances";
+import taskReducer from "./slices/tasks";
 
 const reducer = {
   auth: authReducer,
@@ -22,6 +23,7 @@ const reducer = {
   message: messageReducer,
   tasktypes: tasktypesReducer,
   allowances: allowancesReducer,
+  tasks: taskReducer,
 };
 
 const store = configureStore({

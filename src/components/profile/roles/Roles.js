@@ -14,7 +14,7 @@ const headers = [
 ];
 
 const Roles = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
 
   const { roles: allRoles } = useSelector((state) => state);
