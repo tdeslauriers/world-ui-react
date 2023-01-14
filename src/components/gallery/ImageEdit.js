@@ -12,7 +12,7 @@ import {
   addToUnpublished,
   removeFromUnpublished,
 } from "../../slices/unpublished";
-
+import { Buffer } from "buffer";
 import ProgressiveImage from "react-progressive-graceful-image";
 import { addToLocalAlbums, removeFromLocalAlbums } from "../../slices/albums";
 import Loading from "../../common/Loading";
@@ -33,7 +33,7 @@ const ImageEdit = () => {
     if (filename) {
       const exists = reduxImages.find((p) => p.filename === filename);
       if (exists) {
-        setImage(exists);
+        setImage(picBytesToBase64(exists));
         setLoading(false);
       } else {
         setLoading(true);
@@ -47,9 +47,26 @@ const ImageEdit = () => {
     if (image.filename && image.presentation && !image.image) {
       dispatch(getFullResolution(filename));
       const p = reduxImages.find((i) => i.filename === filename);
-      setImage(p);
+      setImage(picBytesToBase64(p));
     }
   }, [image]);
+
+  const picBytesToBase64 = (pic) => {
+    let formatted = {
+      id: pic.id,
+      filename: pic.filename,
+      title: pic.title,
+      description: pic.description,
+      date: pic.date,
+      published: pic.published,
+      thumbnail: Buffer.from(pic.thumbnail).toString("base64"),
+      presentation: Buffer.from(pic.presentation).toString("base64"),
+    };
+    if (pic.image) {
+      formatted.image = Buffer.from(pic.image).toString("base64");
+    }
+    return formatted;
+  };
 
   const handleImageChange = (event) => {
     event.preventDefault();

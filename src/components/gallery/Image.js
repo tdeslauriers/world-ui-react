@@ -6,6 +6,7 @@ import { getFullResolution, getImage } from "../../slices/images";
 import eventBus from "../../security/EventBus";
 import ProgressiveImage from "react-progressive-graceful-image";
 import Loading from "../../common/Loading";
+import { Buffer } from "buffer";
 
 const Image = () => {
   const [loading, setLoading] = useState(false);
@@ -31,7 +32,7 @@ const Image = () => {
     if (reduxImages.length) {
       const p = reduxImages.find((i) => i.filename === filename);
       if (p) {
-        setPicture(p);
+        setPicture(picBytesToBase64(p));
         setLoading(false);
       } else {
         setLoading(true);
@@ -59,9 +60,27 @@ const Image = () => {
     if (picture.filename && picture.presentation && !picture.image) {
       dispatch(getFullResolution(filename));
       const p = reduxImages.find((i) => i.filename === filename);
-      setPicture(p);
+
+      setPicture(picBytesToBase64(p));
     }
   }, [picture]);
+
+  const picBytesToBase64 = (pic) => {
+    let formatted = {
+      id: pic.id,
+      filename: pic.filename,
+      title: pic.title,
+      description: pic.description,
+      date: pic.date,
+      published: pic.published,
+      thumbnail: Buffer.from(pic.thumbnail).toString("base64"),
+      presentation: Buffer.from(pic.presentation).toString("base64"),
+    };
+    if (pic.image) {
+      formatted.image = Buffer.from(pic.image).toString("base64");
+    }
+    return formatted;
+  };
 
   const handleNext = (event) => {
     event.preventDefault();

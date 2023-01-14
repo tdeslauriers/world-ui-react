@@ -3,7 +3,7 @@ import "./Album.css";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import eventBus from "../../security/EventBus";
-
+import { Buffer } from "buffer";
 import { getAlbum } from "../../slices/albums";
 import Loading from "../../common/Loading";
 
@@ -79,7 +79,9 @@ const Album = () => {
                 id={t.filename}
                 className="thumbnail-pic"
                 alt={t.title}
-                src={`data:image/jpeg;base64, ${t.thumbnail}`}
+                src={`data:image/jpeg;base64, ${Buffer.from(
+                  t.thumbnail
+                ).toString("base64")}`}
               />
             </NavLink>
           </div>

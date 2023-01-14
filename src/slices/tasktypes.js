@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, isFulfilled } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import tasktypeService from "../services/tasktypeService";
 import { setMessage } from "./message";
 

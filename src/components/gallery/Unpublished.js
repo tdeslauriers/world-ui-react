@@ -11,6 +11,7 @@ import {
   removeFromUnpublished,
 } from "../../slices/unpublished";
 import "./Image.css";
+import { Buffer } from "buffer";
 
 const headers = [
   { id: "options", label: "Options" },
@@ -118,8 +119,10 @@ const Unpublished = () => {
                   <img
                     id={up.filename}
                     className="thumbnail-pic"
-                    alt={up.filename}
-                    src={`data:image/jpeg;base64, ${up.thumbnail}`}
+                    alt=""
+                    src={`data:image/jpeg;base64, ${Buffer.from(
+                      up.thumbnail
+                    ).toString("base64")}`}
                   />
                 </td>
               </tr>
