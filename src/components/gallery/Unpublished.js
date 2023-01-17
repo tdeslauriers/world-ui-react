@@ -130,7 +130,7 @@ const Unpublished = () => {
           </tbody>
         </TableContainer>
       ) : (
-        <div>None.</div>
+        <Loading />
       )}
     </div>
   );
