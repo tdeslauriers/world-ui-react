@@ -128,7 +128,7 @@ const Image = () => {
 
   return (
     <div>
-      {picture && (
+      {picture && picture.thumbnail && (
         <>
           <div className="top-column">
             <div className="child-column">
@@ -213,14 +213,25 @@ const Image = () => {
               </h3>
             </div>
           </div>
-          <ProgressiveImage
-            src={`data:image/jpeg;base64, ${picture.image}`}
-            placeholder={`data:image/jpeg;base64, ${picture.presentation}`}
-          >
-            {(src) => (
-              <img className="image" src={src} alt={picture.filename} />
-            )}
-          </ProgressiveImage>
+          {picture.image ? (
+            <ProgressiveImage
+              src={`data:image/jpeg;base64, ${picture.image}`}
+              placeholder={`data:image/jpeg;base64, ${picture.presentation}`}
+            >
+              {(src) => (
+                <img className="image" src={src} alt={picture.filename} />
+              )}
+            </ProgressiveImage>
+          ) : (
+            <ProgressiveImage
+              src={`data:image/jpeg;base64, ${picture.presentation}`}
+              placeholder={`data:image/jpeg;base64, ${picture.thumbnail}`}
+            >
+              {(src) => (
+                <img className="image" src={src} alt={picture.filename} />
+              )}
+            </ProgressiveImage>
+          )}
         </>
       )}
     </div>

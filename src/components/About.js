@@ -72,7 +72,7 @@ const About = () => {
             <strong>Micronaut</strong> microservice which registers users,
             validates authentication credentials, manages roles/scopes, mints
             jwt tokens, and serves user profile content. Persistance layer is{" "}
-            <strong>MariaDB </strong>.
+            <strong>MariaDB</strong>.
           </div>
         </li>
         <li className="list-about-item">
@@ -88,7 +88,7 @@ const About = () => {
             </a>{" "}
             <strong>Micronaut</strong> microservice that serves the albums and
             images hosted by the site. Persistance layer is{" "}
-            <strong>MariaDB </strong>.
+            <strong>MariaDB</strong>.
           </div>
         </li>
         <li className="list-about-item">
@@ -120,9 +120,8 @@ const About = () => {
               </span>
             </a>{" "}
             <strong>Micronaut</strong> microservice utilzing{" "}
-            <strong>Hibernate Reactive</strong> to manage, automate, and track
-            allowance application data. Persistance layer is{" "}
-            <strong>MariaDB </strong>.
+            <strong>R2DBC</strong> to manage, automate, and track allowance
+            application data. Persistance layer is <strong>MariaDB</strong>.
           </div>
         </li>
       </ul>

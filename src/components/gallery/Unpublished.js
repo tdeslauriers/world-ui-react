@@ -116,14 +116,16 @@ const Unpublished = () => {
                   </strong>
                 </td>
                 <td>
-                  <img
-                    id={up.filename}
-                    className="thumbnail-pic"
-                    alt=""
-                    src={`data:image/jpeg;base64, ${Buffer.from(
-                      up.thumbnail
-                    ).toString("base64")}`}
-                  />
+                  {up && up.thumbnail && (
+                    <img
+                      id={up.filename}
+                      className="thumbnail-pic"
+                      alt=""
+                      src={`data:image/jpeg;base64, ${Buffer.from(
+                        up.thumbnail
+                      ).toString("base64")}`}
+                    />
+                  )}
                 </td>
               </tr>
             ))}

@@ -48,9 +48,9 @@ export const getFullResolution = createAsyncThunk(
         });
       return data;
     } catch (error) {
-      const message = error.message || error.status;
+      // const message = error.message || error.status;
 
-      thunkApi.dispatch(setMessage(message));
+      // thunkApi.dispatch(setMessage(message));
       return thunkApi.rejectWithValue();
     }
   }
@@ -102,7 +102,6 @@ const imageSlice = createSlice({
       state[index] = { ...state[index], image: action.payload.image };
     },
     [updateImage.fulfilled]: (state, action) => {
-      
       const index = state.findIndex((image) => image.id === action.payload.id);
       state[index] = {
         ...state[index],

@@ -48,7 +48,7 @@ const App = () => {
       setContainerClassName("containerDrawer");
     }
     return () => EventBus.remove("logout");
-  }, [isLoggedIn, logOut]);
+  }, [currentUser, isLoggedIn, logOut]);
 
   return (
     <div className="App">

@@ -2,17 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./Image.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import {
-  deleteImage,
-  getFullResolution,
-  getImage,
-  updateImage,
-} from "../../slices/images";
+import { deleteImage, getImage, updateImage } from "../../slices/images";
 import {
   addToUnpublished,
   removeFromUnpublished,
 } from "../../slices/unpublished";
-import { Buffer } from "buffer";
 import ProgressiveImage from "react-progressive-graceful-image";
 import { addToLocalAlbums, removeFromLocalAlbums } from "../../slices/albums";
 import Loading from "../../common/Loading";
@@ -41,17 +35,6 @@ const ImageEdit = () => {
       }
     }
   }, [dispatch, filename, reduxImages, imageMessage]);
-
-  //get full res
-  useEffect(() => {
-    if (image.filename && image.presentation && !image.image) {
-      dispatch(getFullResolution(filename));
-      const p = reduxImages.find((i) => i.filename === filename);
-      setImage(p);
-    }
-  }, [image]);
-
-
 
   const handleImageChange = (event) => {
     event.preventDefault();
@@ -201,28 +184,21 @@ const ImageEdit = () => {
                 </div>
                 <div className="child-column">
                   <div className="pic-box">
-                    <div>Thumbnail:</div>
-                    <img
-                      id={image.filename}
-                      className="thumbnail-pic"
-                      alt={"thumbnail-" + image.filename}
-                      src={`data:image/jpeg;base64, ${image.thumbnail}`}
-                    />
-                    <br />
-                    <br />
-                    <div>Full Resolution:</div>
-                    <ProgressiveImage
-                      src={`data:image/jpeg;base64, ${image.image}`}
-                      placeholder={`data:image/jpeg;base64, ${image.presentation}`}
-                    >
-                      {(src) => (
-                        <img
-                          className="image img-edit"
-                          src={src}
-                          alt={"full-resolution-" + image.filename}
-                        />
-                      )}
-                    </ProgressiveImage>
+                    <div>Presentation Image:</div>
+                    {image && image.thumbnail && (
+                      <ProgressiveImage
+                        src={`data:image/jpeg;base64, ${image.presentation}`}
+                        placeholder={`data:image/jpeg;base64, ${image.thumbnail}`}
+                      >
+                        {(src) => (
+                          <img
+                            className="image img-edit"
+                            src={src}
+                            alt={"full-resolution-" + image.filename}
+                          />
+                        )}
+                      </ProgressiveImage>
+                    )}
                   </div>
                 </div>
               </div>

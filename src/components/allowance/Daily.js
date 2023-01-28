@@ -13,9 +13,9 @@ import {
 import "./Task.css";
 
 const headers = [
-  { id: "task", label: "Task" },
-  { id: "isComplete", label: "Complete" },
-  { id: "isQuality", label: "Quality" },
+  { id: "name", label: "Task" },
+  { id: "complete", label: "Complete" },
+  { id: "satisfactory", label: "Quality" },
   { id: "date", label: "Assigned" },
   { id: "cadence", label: "Cadence" },
   { id: "category", label: "Category" },
@@ -63,7 +63,7 @@ const Daily = () => {
       setLoading(true);
       dispatch(updateTaskComplete(cmd));
     }
-    if (event.target.name === "quality") {
+    if (event.target.name === "satisfactory") {
       if (currentUser.roles && currentUser.roles.includes("ALLOWANCE_ADMIN")) {
         setLoading(true);
         dispatch(updateTaskQuality(cmd));
@@ -96,35 +96,35 @@ const Daily = () => {
           {dailyTasks.length &&
             dailyTasks.map((t) => (
               <tr key={t.id}>
-                <td>{t.task}</td>
+                <td>{t.name}</td>
                 <td>
                   <button
                     id={t.id}
                     name="complete"
-                    value={t.isComplete}
+                    value={t.complete}
                     className={
-                      t.isComplete
+                      t.complete
                         ? "button-status-success"
                         : "button-status-alert"
                     }
                     onClick={handleStatusUpdate}
                   >
-                    {t.isComplete ? "Complete" : "Incomplete"}
+                    {t.complete ? "Complete" : "Incomplete"}
                   </button>
                 </td>
                 <td>
                   <button
                     id={t.id}
-                    name="quality"
-                    value={t.isQuality}
+                    name="satisfactory"
+                    value={t.satisfactory}
                     className={
-                      t.isQuality
+                      t.satisfactory
                         ? "button-status-success"
                         : "button-status-alert"
                     }
                     onClick={handleStatusUpdate}
                   >
-                    {t.isQuality ? "Satisfactory" : "Unsatisfactory"}
+                    {t.satisfactory ? "Satisfactory" : "Unsatisfactory"}
                   </button>
                 </td>
                 <td>{t.date}</td>

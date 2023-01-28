@@ -61,11 +61,11 @@ const tasksSlice = createSlice({
     },
     [updateTaskComplete.fulfilled]: (state, action) => {
       const index = state.findIndex((t) => t.id === action.payload.taskId);
-      state[index] = { ...state[index], isComplete: action.payload.status };
+      state[index] = { ...state[index], complete: action.payload.status };
     },
     [updateTaskQuality.fulfilled]: (state, action) => {
       const index = state.findIndex((t) => t.id === action.payload.taskId);
-      state[index] = { ...state[index], isQuality: action.payload.status };
+      state[index] = { ...state[index], satisfactory: action.payload.status };
     },
   },
 });

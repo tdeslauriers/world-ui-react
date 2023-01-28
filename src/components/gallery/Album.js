@@ -56,12 +56,11 @@ const Album = () => {
       <h3>
         Album: <strong>{gallery && gallery.album}</strong>
       </h3>
-      <hr></hr>
+      <hr />
       <h4>
         Click on any picture to see the full size image and description/context.
       </h4>
-      {gallery &&
-        gallery.thumbnails &&
+      {gallery && gallery.thumbnails ? (
         gallery.thumbnails.map((t, i) => (
           <div className="thumbnail" key={t.filename}>
             <strong>{t.title}</strong>
@@ -75,17 +74,22 @@ const Album = () => {
                 albumIndex: i,
               }}
             >
-              <img
-                id={t.filename}
-                className="thumbnail-pic"
-                alt={t.title}
-                src={`data:image/jpeg;base64, ${Buffer.from(
-                  t.thumbnail
-                ).toString("base64")}`}
-              />
+              {t && t.thumbnail && (
+                <img
+                  id={t.filename}
+                  className="thumbnail-pic"
+                  alt={t.title}
+                  src={`data:image/jpeg;base64, ${Buffer.from(
+                    t.thumbnail
+                  ).toString("base64")}`}
+                />
+              )}
             </NavLink>
           </div>
-        ))}
+        ))
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };
