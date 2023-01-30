@@ -104,7 +104,6 @@ button {
 }
 
 button:hover, button:focus { 
-   
     background-color: var(--primary-hover); 
     outline:none;
     transition: background-position 0.1s linear; 

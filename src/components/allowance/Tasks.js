@@ -9,7 +9,7 @@ import { getTasktypesAll, archiveTasktype } from "../../slices/tasktypes";
 import "./Task.css";
 
 const headers = [
-  { id: "options", label: "Options" },
+  { id: "options", label: "Options", disableSorting: true },
   { id: "name", label: "Task" },
   { id: "cadence", label: "Cadence" },
   { id: "category", label: "Category" },
@@ -24,7 +24,10 @@ const Tasks = () => {
   const { message: reduxMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
-  const { TableContainer, TableHead } = useTable(allTasktypes, headers);
+  const { TableContainer, TableHead, recordsAfterTableOperations } = useTable(
+    allTasktypes,
+    headers
+  );
 
   useEffect(() => {
     if (!allTasktypes.length) {
@@ -77,7 +80,7 @@ const Tasks = () => {
       <TableContainer>
         <TableHead />
         <tbody>
-          {allTasktypes.map((tt) => (
+          {recordsAfterTableOperations().map((tt) => (
             <tr key={tt.id}>
               <td>
                 <NavLink to={`/tasks/${tt.id}/edit`}>

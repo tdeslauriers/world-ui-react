@@ -14,8 +14,8 @@ import "./Task.css";
 
 const headers = [
   { id: "name", label: "Task" },
-  { id: "complete", label: "Complete" },
-  { id: "satisfactory", label: "Quality" },
+  { id: "complete", label: "Complete", disableSorting: true },
+  { id: "satisfactory", label: "Quality", disableSorting: true },
   { id: "date", label: "Assigned" },
   { id: "cadence", label: "Cadence" },
   { id: "category", label: "Category" },
@@ -50,7 +50,10 @@ const Daily = () => {
     }
   }, [dispatch, dailyTasks, dailyMessage]);
 
-  const { TableContainer, TableHead } = useTable(dailyTasks, headers);
+  const { TableContainer, TableHead, recordsAfterTableOperations } = useTable(
+    dailyTasks,
+    headers
+  );
 
   const handleStatusUpdate = (event) => {
     event.preventDefault();
@@ -94,7 +97,7 @@ const Daily = () => {
         <TableHead />
         <tbody>
           {dailyTasks.length &&
-            dailyTasks.map((t) => (
+            recordsAfterTableOperations().map((t) => (
               <tr key={t.id}>
                 <td>{t.name}</td>
                 <td>
