@@ -32,20 +32,6 @@ export const updateTasktype = createAsyncThunk(
   }
 );
 
-export const archiveTasktype = createAsyncThunk(
-  "tasktypes/archiveTasktype",
-  async (id, thunkApi) => {
-    try {
-      const res = await tasktypeService.archiveTasktype(id);
-      return id; // 204
-    } catch (error) {
-      const message = error.message || error.status;
-
-      thunkApi.dispatch(setMessage(message));
-    }
-  }
-);
-
 export const saveTasktype = createAsyncThunk(
   "tasktypes/save",
   async (tasktype, thunkAPI) => {
@@ -66,6 +52,12 @@ const initialState = [];
 const tasktypeSlice = createSlice({
   name: "tasktypes",
   initialState,
+  reducers: {
+    removeFromTasktypes: (state, action) => {
+      const removeArchived = state.filter((t) => !t.archived);
+      return [...removeArchived];
+    },
+  },
   extraReducers: {
     [getTasktypesAll.fulfilled]: (state, action) => {
       return [...action.payload.tasktypes];
@@ -83,15 +75,12 @@ const tasktypeSlice = createSlice({
     [saveTasktype.fulfilled]: (state, action) => {
       state.push(action.payload);
     },
-    [archiveTasktype.fulfilled]: (state, action) => {
-      const removeArchived = state.filter((t) => t.id !== action.payload);
-      return [...removeArchived];
-    },
     [saveTasktype.fulfilled]: (state, action) => {
       state.push(action.payload);
     },
   },
 });
 
-const { reducer } = tasktypeSlice;
+const { reducer, actions } = tasktypeSlice;
+export const { removeFromTasktypes } = actions;
 export default reducer;

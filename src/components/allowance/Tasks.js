@@ -5,7 +5,11 @@ import Loading from "../../common/Loading";
 import useTable from "../../common/useTable";
 import eventBus from "../../security/EventBus";
 import tasktypeService from "../../services/tasktypeService";
-import { getTasktypesAll, archiveTasktype } from "../../slices/tasktypes";
+import {
+  getTasktypesAll,
+  removeFromTasktypes,
+  updateTasktype,
+} from "../../slices/tasktypes";
 import "./Task.css";
 
 const headers = [
@@ -49,7 +53,16 @@ const Tasks = () => {
 
   const handleArchiveClick = (event) => {
     event.preventDefault();
-    dispatch(archiveTasktype(parseInt(event.target.id)));
+    const tasktype = allTasktypes.find(
+      (tt) => tt.id === parseInt(event.target.id)
+    );
+    const toArchive = {
+      ...tasktype,
+      archived: true,
+    };
+    dispatch(updateTasktype(toArchive))
+      .unwrap()
+      .then(() => dispatch(removeFromTasktypes(toArchive)));
   };
 
   if (!isLoggedIn) {

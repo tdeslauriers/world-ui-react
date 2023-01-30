@@ -14,8 +14,8 @@ import "./Task.css";
 
 const headers = [
   { id: "name", label: "Task" },
-  { id: "complete", label: "Complete", disableSorting: true },
-  { id: "satisfactory", label: "Quality", disableSorting: true },
+  { id: "complete", label: "Complete" },
+  { id: "satisfactory", label: "Quality" },
   { id: "date", label: "Assigned" },
   { id: "cadence", label: "Cadence" },
   { id: "category", label: "Category" },
