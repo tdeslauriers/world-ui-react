@@ -7,7 +7,7 @@ import eventBus from "../../../security/EventBus";
 import { getRolesAll } from "../../../slices/roles";
 
 const headers = [
-  { id: "options", label: "Options" },
+  { id: "options", label: "Options", disableSorting: true },
   { id: "title", label: "Role Title" },
   { id: "role", label: "Role/Scope" },
   { id: "description", label: "Description" },
@@ -15,6 +15,11 @@ const headers = [
 
 const Roles = () => {
   const [loading, setLoading] = useState(true);
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
   const location = useLocation();
 
   const { roles: allRoles } = useSelector((state) => state);
@@ -40,7 +45,31 @@ const Roles = () => {
     }
   }, [dispatch, allRoles, reduxMessage]);
 
-  const { TableContainer, TableHead } = useTable(allRoles, headers);
+  const { TableContainer, TableHead, recordsAfterTableOperations } = useTable(
+    allRoles,
+    headers,
+    filterFn
+  );
+
+  const handleFilter = (event) => {
+    event.preventDefault();
+
+    let target = event.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value === "") {
+          return items;
+        } else {
+          return items.filter(
+            (x) =>
+              x.title.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.role.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.description.toLowerCase().includes(target.value.toLowerCase())
+          );
+        }
+      },
+    });
+  };
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
@@ -51,10 +80,12 @@ const Roles = () => {
   }
 
   return (
-    <>
+    <div>
       <div className="top-column">
         <div className="child-column">
-          <h3>User Roles</h3>
+          <h3>
+            User Roles: <strong>create and edit roles globally.</strong>
+          </h3>
         </div>
         <div className="child-column">
           <div className="btngroup">
@@ -65,10 +96,18 @@ const Roles = () => {
         </div>
       </div>
       <hr />
+      <h4>Roles available for assignment in user records.</h4>
+      <input
+        className="form-control"
+        name="filter"
+        type="text"
+        placeholder="Search Roles"
+        onChange={handleFilter}
+      />
       <TableContainer>
         <TableHead />
         <tbody>
-          {allRoles.map((role) => (
+          {recordsAfterTableOperations().map((role) => (
             <tr key={role.id}>
               <td>
                 <NavLink to={`/roles/${role.id}/edit`}>
@@ -82,7 +121,7 @@ const Roles = () => {
           ))}
         </tbody>
       </TableContainer>
-    </>
+    </div>
   );
 };
 

@@ -14,15 +14,20 @@ import "./Image.css";
 import { Buffer } from "buffer";
 
 const headers = [
-  { id: "options", label: "Options" },
+  { id: "options", label: "Options", disableSorting: true },
   { id: "filename", label: "Filename" },
   { id: "date", label: "Date" },
-  { id: "published", label: "Published?" },
-  { id: "thumbnail", label: "Thumbnail" },
+  { id: "published", label: "Visibility", disableSorting: true },
+  { id: "thumbnail", label: "Thumbnail", disableSorting: true },
 ];
 
 const Unpublished = () => {
   const [loading, setLoading] = useState(false);
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -47,9 +52,10 @@ const Unpublished = () => {
     }
   }, [dispatch, reduxMessage, reduxUnpublished]);
 
-  const { TableContainer, TableHead } = useTable(
+  const { TableContainer, TableHead, recordsAfterTableOperations } = useTable(
     reduxUnpublished.unpublishedImages,
-    headers
+    headers,
+    filterFn
   );
 
   const handleDeleteClick = (event) => {
@@ -62,6 +68,26 @@ const Unpublished = () => {
       .then(() => {
         dispatch(removeFromUnpublished(deleted));
       });
+  };
+
+  const handleFilter = (event) => {
+    event.preventDefault();
+
+    let target = event.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value === "") {
+          console.log(items);
+          return items;
+        } else {
+          return items.filter(
+            (x) =>
+              x.filename.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.date.toLowerCase().includes(target.value.toLowerCase())
+          );
+        }
+      },
+    });
   };
 
   if (!isLoggedIn) {
@@ -82,12 +108,19 @@ const Unpublished = () => {
     <div>
       <h3>Unpublished Photos/Images</h3>
       <hr />
+      <input
+        className="form-control"
+        name="filter"
+        type="text"
+        placeholder="Search Unpublished Photos"
+        onChange={handleFilter}
+      />
       {reduxUnpublished.unpublishedImages &&
       reduxUnpublished.unpublishedImages.length ? (
         <TableContainer>
           <TableHead />
           <tbody>
-            {reduxUnpublished.unpublishedImages.map((up) => (
+            {recordsAfterTableOperations().map((up) => (
               <tr key={up.id}>
                 <td>
                   <NavLink
@@ -109,7 +142,7 @@ const Unpublished = () => {
                   </button>
                 </td>
                 <td>{up.filename}</td>
-                <td>{`${new Date(up.date).toLocaleDateString()}`}</td>
+                <td>{up.date}</td>
                 <td>
                   <strong className={up.published ? "success" : "alert"}>
                     {up.published ? "Published" : "Unpublished"}

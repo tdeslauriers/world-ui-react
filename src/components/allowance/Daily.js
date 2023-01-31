@@ -14,8 +14,8 @@ import "./Task.css";
 
 const headers = [
   { id: "name", label: "Task" },
-  { id: "complete", label: "Complete" },
-  { id: "satisfactory", label: "Quality" },
+  { id: "complete", label: "Complete", disableSorting: true },
+  { id: "satisfactory", label: "Quality", disableSorting: true },
   { id: "date", label: "Assigned" },
   { id: "cadence", label: "Cadence" },
   { id: "category", label: "Category" },
@@ -23,6 +23,11 @@ const headers = [
 
 const Daily = () => {
   const [loading, setLoading] = useState(true);
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -52,7 +57,8 @@ const Daily = () => {
 
   const { TableContainer, TableHead, recordsAfterTableOperations } = useTable(
     dailyTasks,
-    headers
+    headers,
+    filterFn
   );
 
   const handleStatusUpdate = (event) => {
@@ -74,6 +80,27 @@ const Daily = () => {
     }
   };
 
+  const handleFilter = (event) => {
+    event.preventDefault();
+
+    let target = event.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value === "") {
+          return items;
+        } else {
+          return items.filter(
+            (x) =>
+              x.name.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.date.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.cadence.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.category.toLowerCase().includes(target.value)
+          );
+        }
+      },
+    });
+  };
+
   if (!isLoggedIn) {
     navigate("/login", { state: { from: location } });
   }
@@ -93,6 +120,13 @@ const Daily = () => {
       </h3>
       <hr />
       <h4>Click on status to update.</h4>
+      <input
+        className="form-control"
+        name="filter"
+        type="text"
+        placeholder="Search ToDo List"
+        onChange={handleFilter}
+      />
       <TableContainer>
         <TableHead />
         <tbody>

@@ -9,18 +9,23 @@ import { getUsersAll } from "../../slices/users";
 import "./Profile.css";
 
 const headers = [
-  { id: "options", label: "Options" },
+  { id: "options", label: "Options", disableSorting: true },
   { id: "username", label: "Username/Email" },
   { id: "firstname", label: "Firstname" },
   { id: "lastname", label: "Lastname" },
   { id: "dateCreated", label: "Date Created" },
-  { id: "enabled", label: "Enabled?" },
-  { id: "accountLocked", label: "Locked?" },
-  { id: "accountExpired", label: "Expired?" },
+  { id: "enabled", label: "Enabled?", disableSorting: true },
+  { id: "accountLocked", label: "Locked?", disableSorting: true },
+  { id: "accountExpired", label: "Expired?", disableSorting: true },
 ];
 
 const ProfilesAll = () => {
   const [loading, setLoading] = useState(false);
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -48,7 +53,32 @@ const ProfilesAll = () => {
     }
   }, [dispatch, allUsers, reduxMessage]);
 
-  const { TableContainer, TableHead } = useTable(allUsers, headers);
+  const { TableContainer, TableHead, recordsAfterTableOperations } = useTable(
+    allUsers,
+    headers,
+    filterFn
+  );
+
+  const handleFilter = (event) => {
+    event.preventDefault();
+
+    let target = event.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value === "") {
+          return items;
+        } else {
+          return items.filter(
+            (x) =>
+              x.username.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.firstname.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.lastname.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.dateCreated.toLowerCase().includes(target.value.toLowerCase())
+          );
+        }
+      },
+    });
+  };
 
   if (!isLoggedIn) {
     navigate("/login", { state: { from: location } });
@@ -62,10 +92,17 @@ const ProfilesAll = () => {
     <div>
       <h3>User Profiles</h3>
       <hr />
+      <input
+        className="form-control"
+        name="filter"
+        type="text"
+        placeholder="Search Users"
+        onChange={handleFilter}
+      />
       <TableContainer>
         <TableHead />
         <tbody>
-          {allUsers.map((user) => (
+          {recordsAfterTableOperations().map((user) => (
             <tr key={user.id}>
               <td>
                 <NavLink to={`/users/${user.uuid}`}>
@@ -82,7 +119,7 @@ const ProfilesAll = () => {
               <td>{user.username}</td>
               <td>{user.firstname}</td>
               <td>{user.lastname}</td>
-              <td>{new Date(user.dateCreated).toLocaleDateString()}</td>
+              <td>{user.dateCreated}</td>
               <td>
                 <strong className={user.enabled ? "success" : "alert"}>
                   {user.enabled ? "Enabled" : "Disabled"}

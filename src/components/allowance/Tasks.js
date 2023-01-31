@@ -21,6 +21,11 @@ const headers = [
 
 const Tasks = () => {
   const [loading, setLoading] = useState(false);
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
   const location = useLocation();
 
   const { tasktypes: allTasktypes } = useSelector((state) => state);
@@ -30,7 +35,8 @@ const Tasks = () => {
 
   const { TableContainer, TableHead, recordsAfterTableOperations } = useTable(
     allTasktypes,
-    headers
+    headers,
+    filterFn
   );
 
   useEffect(() => {
@@ -65,6 +71,26 @@ const Tasks = () => {
       .then(() => dispatch(removeFromTasktypes(toArchive)));
   };
 
+  const handleFilter = (event) => {
+    event.preventDefault();
+
+    let target = event.target;
+    setFilterFn({
+      fn: (items) => {
+        if (target.value === "") {
+          return items;
+        } else {
+          return items.filter(
+            (x) =>
+              x.name.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.cadence.toLowerCase().includes(target.value.toLowerCase()) ||
+              x.category.toLowerCase().includes(target.value.toLowerCase())
+          );
+        }
+      },
+    });
+  };
+
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
@@ -74,7 +100,7 @@ const Tasks = () => {
   }
 
   return (
-    <>
+    <div>
       <div className="top-column">
         <div className="child-column">
           <h3>
@@ -90,6 +116,17 @@ const Tasks = () => {
         </div>
       </div>
       <hr />
+      <h4>
+        Archiving a task will remove it from the list. It will also stop new
+        daily/weekly tasks from being created.
+      </h4>
+      <input
+        className="form-control"
+        name="filter"
+        type="text"
+        placeholder="Search Tasks"
+        onChange={handleFilter}
+      />
       <TableContainer>
         <TableHead />
         <tbody>
@@ -115,7 +152,7 @@ const Tasks = () => {
           ))}
         </tbody>
       </TableContainer>
-    </>
+    </div>
   );
 };
 

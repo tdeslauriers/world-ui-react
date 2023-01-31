@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./useTable.css";
 
-export default function useTable(records, headers) {
+export default function useTable(records, headers, filterFn) {
   const [order, setOrder] = useState();
   const [orderBy, setOrderBy] = useState();
 
@@ -22,16 +22,13 @@ export default function useTable(records, headers) {
       <thead>
         <tr>
           {headers.map((cell) => (
-            <th
-              key={cell.id}
-              sortDirection={orderBy === cell.id ? order : false}
-            >
+            <th key={cell.id}>
               {cell.disableSorting ? (
                 cell.label
               ) : (
                 <button
                   className={`btn-sort ${orderBy === cell.id ? "active" : ""}`}
-                  direction={orderBy === cell.id ? order : "asc"}
+                  direction={orderBy === cell.id ? order : null}
                   onClick={() => handleSortRequest(cell.id)}
                 >
                   {cell.label} {orderBy === cell.id ? <sup>{order}</sup> : null}
@@ -71,7 +68,7 @@ export default function useTable(records, headers) {
   }
 
   const recordsAfterTableOperations = () => {
-    return stableSort(records, getComparator(order, orderBy));
+    return stableSort(filterFn.fn(records), getComparator(order, orderBy));
   };
 
   return { TableContainer, TableHead, recordsAfterTableOperations };
