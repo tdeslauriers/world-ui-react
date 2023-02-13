@@ -11,9 +11,9 @@ const Authorized = ({ children, allowedScopes }) => {
     return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   }
 
-  if (currentUser.roles === undefined) {
-    return <Navigate to="/home" />;
-  }
+  // if (currentUser.roles === undefined) {
+  //   return <Navigate to="/home" />;
+  // }
 
   const isAuthorized = allowedScopes.some((s) => currentUser.roles.includes(s));
 

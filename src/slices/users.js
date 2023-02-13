@@ -23,7 +23,7 @@ export const updateUser = createAsyncThunk(
   async (userdata, thunkAPI) => {
     try {
       const res = await profileService.updateUser(userdata);
-      return res; // need to return the user data for the slice
+      return userdata; // need to return the user data for the slice
     } catch (error) {
       const message = error.message || error.status;
 

@@ -42,7 +42,6 @@ const Login = () => {
       .then(() => {
         if (location.state?.from) {
           navigate(location.state.from);
-          window.location.reload();
         }
         navigate("/home");
         window.location.reload();
@@ -55,7 +54,6 @@ const Login = () => {
   if (isLoggedIn) {
     if (location.state?.from) {
       navigate(location.state.from);
-      window.location.reload();
     }
     navigate("/home");
     window.location.reload();
