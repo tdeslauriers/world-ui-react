@@ -51,7 +51,12 @@ const ProfileView = ({ profile }) => {
 
       <div className="top-column">
         <div className="child-column profile-record">
-          <h3>Registered as: </h3>
+          <div>
+            Registered as: <strong>{profile.username}</strong>
+          </div>
+          <div>
+            Member since: <strong>{profile.dateCreated}</strong>
+          </div>
           <hr />
           <div>
             Firstname: <strong>{profile.firstname}</strong>
@@ -59,12 +64,11 @@ const ProfileView = ({ profile }) => {
           <div>
             Lastname: <strong>{profile.lastname}</strong>
           </div>
-          <div>
-            Member since:{" "}
-            <strong>{`${new Date(
-              profile.dateCreated
-            ).toLocaleDateString()}`}</strong>
-          </div>
+          {profile.birthday && (
+            <div>
+              Date of Birth: <strong>{profile.birthday}</strong>
+            </div>
+          )}
         </div>
 
         {profile.roles && (

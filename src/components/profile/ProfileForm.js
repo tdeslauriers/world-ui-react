@@ -13,7 +13,24 @@ const ProfileForm = ({
   ...props
 }) => {
   const isAdmin = scopes.includes("PROFILE_ADMIN");
-  const Selector = useSelect("role", null, props.onRoleSelect);
+  const RoleSelector = useSelect("role", null, props.onRoleSelect);
+  const MonthSelector = useSelect("month", props.dobMonth, props.onDobSelect); // using slice of days for select
+  let days = [];
+  for (let i = 1; i <= 31; i++) {
+    i < 10 ? (i = "0" + i.toString()) : i.toString();
+    days.push(i);
+  }
+  const DaySelector = useSelect("day", props.dobDay, props.onDobSelect);
+
+  let years = [];
+  for (
+    let i = new Date().getFullYear();
+    i >= new Date().getFullYear() - 100;
+    i--
+  ) {
+    years.push(i.toString());
+  }
+  const YearSelector = useSelect("year", props.dobYear, props.onDobSelect);
 
   return (
     <div>
@@ -24,6 +41,7 @@ const ProfileForm = ({
               <h3>
                 Edit profile: <strong>{profile.username}</strong>
               </h3>
+
               <h3>
                 {profile.enabled ? null : (
                   <strong className="alert disabled">Account Disabled</strong>
@@ -112,25 +130,53 @@ const ProfileForm = ({
                   {profile.errors && profile.errors.lastname && (
                     <div className="alert">{profile.errors.lastname}</div>
                   )}
-                  <div>
-                    Member since:{" "}
-                    <strong>{`${new Date(
-                      profile.dateCreated
-                    ).toLocaleDateString()}`}</strong>
-                  </div>
+                </div>
+                <div>
+                  Date of birth <sup>(optional)</sup>
+                  <button
+                    className="btn-profile btn-alert"
+                    style={{ float: "right" }}
+                    onClick={props.onRemoveDob}
+                  >
+                    Remove
+                  </button>
+                  <MonthSelector>
+                    {days &&
+                      days.slice(0, 12).map((m) => (
+                        <option key={m} value={m}>
+                          {m}
+                        </option>
+                      ))}
+                  </MonthSelector>
+                  <DaySelector>
+                    {days &&
+                      days.map((d) => (
+                        <option key={d} value={d}>
+                          {d}
+                        </option>
+                      ))}
+                  </DaySelector>
+                  <YearSelector>
+                    {years &&
+                      years.map((y) => (
+                        <option key={y} value={y}>
+                          {y}
+                        </option>
+                      ))}
+                  </YearSelector>
                 </div>
               </div>
 
               <div className="child-column profile-form">
                 {isAdmin && (
-                  <Selector>
+                  <RoleSelector>
                     {props.roles &&
                       props.roles.map((r) => (
                         <option key={`role-${r.id}`} value={r.title}>
                           {r.title}
                         </option>
                       ))}
-                  </Selector>
+                  </RoleSelector>
                 )}
                 <hr />
 

@@ -19,8 +19,11 @@ import {
 import Loading from "../../common/Loading";
 
 const UserEdit = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
+  const [dobMonth, setDobMonth] = useState(null);
+  const [dobDay, setDobDay] = useState(null);
+  const [dobYear, setDobYear] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { uuid } = useParams();
@@ -39,13 +42,21 @@ const UserEdit = () => {
       .getUserByUuid(id)
       .then((response) => {
         setUser(response);
-
+        setDOB(response.birthday);
         setLoading(false);
       })
       .catch((error) => {
         const message = error.message || error.status;
         dispatch(setMessage(message));
       });
+  };
+
+  const setDOB = (dob) => {
+    if (dob) {
+      setDobMonth(dob.slice(5, 7));
+      setDobDay(dob.slice(8));
+      setDobYear(dob.slice(0, 4));
+    }
   };
 
   useEffect(() => {
@@ -59,7 +70,10 @@ const UserEdit = () => {
         let exists = allUsers.find((u) => {
           return u.uuid === uuid;
         });
+        // birthday
         setUser(exists);
+        setDOB(exists.birthday);
+        setLoading(false);
       }
     }
 
@@ -70,6 +84,8 @@ const UserEdit = () => {
     if (location.pathname === "/profile/edit") {
       if (reduxProfile) {
         setUser(reduxProfile);
+        setDOB(reduxProfile.birthday);
+        setLoading(false);
       } else {
         dispatch(getProfile());
       }
@@ -80,26 +96,26 @@ const UserEdit = () => {
     }
   }, [dispatch, allUsers, uuid, reduxProfile, userMessage]);
 
-  useEffect(() => {
-    let isDisabled = false;
-    if (user.errors) {
-      isDisabled = true;
-    }
-    user.addresses &&
-      user.addresses.forEach((a) => {
-        if (a.errors && Object.keys(a.errors).length !== 0) {
-          isDisabled = true;
-        }
-      });
+  // useEffect(() => {
+  //   let isDisabled = false;
+  //   if (user.errors) {
+  //     isDisabled = true;
+  //   }
+  //   user.addresses &&
+  //     user.addresses.forEach((a) => {
+  //       if (a.errors && Object.keys(a.errors).length !== 0) {
+  //         isDisabled = true;
+  //       }
+  //     });
 
-    user.phones &&
-      user.phones.forEach((p) => {
-        if (p.errors && Object.keys(p.errors).length !== 0) {
-          isDisabled = true;
-        }
-      });
-    setSaveDisabled(isDisabled);
-  }, [user]);
+  //   user.phones &&
+  //     user.phones.forEach((p) => {
+  //       if (p.errors && Object.keys(p.errors).length !== 0) {
+  //         isDisabled = true;
+  //       }
+  //     });
+  //   setSaveDisabled(isDisabled);
+  // }, [user]);
 
   const handleProfileChange = (event) => {
     event.preventDefault();
@@ -132,6 +148,32 @@ const UserEdit = () => {
     setUser((previousUser) => ({
       ...previousUser,
       [event.target.name]: event.target.value,
+    }));
+  };
+
+  const handleDobChange = (event) => {
+    event.preventDefault();
+    switch (event.target.name) {
+      case "month":
+        setDobMonth(event.target.value);
+        break;
+      case "day":
+        setDobDay(event.target.value);
+        break;
+      default:
+        setDobYear(event.target.value);
+        break;
+    }
+  };
+
+  const handleDobRemove = (event) => {
+    event.preventDefault();
+    setDobMonth(null);
+    setDobDay(null);
+    setDobYear(null);
+    setUser((previousUser) => ({
+      ...previousUser,
+      birthday: null,
     }));
   };
 
@@ -210,6 +252,14 @@ const UserEdit = () => {
     event.preventDefault();
 
     let savedUser = Object.assign({}, user);
+    if (dobMonth && dobDay && dobYear) {
+      const dob = dobYear
+        .concat("-")
+        .concat(dobMonth)
+        .concat("-")
+        .concat(dobDay);
+      savedUser.birthday = dob;
+    }
 
     if (uuid && currentUser.roles.includes("PROFILE_ADMIN")) {
       dispatch(updateUser(savedUser))
@@ -254,6 +304,11 @@ const UserEdit = () => {
       {user && (
         <ProfileForm
           profile={user}
+          dobMonth={dobMonth}
+          dobDay={dobDay}
+          dobYear={dobYear}
+          onDobSelect={handleDobChange}
+          onRemoveDob={handleDobRemove}
           scopes={currentUser.roles}
           onProfileChange={handleProfileChange}
           onProfileBlur={handleProfileBlur}
