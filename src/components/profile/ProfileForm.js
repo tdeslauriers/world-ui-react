@@ -2,6 +2,8 @@ import React from "react";
 import useSelect from "../../common/useSelect";
 import "./Profile.css";
 import ProfileRoles from "./ProfileRoles";
+import useModal from "../../common/useModal";
+import PasswordReset from "./PasswordReset";
 
 const ProfileForm = ({
   profile,
@@ -31,6 +33,7 @@ const ProfileForm = ({
     years.push(i.toString());
   }
   const YearSelector = useSelect("year", props.dobYear, props.onDobSelect);
+  const PwRestModal = useModal("Reset Password");
 
   return (
     <div>
@@ -131,8 +134,9 @@ const ProfileForm = ({
                     <div className="alert">{profile.errors.lastname}</div>
                   )}
                 </div>
+                <hr />
                 <div>
-                  Date of birth <sup>(optional)</sup>
+                  Date of birth <sup>(optional)</sup> :
                   <button
                     className="btn-profile btn-alert"
                     style={{ float: "right" }}
@@ -165,6 +169,10 @@ const ProfileForm = ({
                       ))}
                   </YearSelector>
                 </div>
+                <hr />
+                <PwRestModal>
+                  <PasswordReset />
+                </PwRestModal>
               </div>
 
               <div className="child-column profile-form">

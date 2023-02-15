@@ -1,0 +1,15 @@
+dialog {
+    background-color: var(--background);
+    border: 2px solid rgba(70, 71, 69, 0.685);
+    border-radius: 4px;
+    box-shadow:  0 -1px 15px rgb(16, 17, 17);
+}
+
+dialog::backdrop {
+    backdrop-filter: blur(5px);
+}
+
+.modal-close {
+    margin-bottom: 1em;
+    width: auto;
+}
