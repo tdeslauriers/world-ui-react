@@ -48,6 +48,14 @@ const PasswordReset = (props) => {
       });
   };
 
+  const handleCancel = (event) => {
+    event.preventDefault();
+    setCurrent("");
+    setUpdated("");
+    setConfirm("");
+    props.onClose(event); // closes dialog
+  };
+
   if (!isLoggedIn) {
     navigate("/login", { state: { from: location } });
   }
@@ -58,7 +66,7 @@ const PasswordReset = (props) => {
         className="btn-cancel modal-close"
         name="close-reset-password"
         style={{ float: "right" }}
-        onClick={props.onClose}
+        onClick={handleCancel}
       >
         Cancel
       </button>
