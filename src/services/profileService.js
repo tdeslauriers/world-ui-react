@@ -44,12 +44,21 @@ const updateUser = (userdata) => {
     });
 };
 
+const resetPassword = (cmd) => {
+  return axios
+    .post(apiURL + "/reset", cmd, { headers: authHeader() })
+    .then((response) => {
+      return response;
+    });
+};
+
 const profileService = {
   getProfile,
   updateProfile,
   getProfilesAll,
   getUserByUuid,
   updateUser,
+  resetPassword,
 };
 
 export default profileService;

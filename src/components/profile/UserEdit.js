@@ -42,7 +42,9 @@ const UserEdit = () => {
       .getUserByUuid(id)
       .then((response) => {
         setUser(response);
-        setDOB(response.birthday);
+        if (response.birthday) {
+          setDOB(response.birthday);
+        }
         setLoading(false);
       })
       .catch((error) => {
@@ -72,7 +74,9 @@ const UserEdit = () => {
         });
         // birthday
         setUser(exists);
-        setDOB(exists.birthday);
+        if (exists.birthday) {
+          setDOB(exists.birthday);
+        }
         setLoading(false);
       }
     }
@@ -84,7 +88,9 @@ const UserEdit = () => {
     if (location.pathname === "/profile/edit") {
       if (reduxProfile) {
         setUser(reduxProfile);
-        setDOB(reduxProfile.birthday);
+        if (reduxProfile.birthday) {
+          setDOB(reduxProfile.birthday);
+        }
         setLoading(false);
       } else {
         dispatch(getProfile());
@@ -95,27 +101,6 @@ const UserEdit = () => {
       eventBus.dispatch("logout");
     }
   }, [dispatch, allUsers, uuid, reduxProfile, userMessage]);
-
-  // useEffect(() => {
-  //   let isDisabled = false;
-  //   if (user.errors) {
-  //     isDisabled = true;
-  //   }
-  //   user.addresses &&
-  //     user.addresses.forEach((a) => {
-  //       if (a.errors && Object.keys(a.errors).length !== 0) {
-  //         isDisabled = true;
-  //       }
-  //     });
-
-  //   user.phones &&
-  //     user.phones.forEach((p) => {
-  //       if (p.errors && Object.keys(p.errors).length !== 0) {
-  //         isDisabled = true;
-  //       }
-  //     });
-  //   setSaveDisabled(isDisabled);
-  // }, [user]);
 
   const handleProfileChange = (event) => {
     event.preventDefault();
@@ -298,7 +283,7 @@ const UserEdit = () => {
   if (loading) {
     return <Loading />;
   }
-
+  
   return (
     <>
       {user && (
@@ -319,6 +304,7 @@ const UserEdit = () => {
           saveDisabled={saveDisabled}
           onSave={handleSave}
           onCancel={handleCancel}
+          pwResetAllowed={uuid ? false : true}
         />
       )}
     </>

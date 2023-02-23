@@ -33,7 +33,7 @@ const ProfileForm = ({
     years.push(i.toString());
   }
   const YearSelector = useSelect("year", props.dobYear, props.onDobSelect);
-  const PwRestModal = useModal("Reset Password");
+  const { ModalContainer, closeDialogBox } = useModal("Reset Password");
 
   return (
     <div>
@@ -44,7 +44,13 @@ const ProfileForm = ({
               <h3>
                 Edit profile: <strong>{profile.username}</strong>
               </h3>
-
+              {props.pwResetAllowed && (
+                <>
+                  <ModalContainer>
+                    <PasswordReset onClose={closeDialogBox} />
+                  </ModalContainer>
+                </>
+              )}
               <h3>
                 {profile.enabled ? null : (
                   <strong className="alert disabled">Account Disabled</strong>
@@ -169,10 +175,6 @@ const ProfileForm = ({
                       ))}
                   </YearSelector>
                 </div>
-                <hr />
-                <PwRestModal>
-                  <PasswordReset />
-                </PwRestModal>
               </div>
 
               <div className="child-column profile-form">

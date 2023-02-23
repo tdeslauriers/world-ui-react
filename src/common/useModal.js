@@ -4,37 +4,26 @@ import "./useModal.css";
 export default function useModal(openButton) {
   // reusable, but open close use placement/location specific logic off of event target.
   // Can't move them around.
-  const handleOpenReset = (event) => {
+  const handleOpenDialogBox = (event) => {
     event.preventDefault();
     event.target.nextSibling.showModal(); // reset dialog is the next html sibling element
   };
 
-  const handleCloseReset = (event) => {
+  const closeDialogBox = (event) => {
     event.preventDefault();
-    event.target.parentNode.close(); // reset dialog is parent of close button.
+    event.target.offsetParent.close(); // passed down as prop: close/cancel func for children
   };
 
-  const Modal = (props) => (
+  const ModalContainer = (props) => (
     <div>
-      <button className="buton" onClick={handleOpenReset}>
+      <button className="modal-button" onClick={handleOpenDialogBox}>
         {openButton}
       </button>
-      <dialog id="reset-password" name="reset-password">
-        <>
-          <button
-            className="btn-cancel modal-close"
-            name="close-reset-password"
-            style={{ float: "right" }}
-            onClick={handleCloseReset}
-          >
-            Cancel
-          </button>
-        </>
-        
+      <dialog id="modal-container" name="modal-container">
         <div>{props.children}</div>
       </dialog>
     </div>
   );
 
-  return Modal;
+  return { ModalContainer, closeDialogBox };
 }
