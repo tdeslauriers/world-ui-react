@@ -100,7 +100,7 @@ const UserEdit = () => {
     if (userMessage && userMessage === "Request failed with status code 401") {
       eventBus.dispatch("logout");
     }
-  }, [dispatch, allUsers, uuid, reduxProfile, userMessage]);
+  }, [dispatch, allUsers, uuid, reduxProfile, currentUser, userMessage]);
 
   const handleProfileChange = (event) => {
     event.preventDefault();
@@ -186,6 +186,7 @@ const UserEdit = () => {
     }));
   };
 
+  // input validation
   const validate = (event, x, validator) => {
     const n = event.target.name;
     const v = event.target.value;
@@ -199,6 +200,7 @@ const UserEdit = () => {
       x.errors && delete x.errors[n];
       if (x.errors && Object.keys(x.errors).length === 0) {
         delete x.errors;
+        setSaveDisabled(false);
       }
     }
     return x;
@@ -283,7 +285,7 @@ const UserEdit = () => {
   if (loading) {
     return <Loading />;
   }
-  
+
   return (
     <>
       {user && (

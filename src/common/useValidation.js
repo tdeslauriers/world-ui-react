@@ -9,6 +9,12 @@ export const ERRORS = {
   zip: "Zip code must be 5 digits only.",
   phone: "Phone numbers must be 10 digits only, eg, 1112223333.",
   phoneType: "May only have one of each type of phone number.",
+  password: {
+    min: "password must be at least 12 characters",
+    max: "password must be less than 64 characters",
+    complexity:
+      "Passwords must include capital and lower case letters, numbers, and special characters. Passwords should be 'random' in that they are not alphabetical or 'qwerty' sequences.",
+  },
 };
 
 export function commonNameChars(field) {
@@ -52,4 +58,14 @@ export function isValidPhone(phone) {
     return true;
   }
   return false;
+}
+
+export function validatePassword(pwd) {
+  if (pwd.length < 12) {
+    return ERRORS.password.min;
+  }
+  if (pwd.length > 64) {
+    return ERRORS.password.max;
+  }
+  return null;
 }

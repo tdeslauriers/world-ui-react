@@ -142,7 +142,7 @@ const ProfileForm = ({
                 </div>
                 <hr />
                 <div>
-                  Date of birth <sup>(optional)</sup> :
+                  Date of birth:
                   <button
                     className="btn-profile btn-alert"
                     style={{ float: "right" }}
