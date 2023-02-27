@@ -9,7 +9,7 @@ const userHeaders = [
 const adminHeaders = [
   { id: "permission", label: "Permissions" },
   { id: "description", label: "Description" },
-  { id: "options", label: "Options" },
+  { id: "options", label: "Options", disableSorting: true },
 ];
 
 const ProfileRoles = ({ roles, isAdmin, removeRole }) => {

@@ -1,5 +1,6 @@
 :root {
-    --background: #131313;
+    --background: hsl(120, 9%, 4%);
+    --background-nav: #262926;
     --border: rgba(0,0,0,0.3);
 
     --primary: #259c1a; 
@@ -11,7 +12,7 @@
     --secondary-shade: rgb(108, 1, 134);
     --secondary-hover: #7f1a9e;
 
-    --alert: #d45726;
+    --alert: #d43815;
     --alert-shade: rgb(136, 16, 1);
     --alert-hover: #691f01;
     --alert-hover-shade: rgb(99, 12, 0);
@@ -134,9 +135,10 @@ select, select:hover {
     color:var(--primary);
     border: 1px solid var(--primary);
     border-radius: 4px;
-    width: 100%;
+    width: auto;
     padding: .5em 1em;
     margin-top: .6em;
+    margin-bottom: 10px;
 }
 
 .alert {

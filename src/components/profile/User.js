@@ -9,7 +9,7 @@ import { getProfile } from "../../slices/profile";
 import ProfileView from "./ProfileView";
 
 const User = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const { uuid } = useParams();
   const location = useLocation();
@@ -55,6 +55,7 @@ const User = () => {
         dispatch(getProfile());
       }
       setUser(reduxProfile);
+      setLoading(false);
     }
 
     if (userMessage && userMessage === "Request failed with status code 401") {

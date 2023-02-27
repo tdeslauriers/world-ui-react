@@ -33,6 +33,21 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
+export const resetPassword = createAsyncThunk(
+  "profile/resetPassword",
+  async (cmd, thunkAPI) => {
+    try {
+      const res = await profileService.resetPassword(cmd);
+      return res;
+    } catch (error) {
+      const message = error.message || error.status;
+
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 const initialState = {};
 
 const profileSlice = createSlice({
@@ -48,6 +63,7 @@ const profileSlice = createSlice({
     [updateProfile.fulfilled]: (state, action) => {
       state.profile = action.payload;
     },
+    [resetPassword.fulfilled]: (state, action) => {},
   },
 });
 
