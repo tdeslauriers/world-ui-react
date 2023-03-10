@@ -12,15 +12,14 @@ const Login = () => {
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(clearMessage());
   }, [dispatch]);
-
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const initialValues = {
     username: "",
@@ -41,7 +40,8 @@ const Login = () => {
       .unwrap()
       .then(() => {
         if (location.state?.from) {
-          navigate(location.state.from);
+          dispatch(navigate(location.state.from, { replace: true }));
+          window.location.reload();
         }
         navigate("/home");
         window.location.reload();
@@ -56,7 +56,7 @@ const Login = () => {
       navigate(location.state.from);
     }
     navigate("/home");
-    window.location.reload();
+    // window.location.reload();
   }
 
   return (
