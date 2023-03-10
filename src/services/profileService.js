@@ -1,55 +1,41 @@
-import axios from "axios";
-import authHeader from "./authHeader";
+import api from "./api";
 
-const apiURL =
-  process.env.REACT_APP_API_BASE_URL +
-  process.env.REACT_APP_API_AUTH +
-  "/profiles";
+const apiURL = process.env.REACT_APP_API_AUTH + "/profiles";
 
 const getProfile = () => {
-  return axios
-    .get(apiURL + "/user", { headers: authHeader() })
-    .then((response) => {
-      return response.data;
-    });
+  return api.get(apiURL + "/user").then((response) => {
+    return response.data;
+  });
 };
 
 const updateProfile = (userdata) => {
-  return axios
-    .put(apiURL + "/user", userdata, { headers: authHeader() })
-    .then((response) => {
-      return response.data;
-    });
+  return api.put(apiURL + "/user", userdata).then((response) => {
+    return response.data;
+  });
 };
 
 const getProfilesAll = () => {
-  return axios.get(apiURL, { headers: authHeader() }).then((response) => {
+  return api.get(apiURL).then((response) => {
     return response.data;
   });
 };
 
 const getUserByUuid = (uuid) => {
-  return axios
-    .get(apiURL + `/${uuid}`, { headers: authHeader() })
-    .then((response) => {
-      return response.data;
-    });
+  return api.get(apiURL + `/${uuid}`).then((response) => {
+    return response.data;
+  });
 };
 
 const updateUser = (userdata) => {
-  return axios
-    .put(apiURL + "/edit", userdata, { headers: authHeader() })
-    .then((response) => {
-      return response.data;
-    });
+  return api.put(apiURL + "/edit", userdata).then((response) => {
+    return response.data;
+  });
 };
 
 const resetPassword = (cmd) => {
-  return axios
-    .post(apiURL + "/reset", cmd, { headers: authHeader() })
-    .then((response) => {
-      return response;
-    });
+  return api.post(apiURL + "/reset", cmd).then((response) => {
+    return response;
+  });
 };
 
 const profileService = {

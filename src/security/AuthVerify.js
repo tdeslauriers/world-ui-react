@@ -19,7 +19,7 @@ const AuthVerify = (props) => {
       const decoded = JSON.parse(parseJwt(user.access_token));
       if (decoded.exp * 1000 < Date.now()) {
         props.logOut();
-      }     
+      }
     }
   }, [location, props]);
 

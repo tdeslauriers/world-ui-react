@@ -7,7 +7,6 @@ import Register from "./components/Register";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./slices/auth";
 import EventBus from "./security/EventBus";
-import AuthVerify from "./security/AuthVerify";
 import Authorized from "./security/Authorized";
 import Nav from "./components/Nav";
 import Users from "./components/profile/Users";
@@ -57,7 +56,7 @@ const App = () => {
         {isLoggedIn && currentUser.roles && currentUser.roles.length > 1 && (
           <Drawer />
         )}
-        <AuthVerify logOut={logOut} />
+        
         <div className={containerClassName}>
           <Routes>
             <Route path="*" element={<Error />} />

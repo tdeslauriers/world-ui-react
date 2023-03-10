@@ -64,6 +64,11 @@ const initialState = user
 const authSlice = createSlice({
   name: "auth",
   initialState,
+  reducers: {
+    refreshToken: (state, action) => {
+      state = {...state, access_token: action.payload.access_token};
+    },
+  },
   extraReducers: {
     [register.fulfilled]: (state, action) => {
       state.isLoggedIn = false;
@@ -86,5 +91,7 @@ const authSlice = createSlice({
   },
 });
 
-const { reducer } = authSlice;
+const { reducer, actions } = authSlice;
+
+export const { refreshToken } = actions;
 export default reducer;
