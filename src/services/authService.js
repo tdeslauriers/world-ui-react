@@ -1,25 +1,24 @@
-import axios from "axios";
-
-const apiURL =
-  process.env.REACT_APP_API_BASE_URL + process.env.REACT_APP_API_AUTH;
+import api from "./api";
+import tokenService from "./tokenService";
+const apiURL = process.env.REACT_APP_API_AUTH;
 
 const login = (username, password) => {
-  return axios
+  return api
     .post(apiURL + "/login", { username, password })
     .then((response) => {
       if (response.data.access_token) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        tokenService.setUser(response.data);
       }
       return response.data;
     });
 };
 
 const logout = () => {
-  localStorage.removeItem("user");
+  tokenService.removeUser();
 };
 
 const register = (username, password, confirmPassword, firstname, lastname) => {
-  return axios.post(apiURL + "/register", {
+  return api.post(apiURL + "/register", {
     username,
     password,
     confirmPassword,

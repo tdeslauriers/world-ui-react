@@ -1,65 +1,47 @@
-import axios from "axios";
-import authHeader from "./authHeader";
+import api from "./api";
 
-const apiURL =
-  process.env.REACT_APP_API_BASE_URL + process.env.REACT_APP_API_GALLERY;
+const apiURL = process.env.REACT_APP_API_GALLERY;
 
 const getAlbums = () => {
-  return axios
-    .get(apiURL + "/albums", { headers: authHeader() })
-    .then((response) => {
-      return response.data;
-    });
+  return api.get(apiURL + "/albums").then((response) => {
+    return response.data;
+  });
 };
 
 const getAlbum = (album) => {
-  return axios
-    .get(apiURL + `/albums/${album}`, { headers: authHeader() })
-    .then((response) => {
-      return response.data;
-    });
+  return api.get(apiURL + `/albums/${album}`).then((response) => {
+    return response.data;
+  });
 };
 
 const getUnpublished = () => {
-  return axios
-    .get(apiURL + "/images/unpublished", { headers: authHeader() })
-    .then((response) => {
-      return response.data;
-    });
+  return api.get(apiURL + "/images/unpublished").then((response) => {
+    return response.data;
+  });
 };
 
 const getImage = (filename) => {
-  return axios
-    .get(apiURL + `/images/${filename}`, {
-      headers: authHeader(),
-    })
-    .then((response) => {
-      return response.data;
-    });
+  return api.get(apiURL + `/images/${filename}`).then((response) => {
+    return response.data;
+  });
 };
 
 const getFullResolution = (filename) => {
-  return axios
-    .get(apiURL + `/images/fullresolution/${filename}`, {
-      headers: authHeader(),
-    })
+  return api
+    .get(apiURL + `/images/fullresolution/${filename}`)
     .then((response) => {
       return response.data;
     });
 };
 
 const updateImage = (image) => {
-  return axios
-    .put(apiURL + "/images", image, { headers: authHeader() })
-    .then((response) => {
-      return response.data;
-    });
+  return api.put(apiURL + "/images", image).then((response) => {
+    return response.data;
+  });
 };
 
 const deleteImage = (filename) => {
-  return axios.delete(apiURL + `/images/${filename}`, {
-    headers: authHeader(),
-  });
+  return api.delete(apiURL + `/images/${filename}`);
 };
 
 const galleryService = {

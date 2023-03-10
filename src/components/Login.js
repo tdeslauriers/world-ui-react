@@ -41,10 +41,10 @@ const Login = () => {
       .then(() => {
         if (location.state?.from) {
           dispatch(navigate(location.state.from, { replace: true }));
-          window.location.reload();
+          // window.location.reload();
         }
-        navigate("/home");
-        window.location.reload();
+        dispatch(navigate("/home"));
+        // window.location.reload();
       })
       .catch(() => {
         setLoading(false);

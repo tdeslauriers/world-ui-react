@@ -1,13 +1,9 @@
-import axios from "axios";
-import authHeader from "./authHeader";
+import api from "./api";
 
-const apiURL =
-  process.env.REACT_APP_API_BASE_URL +
-  process.env.REACT_APP_API_ALLOWANCE +
-  "/allowances";
+const apiURL = process.env.REACT_APP_API_ALLOWANCE + "/allowances";
 
 const getAllowances = () => {
-  return axios.get(apiURL, { headers: authHeader() }).then((response) => {
+  return api.get(apiURL).then((response) => {
     return response.data;
   });
 };

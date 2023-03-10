@@ -1,39 +1,29 @@
-import axios from "axios";
-import authHeader from "./authHeader";
+import api from "./api";
 
-const apiURL =
-  process.env.REACT_APP_API_BASE_URL +
-  process.env.REACT_APP_API_ALLOWANCE +
-  "/tasktypes";
+const apiURL = process.env.REACT_APP_API_ALLOWANCE + "/tasktypes";
 
 const getAllTasktypes = () => {
-  return axios.get(apiURL, { headers: authHeader() }).then((response) => {
+  return api.get(apiURL).then((response) => {
     return response.data;
   });
 };
 
 const getTasktypeById = (id) => {
-  return axios
-    .get(apiURL + `/${id}`, { headers: authHeader() })
-    .then((response) => {
-      return response.data;
-    });
+  return api.get(apiURL + `/${id}`).then((response) => {
+    return response.data;
+  });
 };
 
 const updateTasktype = (tasktype) => {
-  return axios
-    .put(apiURL, tasktype, { headers: authHeader() })
-    .then((response) => {
-      return response.data;
-    });
+  return api.put(apiURL, tasktype).then((response) => {
+    return response.data;
+  });
 };
 
 const saveTasktype = (tasktype) => {
-  return axios
-    .post(apiURL, tasktype, { headers: authHeader() })
-    .then((response) => {
-      return response.data;
-    });
+  return api.post(apiURL, tasktype).then((response) => {
+    return response.data;
+  });
 };
 
 const tasktypeService = {
