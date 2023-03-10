@@ -31,12 +31,10 @@ const refresh = (store) => {
         if (err.response.status === 401 && !originalConfig._retry) {
           originalConfig._retry = true;
           try {
-            const cmd = {
+            const rs = await axiosInstance.post(`${authURL}/refresh`, {
               grant_type: "refresh_token",
               refresh_token: tokenService.getRefreshToken(),
-            };
-            console.log(cmd.refresh_token);
-            const rs = await axiosInstance.post(`${authURL}/refresh`, cmd);
+            });
 
             const { access_token } = rs.data;
 
