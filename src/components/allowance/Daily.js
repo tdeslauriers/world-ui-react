@@ -58,7 +58,6 @@ const Daily = () => {
       status: event.target.value === "false" ? true : false,
     };
     if (event.target.name === "complete") {
-      setLoading(true);
       dispatch(updateTaskComplete(cmd))
         .unwrap()
         .then(() => {
@@ -67,7 +66,6 @@ const Daily = () => {
     }
     if (event.target.name === "satisfactory") {
       if (currentUser.roles && currentUser.roles.includes("ALLOWANCE_ADMIN")) {
-        setLoading(true);
         dispatch(updateTaskQuality(cmd))
           .unwrap()
           .then(() => {
