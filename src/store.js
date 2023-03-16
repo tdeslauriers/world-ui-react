@@ -11,6 +11,7 @@ import rolesReducer from "./slices/roles";
 import tasktypesReducer from "./slices/tasktypes";
 import allowancesReducer from "./slices/allowances";
 import taskReducer from "./slices/tasks";
+import taskInspectReducer from "./slices/taskInspects";
 
 const reducer = {
   auth: authReducer,
@@ -24,6 +25,7 @@ const reducer = {
   tasktypes: tasktypesReducer,
   allowances: allowancesReducer,
   tasks: taskReducer,
+  taskInspects: taskInspectReducer,
 };
 
 const store = configureStore({

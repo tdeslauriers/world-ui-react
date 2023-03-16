@@ -4,6 +4,7 @@ import "./Profile.css";
 import ProfileRoles from "./ProfileRoles";
 import useModal from "../../common/useModal";
 import PasswordReset from "./PasswordReset";
+import { MONTHS_MENU } from ".";
 
 const ProfileForm = ({
   profile,
@@ -151,12 +152,11 @@ const ProfileForm = ({
                     Remove
                   </button>
                   <MonthSelector>
-                    {days &&
-                      days.slice(0, 12).map((m) => (
-                        <option key={m} value={m}>
-                          {m}
-                        </option>
-                      ))}
+                    {MONTHS_MENU.map((m) => (
+                      <option key={m.id} value={m.id}>
+                        {m.month}
+                      </option>
+                    ))}
                   </MonthSelector>
                   <DaySelector>
                     {days &&

@@ -4,19 +4,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../common/Loading";
 import eventBus from "../../security/EventBus";
 import {
+  getInspectionTasks,
   updateCompleteStatus,
   updateSatisfactoryStatus,
 } from "../../slices/taskInspects";
-import {
-  getDailyTasks,
-  updateTaskComplete,
-  updateTaskQuality,
-} from "../../slices/tasks";
-
-import "./Task.css";
+import { updateTaskComplete, updateTaskQuality } from "../../slices/tasks";
 import TaskView from "./TaskView";
 
-const Daily = () => {
+const Inspect = () => {
   const [loading, setLoading] = useState(true);
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
@@ -28,27 +23,24 @@ const Daily = () => {
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { user: currentUser } = useSelector((state) => state.auth);
-  const { tasks: dailyTasks } = useSelector((state) => state);
-  const { message: dailyMessage } = useSelector((state) => state.message);
+  const { taskInspects: inspects } = useSelector((state) => state);
+  const { message: inspectMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!dailyTasks.length) {
+    if (!inspects.length) {
       setLoading(true);
-      dispatch(getDailyTasks());
+      dispatch(getInspectionTasks());
     }
 
-    if (dailyTasks.length) {
+    if (inspects.length) {
       setLoading(false);
     }
 
-    if (
-      dailyMessage &&
-      dailyMessage === "Request failed with status code 401"
-    ) {
+    if (inspects && inspects === "Request failed with status code 401") {
       eventBus.dispatch("logout");
     }
-  }, [dispatch, dailyTasks, dailyMessage]);
+  }, [dispatch, inspects]);
 
   const handleStatusUpdate = (event) => {
     event.preventDefault();
@@ -102,7 +94,7 @@ const Daily = () => {
     navigate("/login", { state: { from: location } });
   }
 
-  if (dailyMessage) {
+  if (inspectMessage) {
     navigate("/error", { state: { from: location } });
   }
 
@@ -112,25 +104,42 @@ const Daily = () => {
 
   return (
     <div>
-      <h3>
-        Todo List: <strong>daily, weekly, and ad-hoc tasks.</strong>
-      </h3>
+      <h3>Task Inspection:</h3>
       <hr />
-      <h4>Click on status to update.</h4>
       <input
         className="form-control"
         name="filter"
         type="text"
-        placeholder="Search ToDo List"
+        placeholder="Search daily tasks"
         onChange={handleFilter}
       />
-      <TaskView
-        tasks={dailyTasks}
-        statusUpdate={handleStatusUpdate}
-        filtered={filterFn}
-      />
+      <ul>
+        <li>Search bar filters all tables</li>
+        <li>Click on any status to update</li>
+      </ul>
+      {inspects &&
+        inspects.map((i) => (
+          <div key={i.id}>
+            <h3>
+              Daily Tasks: <strong>{`${i.firstname} ${i.lastname}`}</strong>
+            </h3>
+            {i.tasks ? (
+              <>
+                <TaskView
+                  tasks={i.tasks}
+                  statusUpdate={handleStatusUpdate}
+                  filtered={filterFn}
+                />
+              </>
+            ) : (
+              <>None assigned.</>
+            )}
+            <br />
+            <hr />
+          </div>
+        ))}
     </div>
   );
 };
 
-export default Daily;
+export default Inspect;

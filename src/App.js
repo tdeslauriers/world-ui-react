@@ -21,9 +21,10 @@ import Album from "./components/gallery/Album";
 import Image from "./components/gallery/Image";
 import ImageEdit from "./components/gallery/ImageEdit";
 import Unpublished from "./components/gallery/Unpublished";
-import Tasks from "./components/allowance/Tasks";
-import TaskEdit from "./components/allowance/TaskEdit";
+import Tasks from "./components/allowance/TaskTypes";
+import TaskEdit from "./components/allowance/TaskTypeEdit";
 import Daily from "./components/allowance/Daily";
+import Inspect from "./components/allowance/Inspect";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -56,7 +57,7 @@ const App = () => {
         {isLoggedIn && currentUser.roles && currentUser.roles.length > 1 && (
           <Drawer />
         )}
-        
+
         <div className={containerClassName}>
           <Routes>
             <Route path="*" element={<Error />} />
@@ -180,6 +181,24 @@ const App = () => {
                 }
               />
             </Route>
+            <Route
+              exact
+              path={"/daily"}
+              element={
+                <Authorized allowedScopes={["ALLOWANCE_USER"]}>
+                  <Daily />
+                </Authorized>
+              }
+            />
+            <Route
+              exact
+              path={"/inspect"}
+              element={
+                <Authorized allowedScopes={["ALLOWANCE_ADMIN"]}>
+                  <Inspect />
+                </Authorized>
+              }
+            />
             <Route exact path="/tasks">
               <Route
                 index
@@ -208,15 +227,6 @@ const App = () => {
                 }
               />
             </Route>
-            <Route
-              exact
-              path={"/daily"}
-              element={
-                <Authorized allowedScopes={["ALLOWANCE_USER"]}>
-                  <Daily />
-                </Authorized>
-              }
-            />
           </Routes>
         </div>
       </Router>

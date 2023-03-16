@@ -107,14 +107,19 @@ const Drawer = () => {
             </button>
             {menuAllowanceOpen && (
               <div className="menu-dropdown">
-                {["ALLOWANCE_ADMIN"].some((s) => scopes.includes(s)) && (
-                  <NavLink className="link-nav" to={"/tasks"}>
-                    Tasks
-                  </NavLink>
-                )}
                 {["ALLOWANCE_USER"].some((s) => scopes.includes(s)) && (
                   <NavLink className="link-nav" to={"/daily"}>
                     Daily
+                  </NavLink>
+                )}
+                {["ALLOWANCE_ADMIN"].some((s) => scopes.includes(s)) && (
+                  <NavLink className="link-nav" to={"/inspect"}>
+                    Inspect
+                  </NavLink>
+                )}
+                {["ALLOWANCE_ADMIN"].some((s) => scopes.includes(s)) && (
+                  <NavLink className="link-nav" to={"/tasks"}>
+                    Tasks
                   </NavLink>
                 )}
               </div>

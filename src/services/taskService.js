@@ -8,6 +8,12 @@ const getDailyTasks = () => {
   });
 };
 
+const getInspectionTasks = () => {
+  return api.get(apiURL + "/inspect").then((response) => {
+    return response.data;
+  });
+};
+
 const updateTaskComplete = (cmd) => {
   return api.put(apiURL + "/complete", cmd).then((response) => {
     return response.data;
@@ -22,6 +28,7 @@ const updateTaskQuality = (cmd) => {
 
 const taskService = {
   getDailyTasks,
+  getInspectionTasks,
   updateTaskComplete,
   updateTaskQuality,
 };
