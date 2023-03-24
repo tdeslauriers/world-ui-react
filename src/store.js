@@ -12,6 +12,7 @@ import tasktypesReducer from "./slices/tasktypes";
 import allowancesReducer from "./slices/allowances";
 import taskReducer from "./slices/tasks";
 import taskInspectReducer from "./slices/taskInspects";
+import dashboardReducer from "./slices/dashboard";
 
 const reducer = {
   auth: authReducer,
@@ -26,6 +27,7 @@ const reducer = {
   allowances: allowancesReducer,
   tasks: taskReducer,
   taskInspects: taskInspectReducer,
+  dashboard: dashboardReducer,
 };
 
 const store = configureStore({

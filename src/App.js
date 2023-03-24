@@ -25,6 +25,7 @@ import Tasks from "./components/allowance/TaskTypes";
 import TaskEdit from "./components/allowance/TaskTypeEdit";
 import Daily from "./components/allowance/Daily";
 import Inspect from "./components/allowance/Inspect";
+import Dashboard from "./components/allowance/Dashboard";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -187,6 +188,15 @@ const App = () => {
               element={
                 <Authorized allowedScopes={["ALLOWANCE_USER"]}>
                   <Daily />
+                </Authorized>
+              }
+            />
+            <Route
+              exact
+              path={"/dashboard"}
+              element={
+                <Authorized allowedScopes={["ALLOWANCE_USER"]}>
+                  <Dashboard />
                 </Authorized>
               }
             />

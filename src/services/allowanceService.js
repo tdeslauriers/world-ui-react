@@ -8,8 +8,15 @@ const getAllowances = () => {
   });
 };
 
+const getMetrics = () => {
+  return api.get(apiURL + "/dashboard").then((response) => {
+    return response.data;
+  });
+};
+
 const allowanceService = {
   getAllowances,
+  getMetrics,
 };
 
 export default allowanceService;

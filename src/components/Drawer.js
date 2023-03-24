@@ -112,6 +112,11 @@ const Drawer = () => {
                     Daily
                   </NavLink>
                 )}
+                {["ALLOWANCE_USER"].some((s) => scopes.includes(s)) && (
+                  <NavLink className="link-nav" to={"/dashboard"}>
+                    Dashboard
+                  </NavLink>
+                )}
                 {["ALLOWANCE_ADMIN"].some((s) => scopes.includes(s)) && (
                   <NavLink className="link-nav" to={"/inspect"}>
                     Inspect

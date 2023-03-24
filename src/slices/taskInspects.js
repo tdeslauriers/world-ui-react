@@ -24,7 +24,8 @@ const taskInspectsSlice = createSlice({
   initialState,
   reducers: {
     updateCompleteStatus: (state, action) => {
-        state.forEach((i) => {
+      state.forEach((i) => {
+        if (i.tasks) {
           const index = i.tasks.findIndex(
             (t) => t.id === action.payload.taskId
           );
@@ -32,10 +33,12 @@ const taskInspectsSlice = createSlice({
             ...i.tasks[index],
             complete: action.payload.status,
           };
-        });
+        }
+      });
     },
     updateSatisfactoryStatus: (state, action) => {
-        state.forEach((i) => {
+      state.forEach((i) => {
+        if (i.tasks) {
           const index = i.tasks.findIndex(
             (t) => t.id === action.payload.taskId
           );
@@ -43,7 +46,8 @@ const taskInspectsSlice = createSlice({
             ...i.tasks[index],
             satisfactory: action.payload.status,
           };
-        });
+        }
+      });
     },
   },
   extraReducers: {
