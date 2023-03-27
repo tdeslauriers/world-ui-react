@@ -119,7 +119,7 @@ const PasswordReset = (props) => {
   if (!isLoggedIn) {
     navigate("/login", { state: { from: location } });
   }
-  console.log(resetCmd);
+
   return (
     <>
       <button
