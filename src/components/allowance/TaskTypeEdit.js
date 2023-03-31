@@ -14,7 +14,7 @@ import useTable from "../../common/useTable";
 const headers = [
   { id: "firstname", label: "Firstname" },
   { id: "lastname", label: "Lastname" },
-  { id: "options", label: "Options" },
+  { id: "options", label: "Options", disableSorting: true },
 ];
 
 const TaskEdit = () => {

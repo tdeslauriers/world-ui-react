@@ -58,7 +58,7 @@ const Unpublished = () => {
     filterFn
   );
 
-  const handleDeleteClick = (event) => {
+  const handleDelete = (event) => {
     event.preventDefault();
     const deleted = reduxUnpublished.unpublishedImages.find(
       (up) => up.id === parseInt(event.target.id)
@@ -125,7 +125,7 @@ const Unpublished = () => {
                 <td>
                   <NavLink
                     to={`/images/${up.filename}/edit`}
-                    className="img-button"
+                    className="btn-table"
                     replace
                     state={{ from: location }}
                   >
@@ -135,8 +135,8 @@ const Unpublished = () => {
                     id={up.id}
                     filename={up.filename}
                     name="deleteImage"
-                    className="img-button btn-alert"
-                    onClick={handleDeleteClick}
+                    className="btn-table btn-alert"
+                    onClick={handleDelete}
                   >
                     Delete
                   </button>

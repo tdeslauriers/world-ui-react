@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import eventBus from "../../security/EventBus";
 import profileService from "../../services/profileService";
 import { setMessage } from "../../slices/message";
-import { updateUser } from "../../slices/users";
+import { removeUserrole, updateUser } from "../../slices/users";
 import { getRolesAll } from "../../slices/roles";
 import ProfileForm from "./ProfileForm";
 import { getProfile, updateProfile } from "../../slices/profile";
@@ -224,15 +224,17 @@ const UserEdit = () => {
 
   const handleRemoveRole = (event) => {
     event.preventDefault();
-    let updated = user.roles.filter(
-      (role) =>
-        role !==
-        user.roles.find((role) => role.id === parseInt(event.target.id))
-    );
-    setUser((previousUser) => ({
-      ...previousUser,
-      roles: updated,
-    }));
+
+    dispatch(
+      removeUserrole({ userId: user.id, roleId: parseInt(event.target.id) })
+    )
+      .unwrap()
+      .then(() => {
+        setUser((previousUser) => ({
+          ...previousUser,
+          roles: user.roles.filter((r) => r.id !== parseInt(event.target.id)),
+        }));
+      });
   };
 
   const handleSave = (event) => {

@@ -6,6 +6,7 @@ import eventBus from "../../../security/EventBus";
 import roleService from "../../../services/roleService";
 import { setMessage } from "../../../slices/message";
 import { saveRole, updateRole } from "../../../slices/roles";
+import { updateRoleForUsers } from "../../../slices/users";
 
 const RoleEdit = () => {
   const [loading, setLoading] = useState(false);
@@ -78,6 +79,8 @@ const RoleEdit = () => {
       dispatch(updateRole(role))
         .unwrap()
         .then(() => {
+          dispatch(updateRoleForUsers(role));
+
           if (location.state?.from) {
             navigate(location.state.from);
           } else {

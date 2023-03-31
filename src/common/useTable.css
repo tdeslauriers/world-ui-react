@@ -64,8 +64,7 @@ tbody tr:nth-of-type(even) {
 .btn-table{
     float: left;
     width: auto;
-    margin: .1em;
-    font-size: calc(10px + 1vmin);
+    margin-right: .3em;    
 }
 
 .active {

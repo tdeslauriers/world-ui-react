@@ -33,12 +33,12 @@ export const updateUser = createAsyncThunk(
   }
 );
 
-export const deleteUserAddress = createAsyncThunk(
-  "users/deleteAddress",
-  async (id, thunkAPI) => {
+export const removeUserrole = createAsyncThunk(
+  "users/removeUserrole",
+  async (cmd, thunkAPI) => {
     try {
-      const res = await addressService.deleteUserAddress(id);
-      return res; // need deleted id to remove from redux
+      const res = await profileService.removeUserrole(cmd);
+      return cmd; // 204: need cmd to update slice
     } catch (error) {
       const message = error.message || error.status;
 
@@ -48,11 +48,48 @@ export const deleteUserAddress = createAsyncThunk(
   }
 );
 
+// export const deleteUserAddress = createAsyncThunk(
+//   "users/deleteAddress",
+//   async (id, thunkAPI) => {
+//     try {
+//       const res = await addressService.deleteUserAddress(id);
+//       return res; // need deleted id to remove from redux
+//     } catch (error) {
+//       const message = error.message || error.status;
+
+//       thunkAPI.dispatch(setMessage(message));
+//       return thunkAPI.rejectWithValue();
+//     }
+//   }
+// );
+
 const initialState = [];
 
 const usersSlice = createSlice({
   name: "users",
   initialState,
+  reducers: {
+    removeRoleFromUsers: (state, action) => {
+      if (state.length) {
+        return state.map((user) => {
+          return {
+            ...user,
+            roles: user.roles.filter((role) => role.id !== action.payload),
+          };
+        });
+      }
+    },
+    updateRoleForUsers: (state, action) => {
+      if (state.length) {
+        return state.map((u) => {
+          let updated = [...u.roles];
+          let index = updated.findIndex((r) => r.id === action.payload.id);
+          updated[index] = action.payload;
+          return { ...u, roles: updated };
+        });
+      }
+    },
+  },
   extraReducers: {
     [getUsersAll.fulfilled]: (state, action) => {
       return [...action.payload.profiles];
@@ -65,8 +102,20 @@ const usersSlice = createSlice({
       // removing spreader to account for deleted property: []
       state[index] = action.payload;
     },
+    [removeUserrole.fulfilled]: (state, action) => {
+      if (state.length) {
+        const userIndex = state.findIndex(
+          (user) => user.id === action.payload.userId
+        );
+        state[userIndex].roles = state[userIndex].roles.filter(
+          (r) => r.id !== action.payload.roleId
+        );
+      }
+    },
   },
 });
 
-const { reducer } = usersSlice;
+const { reducer, actions } = usersSlice;
+
+export const { removeRoleFromUsers, updateRoleForUsers } = actions;
 export default reducer;

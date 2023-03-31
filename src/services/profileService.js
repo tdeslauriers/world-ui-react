@@ -38,6 +38,12 @@ const resetPassword = (cmd) => {
   });
 };
 
+const removeUserrole = (cmd) => {
+  return api.put(apiURL + "/remove/userrole", cmd).then((response) => {
+    return response;
+  });
+};
+
 const profileService = {
   getProfile,
   updateProfile,
@@ -45,6 +51,7 @@ const profileService = {
   getUserByUuid,
   updateUser,
   resetPassword,
+  removeUserrole,
 };
 
 export default profileService;

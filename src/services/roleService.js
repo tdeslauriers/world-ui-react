@@ -26,11 +26,16 @@ const saveRole = (role) => {
   });
 };
 
+const deleteRole = (id) => {
+  return api.delete(`${apiURL}/${id}`);
+};
+
 const roleService = {
   getAllRoles,
   getRoleById,
   updateRole,
   saveRole,
+  deleteRole,
 };
 
 export default roleService;

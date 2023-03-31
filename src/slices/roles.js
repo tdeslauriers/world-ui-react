@@ -47,6 +47,21 @@ export const saveRole = createAsyncThunk(
   }
 );
 
+export const deleteRole = createAsyncThunk(
+  "roles/delete",
+  async (id, thunkAPI) => {
+    try {
+      const response = await roleService.deleteRole(id);
+      return id;
+    } catch (error) {
+      const message = error.message || error.status;
+
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 const initialState = [];
 
 const rolesSlice = createSlice({
@@ -68,6 +83,9 @@ const rolesSlice = createSlice({
     },
     [saveRole.fulfilled]: (state, action) => {
       state.push(action.payload);
+    },
+    [deleteRole.fulfilled]: (state, action) => {
+      return state.filter((role) => role.id !== action.payload);
     },
   },
 });

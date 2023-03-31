@@ -32,6 +32,7 @@ const ProfileRoles = ({ roles, isAdmin, removeRole }) => {
                 <td>
                   <button
                     id={r.id}
+                    name="remove-role"
                     className={
                       r.title === "General Admission"
                         ? "btn-disabled"

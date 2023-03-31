@@ -4,7 +4,8 @@ import { Navigate, NavLink, useLocation } from "react-router-dom";
 import Loading from "../../../common/Loading";
 import useTable from "../../../common/useTable";
 import eventBus from "../../../security/EventBus";
-import { getRolesAll } from "../../../slices/roles";
+import { deleteRole, getRolesAll } from "../../../slices/roles";
+import { removeRoleFromUsers } from "../../../slices/users";
 
 const headers = [
   { id: "options", label: "Options", disableSorting: true },
@@ -71,6 +72,16 @@ const Roles = () => {
     });
   };
 
+  const handleDeleteRole = (event) => {
+    event.preventDefault();
+
+    dispatch(deleteRole(parseInt(event.target.id)))
+      .unwrap()
+      .then(() => {
+        dispatch(removeRoleFromUsers(parseInt(event.target.id)));
+      });
+  };
+
   if (!isLoggedIn) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
@@ -96,7 +107,12 @@ const Roles = () => {
         </div>
       </div>
       <hr />
-      <h4>Roles available for assignment in user records.</h4>
+      <ul name="notes">
+        <li>Roles available for assignment in user records.</li>
+        <li>
+          Deleting a role removes it from all users to which it was assigned.
+        </li>
+      </ul>
       <input
         className="form-control"
         name="filter"
@@ -113,6 +129,14 @@ const Roles = () => {
                 <NavLink to={`/roles/${role.id}/edit`}>
                   <button className="btn-table">Edit</button>
                 </NavLink>
+                <button
+                  id={role.id}
+                  name="deleteRole"
+                  className="btn-alert btn-table"
+                  onClick={handleDeleteRole}
+                >
+                  Delete
+                </button>
               </td>
               <td>{role.title}</td>
               <td>{role.role}</td>
