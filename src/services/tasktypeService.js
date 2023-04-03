@@ -26,11 +26,18 @@ const saveTasktype = (tasktype) => {
   });
 };
 
+const removeTasktypeAllowance = (cmd) => {
+  api.put(apiURL + "/remove/tasktype/allowance", cmd).then((response) => {
+    return response;
+  });
+};
+
 const tasktypeService = {
   getAllTasktypes,
   getTasktypeById,
   updateTasktype,
   saveTasktype,
+  removeTasktypeAllowance,
 };
 
 export default tasktypeService;

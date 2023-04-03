@@ -7,7 +7,11 @@ import tasktypeService from "../../services/tasktypeService";
 import { getAllowances } from "../../slices/allowances";
 import { setMessage } from "../../slices/message";
 import { CADENCE_MENU, CATEGORY_MENU } from ".";
-import { saveTasktype, updateTasktype } from "../../slices/tasktypes";
+import {
+  removeTasktypeAllowance,
+  saveTasktype,
+  updateTasktype,
+} from "../../slices/tasktypes";
 import useSelect from "../../common/useSelect";
 import useTable from "../../common/useTable";
 
@@ -20,6 +24,13 @@ const headers = [
 const TaskEdit = () => {
   const [loading, setLoading] = useState(false);
   const [tasktype, setTasktype] = useState({});
+  // not used, just passed to useTable.
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
+
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
@@ -138,6 +149,22 @@ const TaskEdit = () => {
 
   const handleAllowanceRemove = (event) => {
     event.preventDefault();
+
+    dispatch(
+      removeTasktypeAllowance({
+        tasktypeId: tasktype.id,
+        allowanceId: parseInt(event.target.id),
+      })
+    )
+      .unwrap()
+      .then(() => {
+        setTasktype((previous) => ({
+          ...previous,
+          allowances: tasktype.allowances.filter(
+            (a) => a.id !== parseInt(event.target.id)
+          ),
+        }));
+      });
   };
 
   const SelectCadence = useSelect(
@@ -154,7 +181,11 @@ const TaskEdit = () => {
 
   const SelectAllowance = useSelect("name", null, handleAllowanceSelect);
 
-  const { TableContainer, TableHead } = useTable(tasktype.allowances, headers);
+  const { TableContainer, TableHead, recordsAfterTableOperations } = useTable(
+    tasktype.allowances,
+    headers,
+    filterFn
+  );
 
   if (!isLoggedIn) {
     navigate("/login", { state: { from: location } });
@@ -240,12 +271,14 @@ const TaskEdit = () => {
               <TableContainer>
                 <TableHead />
                 <tbody>
-                  {tasktype.allowances.map((a) => (
+                  {recordsAfterTableOperations().map((a) => (
                     <tr key={a.id}>
                       <td>{a.firstname}</td>
                       <td>{a.lastname}</td>
                       <td>
                         <button
+                          id={a.id}
+                          name="remove-allowance"
                           className="btn-alert"
                           onClick={handleAllowanceRemove}
                         >

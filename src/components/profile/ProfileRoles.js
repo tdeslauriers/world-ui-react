@@ -1,28 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useTable from "../../common/useTable";
 import "../../common/useTable.css";
 
 const userHeaders = [
-  { id: "permission", label: "Permissions" },
+  { id: "title", label: "Permissions" },
   { id: "description", label: "Description" },
 ];
 const adminHeaders = [
-  { id: "permission", label: "Permissions" },
+  { id: "title", label: "Permissions" },
   { id: "description", label: "Description" },
   { id: "options", label: "Options", disableSorting: true },
 ];
 
 const ProfileRoles = ({ roles, isAdmin, removeRole }) => {
+  // not used, just passed to useTable.
+  const [filterFn, setFilterFn] = useState({
+    fn: (items) => {
+      return items;
+    },
+  });
   const headers = isAdmin ? adminHeaders : userHeaders;
 
-  const { TableContainer, TableHead } = useTable(roles, headers);
+  const { TableContainer, TableHead, recordsAfterTableOperations } = useTable(
+    roles,
+    headers,
+    filterFn
+  );
 
   return (
     <>
       <TableContainer>
         <TableHead />
         <tbody>
-          {roles.map((r, i) => (
+          {recordsAfterTableOperations().map((r) => (
             <tr key={r.id}>
               <td>
                 <strong>{r.title}</strong>

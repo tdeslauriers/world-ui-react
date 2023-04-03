@@ -47,6 +47,21 @@ export const saveTasktype = createAsyncThunk(
   }
 );
 
+export const removeTasktypeAllowance = createAsyncThunk(
+  "tasktypes/removeTastypeAllowace",
+  async (cmd, thunkAPI) => {
+    try {
+      const response = tasktypeService.removeTasktypeAllowance(cmd);
+      return cmd;
+    } catch (error) {
+      const message = error.message || error.status;
+
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 const initialState = [];
 
 const tasktypeSlice = createSlice({
@@ -77,6 +92,16 @@ const tasktypeSlice = createSlice({
     },
     [saveTasktype.fulfilled]: (state, action) => {
       state.push(action.payload);
+    },
+    [removeTasktypeAllowance.fulfilled]: (state, action) => {
+      if (state.length) {
+        const index = state.findIndex(
+          (tt) => tt.id === action.payload.tasktypeId
+        );
+        state[index].allowances = state[index].allowances.filter(
+          (a) => a.id !== action.payload.allowanceId
+        );
+      }
     },
   },
 });
