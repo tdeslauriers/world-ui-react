@@ -26,9 +26,25 @@ const Album = () => {
     }
 
     if (galleries) {
-      const g = galleries.find((a) => a.album === album);
-      setGallery(g);
-      setLoading(false);
+      let gallery = galleries.find((a) => a.album === album);
+      if (gallery) {
+        let thumbs = [...gallery.thumbnails];
+        thumbs.sort((a, b) => {
+          if (b.date < a.date) {
+            return -1;
+          }
+          if (b.date > a.date) {
+            return 1;
+          }
+          return 0;
+        });
+
+        setGallery({
+          ...gallery,
+          thumbnails: thumbs,
+        });
+        setLoading(false);
+      }
     }
 
     if (
