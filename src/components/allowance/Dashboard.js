@@ -74,7 +74,7 @@ const Dashboard = () => {
                 Total Tasks assigned: <strong>{reduxMetrics.total}</strong>
               </div>
               <br />
-
+              <h3>Recurring Task Metrics</h3>
               <TableContainer>
                 <TableHead />
                 <tbody>
@@ -104,7 +104,7 @@ const Dashboard = () => {
               </TableContainer>
               <sub>*Calculations do not include Adhoc tasks.</sub>
               <br />
-              <h4>Assigned:</h4>
+              <h3>Assigned:</h3>
               <ol>
                 {reduxMetrics.assigned &&
                   reduxMetrics.assigned.map((at) => (

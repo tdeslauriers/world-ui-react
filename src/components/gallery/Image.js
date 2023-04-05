@@ -197,7 +197,7 @@ const Image = () => {
             <div className="child-column">
               <h3>
                 <strong>{picture.title ? `${picture.title}: ` : null}</strong>
-                {picture.date && new Date(picture.date).toLocaleDateString()}
+                {picture.date && picture.date}
               </h3>
               <h4>{picture.description && picture.description}</h4>
             </div>
