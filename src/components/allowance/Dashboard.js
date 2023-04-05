@@ -64,16 +64,17 @@ const Dashboard = () => {
           <div className="top-column">
             <div className="child-column">
               <div>
-                Current balance: <strong>{reduxMetrics.balance}</strong> USD
+                Current balance: $<strong>{reduxMetrics.balance}</strong>
               </div>
               <div>
-                Weekly allowance: <strong>{reduxMetrics.age}</strong>{" "}
+                Weekly allowance: $<strong>{reduxMetrics.age}</strong>{" "}
                 <sup>*based on age</sup>
               </div>
               <div>
                 Total Tasks assigned: <strong>{reduxMetrics.total}</strong>
               </div>
               <br />
+
               <TableContainer>
                 <TableHead />
                 <tbody>
@@ -101,6 +102,7 @@ const Dashboard = () => {
                   </tr>
                 </tbody>
               </TableContainer>
+              <sub>*Calculations do not include Adhoc tasks.</sub>
               <br />
               <h4>Assigned:</h4>
               <ol>

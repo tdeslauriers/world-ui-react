@@ -30,6 +30,7 @@ const Album = () => {
       if (gallery) {
         let thumbs = [...gallery.thumbnails];
         thumbs.sort((a, b) => {
+          // descending
           if (b.date < a.date) {
             return -1;
           }
@@ -38,11 +39,11 @@ const Album = () => {
           }
           return 0;
         });
-
         setGallery({
           ...gallery,
           thumbnails: thumbs,
         });
+        setGallery({ ...gallery, thumbnails: thumbs });
         setLoading(false);
       }
     }
