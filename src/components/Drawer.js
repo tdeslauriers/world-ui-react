@@ -76,6 +76,9 @@ const Drawer = () => {
               <>
                 {["GALLERY_EDIT"].some((s) => scopes.includes(s)) && (
                   <div className="menu-dropdown">
+                    <NavLink className="link-nav" to={"/albums"}>
+                      Albums
+                    </NavLink>
                     <NavLink className="link-nav" to={"/images/unpublished"}>
                       Unpublished
                     </NavLink>

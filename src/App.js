@@ -26,6 +26,7 @@ import TaskEdit from "./components/allowance/TaskTypeEdit";
 import Daily from "./components/allowance/Daily";
 import Inspect from "./components/allowance/Inspect";
 import Dashboard from "./components/allowance/Dashboard";
+import Albums from "./components/gallery/Albums";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -144,10 +145,18 @@ const App = () => {
             </Route>
             <Route exact path="/albums">
               <Route
+                index
+                element={
+                  <Authorized allowedScopes={["GALLERY_READ", "GALLERY_EDIT"]}>
+                    <Albums />
+                  </Authorized>
+                }
+              />
+              <Route
                 exact
                 path={":album"}
                 element={
-                  <Authorized allowedScopes={["GALLERY_READ", "GALLERY_EDIT"]}>
+                  <Authorized allowedScopes={["GALLERY_READ"]}>
                     <Album />
                   </Authorized>
                 }
@@ -158,7 +167,7 @@ const App = () => {
                 exact
                 path={":filename"}
                 element={
-                  <Authorized allowedScopes={["GALLERY_READ", "GALLERY_EDIT"]}>
+                  <Authorized allowedScopes={["GALLERY_READ"]}>
                     <Image />
                   </Authorized>
                 }

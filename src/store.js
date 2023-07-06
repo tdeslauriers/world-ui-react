@@ -22,12 +22,12 @@ const reducer = {
   profile: profileReducer,
   users: usersReducer,
   roles: rolesReducer,
-  message: messageReducer,
   tasktypes: tasktypesReducer,
   allowances: allowancesReducer,
   tasks: taskReducer,
   taskInspects: taskInspectReducer,
   dashboard: dashboardReducer,
+  message: messageReducer,
 };
 
 const store = configureStore({
