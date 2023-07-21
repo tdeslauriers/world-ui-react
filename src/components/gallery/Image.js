@@ -64,6 +64,17 @@ const Image = () => {
     }
   }, [picture]);
 
+  const handleEdit = (event) => {
+    event.preventDefault();
+
+    navigate(`/images/${picture.filename}/edit`, {
+      state: {
+        album: location.state.album,
+        albumIndex: location.state.albumIndex,
+      },
+    });
+  };
+
   const handleNext = (event) => {
     event.preventDefault();
     if (location.state?.album) {
@@ -148,13 +159,9 @@ const Image = () => {
                 {["GALLERY_EDIT"].some((r) =>
                   currentUser.roles.includes(r)
                 ) && (
-                  <NavLink
-                    to={`/images/${picture.filename}/edit`}
-                    replace
-                    state={{ from: location }}
-                  >
-                    <button className="img-button">Edit</button>
-                  </NavLink>
+                  <button className="img-button" onClick={handleEdit}>
+                    Edit
+                  </button>
                 )}
               </div>
             </div>
@@ -204,11 +211,21 @@ const Image = () => {
             <div className="child-column">
               <h3>
                 Appears in album(s):{" "}
-                {picture.albumImages &&
-                  picture.albumImages.map((ai) => (
-                    <NavLink key={ai.album.id} to={`/albums/${ai.album.album}`}>
-                      {ai.album.album}
-                    </NavLink>
+                {picture.albums &&
+                  picture.albums.map((album, i) => (
+                    <>
+                      {i < picture.albums.length - 1 ? (
+                        <span>
+                          <NavLink key={album.id} to={`/albums/${album.album}`}>
+                            {`${album.album}, `}
+                          </NavLink>
+                        </span>
+                      ) : (
+                        <NavLink key={album.id} to={`/albums/${album.album}`}>
+                          {album.album}
+                        </NavLink>
+                      )}
+                    </>
                   ))}
               </h3>
             </div>

@@ -136,16 +136,36 @@ const ImageEdit = () => {
         }
 
         location.state?.from
-          ? navigate(location.state.from)
-          : navigate(`/images/${filename}`);
+          ? navigate(location.state.from, {
+              state: {
+                album: location.state.album,
+                albumIndex: location.state.albumIndex + 1,
+              },
+            })
+          : navigate(`/images/${filename}`, {
+              state: {
+                album: location.state.album,
+                albumIndex: location.state.albumIndex + 1,
+              },
+            });
       });
   };
 
   const handleCancel = (event) => {
     event.preventDefault();
     location.state?.from
-      ? navigate(location.state.from)
-      : navigate(`/images/${image.filename}`);
+      ? navigate(location.state.from, {
+          state: {
+            album: location.state.album,
+            albumIndex: location.state.albumIndex + 1,
+          },
+        })
+      : navigate(`/images/${image.filename}`, {
+          state: {
+            album: location.state.album,
+            albumIndex: location.state.albumIndex + 1,
+          },
+        });
   };
 
   if (!isLoggedIn) {
