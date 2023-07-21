@@ -17,9 +17,9 @@ export const getImage = createAsyncThunk(
           description: response.description, // undefined appear to be dumped, no if/then required
           date: response.date,
           published: response.published,
+          albums: response.albums,
           thumbnail: Buffer.from(response.thumbnail).toString("base64"),
           presentation: Buffer.from(response.presentation).toString("base64"),
-          albumImages: response.albumImages,
         };
         return formatted;
       });
@@ -86,6 +86,21 @@ export const deleteImage = createAsyncThunk(
   }
 );
 
+export const removeAlbumImageXref = createAsyncThunk(
+  "images/removeAlbumImageXref",
+  async (xref, thunkApi) => {
+    try {
+      const response = await galleryService.deleteAlbumImageXref(xref);
+      return xref;
+    } catch (error) {
+      const message = error.message || error.status;
+
+      thunkApi.dispatch(setMessage(message));
+      return thunkApi.rejectWithValue();
+    }
+  }
+);
+
 const initialState = [];
 
 const imageSlice = createSlice({
@@ -102,7 +117,10 @@ const imageSlice = createSlice({
       state[index] = { ...state[index], image: action.payload.image };
     },
     [updateImage.fulfilled]: (state, action) => {
-      const index = state.findIndex((image) => image.id === action.payload.id);
+      const index = state.findIndex(
+        (image) => image.filename === action.payload.filename
+      );
+
       state[index] = {
         ...state[index],
         ...action.payload,
@@ -111,6 +129,13 @@ const imageSlice = createSlice({
     [deleteImage.fulfilled]: (state, action) => {
       // action.payload is filename returned artificially by thunk
       return state.filter((image) => image.filename !== action.payload);
+    },
+    [removeAlbumImageXref.fulfilled]: (state, action) => {
+      const index = state.findIndex((i) => i.id === action.payload.image_id);
+      let updated = state[index].albums.filter(
+        (album) => album.id !== action.payload.album_id
+      );
+      state[index] = { ...state[index], albums: updated };
     },
   },
 });

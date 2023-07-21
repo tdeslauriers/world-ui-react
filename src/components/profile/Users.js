@@ -92,6 +92,9 @@ const ProfilesAll = () => {
     <div>
       <h3>User Profiles</h3>
       <hr />
+      <p>
+        Following table contains all users for the des Lauriers family website.
+      </p>
       <input
         className="form-control"
         name="filter"

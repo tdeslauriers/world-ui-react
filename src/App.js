@@ -27,6 +27,7 @@ import Daily from "./components/allowance/Daily";
 import Inspect from "./components/allowance/Inspect";
 import Dashboard from "./components/allowance/Dashboard";
 import Albums from "./components/gallery/Albums";
+import AlbumEdit from "./components/gallery/AlbumEdit";
 
 const App = () => {
   const [containerClassName, setContainerClassName] = useState("container");
@@ -158,6 +159,24 @@ const App = () => {
                 element={
                   <Authorized allowedScopes={["GALLERY_READ"]}>
                     <Album />
+                  </Authorized>
+                }
+              />
+              <Route
+                exact
+                path={":albumName/edit"}
+                element={
+                  <Authorized allowedScopes={["GALLERY_EDIT"]}>
+                    <AlbumEdit />
+                  </Authorized>
+                }
+              />
+              <Route
+                exact
+                path={"/albums/add"}
+                element={
+                  <Authorized allowedScopes={["GALLERY_EDIT"]}>
+                    <AlbumEdit />
                   </Authorized>
                 }
               />
