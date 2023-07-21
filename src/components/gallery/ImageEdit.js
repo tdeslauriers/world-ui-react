@@ -139,13 +139,13 @@ const ImageEdit = () => {
           ? navigate(location.state.from, {
               state: {
                 album: location.state.album,
-                albumIndex: location.state.albumIndex + 1,
+                albumIndex: location.state.albumIndex,
               },
             })
           : navigate(`/images/${filename}`, {
               state: {
                 album: location.state.album,
-                albumIndex: location.state.albumIndex + 1,
+                albumIndex: location.state.albumIndex,
               },
             });
       });
@@ -157,13 +157,13 @@ const ImageEdit = () => {
       ? navigate(location.state.from, {
           state: {
             album: location.state.album,
-            albumIndex: location.state.albumIndex + 1,
+            albumIndex: location.state.albumIndex,
           },
         })
       : navigate(`/images/${image.filename}`, {
           state: {
             album: location.state.album,
-            albumIndex: location.state.albumIndex + 1,
+            albumIndex: location.state.albumIndex,
           },
         });
   };
