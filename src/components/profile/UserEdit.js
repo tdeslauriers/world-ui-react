@@ -80,7 +80,7 @@ const UserEdit = () => {
         setLoading(false);
       }
     }
-
+    
     if (roles.length === 0 && currentUser.roles.includes("PROFILE_ADMIN")) {
       dispatch(getRolesAll());
     }

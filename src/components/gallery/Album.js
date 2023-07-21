@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import eventBus from "../../security/EventBus";
 import { Buffer } from "buffer";
-import { getAlbum } from "../../slices/albums";
+import { getAlbum, getAlbums } from "../../slices/albums";
 import Loading from "../../common/Loading";
 
 const Album = () => {
@@ -20,32 +20,19 @@ const Album = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (galleries.filter((g) => g.album === album).length === 0) {
+    if (!galleries.length) {
       setLoading(true);
-      dispatch(getAlbum(album));
+      dispatch(getAlbums());
     }
 
-    if (galleries) {
-      let gallery = galleries.find((a) => a.album === album);
-      if (gallery) {
-        let thumbs = [...gallery.thumbnails];
-        thumbs.sort((a, b) => {
-          // descending
-          if (b.date < a.date) {
-            return -1;
-          }
-          if (b.date > a.date) {
-            return 1;
-          }
-          return 0;
-        });
-        setGallery({
-          ...gallery,
-          thumbnails: thumbs,
-        });
-        setGallery({ ...gallery, thumbnails: thumbs });
-        setLoading(false);
-      }
+    if (galleries.length) {
+      let g = galleries.find((a) => a.album === album);
+      setGallery(g);
+      setLoading(false);
+    }
+
+    if (gallery && !gallery.thumbnails) {
+      dispatch(getAlbum(album));
     }
 
     if (
@@ -54,7 +41,7 @@ const Album = () => {
     ) {
       eventBus.dispatch("logout");
     }
-  }, [dispatch, album, galleries, albumMessage]);
+  }, [dispatch, album, galleries, gallery, albumMessage]);
 
   if (!isLoggedIn) {
     navigate("/login", { state: { from: location } });
@@ -73,10 +60,14 @@ const Album = () => {
       <h3>
         Album: <strong>{gallery && gallery.album}</strong>
       </h3>
+      <div>{gallery && gallery.description}</div>
       <hr />
       <h4>
         Click on any picture to see the full size image and description/context.
       </h4>
+      <p>
+        <strong>Note:</strong> many pictures appear in more than one album.
+      </p>
       {gallery && gallery.thumbnails ? (
         gallery.thumbnails.map((t, i) => (
           <div className="thumbnail" key={t.filename}>

@@ -2,24 +2,37 @@ import React, { useEffect, useState } from "react";
 import "./Image.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { deleteImage, getImage, updateImage } from "../../slices/images";
+import {
+  getImage,
+  removeAlbumImageXref,
+  updateImage,
+} from "../../slices/images";
 import {
   addToUnpublished,
   removeFromUnpublished,
 } from "../../slices/unpublished";
 import ProgressiveImage from "react-progressive-graceful-image";
-import { addToLocalAlbums, removeFromLocalAlbums } from "../../slices/albums";
+import {
+  addToLocalAlbums,
+  removeFromSpecificLocalAlbums,
+  removeFromAllLocalAlbums,
+} from "../../slices/albums";
 import Loading from "../../common/Loading";
+import ImageAlbums from "./ImageAlbums";
+import useSelect from "../../common/useSelect";
 
 const ImageEdit = () => {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState({});
+  const [currentAlbums, setCurrentAlbums] = useState([]);
+  const [removeAlbums, setRemoveAlbums] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   const { filename } = useParams();
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { images: reduxImages } = useSelector((state) => state);
+  const { albums: reduxAlbums } = useSelector((state) => state);
   const { message: imageMessage } = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
@@ -28,6 +41,13 @@ const ImageEdit = () => {
       const exists = reduxImages.find((p) => p.filename === filename);
       if (exists) {
         setImage(exists);
+        if (exists.albums && exists.albums.length) {
+          let albs = [];
+          exists.albums.forEach((album) => {
+            albs.push(album);
+          });
+          setCurrentAlbums(albs);
+        }
         setLoading(false);
       } else {
         setLoading(true);
@@ -54,25 +74,65 @@ const ImageEdit = () => {
     }
   };
 
-  const handleSave = (event) => {
+  const handleAlbumSelect = (event) => {
     event.preventDefault();
 
-    dispatch(
-      updateImage({
-        id: image.id,
-        title: image.title,
-        description: image.description,
-        published: image.published,
-      })
-    )
+    let selected = reduxAlbums.find((a) => a.album === event.target.value);
+    // album selection objects could have thumbnails, need to be removed.
+    selected = {
+      id: selected.id,
+      album: selected.album,
+      description: selected.description,
+    };
+    if (!currentAlbums.find((a) => a.album === selected.album)) {
+      let updated = [...currentAlbums];
+      updated.push(selected);
+      setCurrentAlbums(updated);
+    }
+  };
+  const AlbumSelector = useSelect("album", null, handleAlbumSelect);
+
+  const handleRemoveAlbum = (event) => {
+    event.preventDefault();
+
+    if (currentAlbums.length > 1) {
+      let updated = currentAlbums.filter(
+        (a) => a.id !== parseInt(event.target.id)
+      );
+      setCurrentAlbums(updated);
+      let toRemove = removeAlbums;
+      toRemove.push({
+        album_id: parseInt(event.target.id),
+        image_id: image.id,
+      });
+    }
+  };
+
+  const handleSave = (event) => {
+    event.preventDefault();
+    let updated = {
+      id: image.id,
+      filename: image.filename,
+      title: image.title,
+      description: image.description,
+      published: image.published,
+      albums: currentAlbums,
+    };
+    dispatch(updateImage(updated))
       .unwrap()
       .then(() => {
-        if (image.published) {
-          dispatch(removeFromUnpublished(image));
-          dispatch(addToLocalAlbums(image));
+        removeAlbums.forEach((ai) => {
+          dispatch(removeAlbumImageXref(ai));
+        });
+      })
+      .then(() => {
+        if (updated.published) {
+          dispatch(removeFromUnpublished(updated));
+          dispatch(addToLocalAlbums(updated));
+          dispatch(removeFromSpecificLocalAlbums(removeAlbums));
         } else {
-          dispatch(addToUnpublished(image));
-          dispatch(removeFromLocalAlbums(image));
+          dispatch(addToUnpublished(updated));
+          dispatch(removeFromAllLocalAlbums(updated));
         }
 
         location.state?.from
@@ -181,6 +241,31 @@ const ImageEdit = () => {
                     value={image.description}
                     onChange={handleImageChange}
                   />
+
+                  <hr />
+
+                  <h3>Appears in: </h3>
+
+                  <AlbumSelector>
+                    {reduxAlbums.map((a) => (
+                      <option key={a.id} value={a.album}>
+                        {a.album}
+                      </option>
+                    ))}
+                  </AlbumSelector>
+                  <ImageAlbums
+                    albums={currentAlbums}
+                    removeAlbum={handleRemoveAlbum}
+                  />
+                  <em
+                    style={{
+                      color: "var(--text)",
+                      fontSize: "calc(10px + 1vmin)",
+                      paddingLeft: ".5em",
+                    }}
+                  >
+                    *Must be present in at least one album.
+                  </em>
                 </div>
                 <div className="child-column">
                   <div className="pic-box">

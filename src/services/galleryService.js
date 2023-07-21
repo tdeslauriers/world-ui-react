@@ -14,6 +14,18 @@ const getAlbum = (album) => {
   });
 };
 
+const updateAlbum = (album) => {
+  return api.put(apiURL + "/albums", album).then((response) => {
+    return response.data;
+  });
+};
+
+const saveAlbum = (album) => {
+  return api.post(apiURL + "/albums", album).then((response) => {
+    return response.data;
+  });
+};
+
 const getUnpublished = () => {
   return api.get(apiURL + "/images/unpublished").then((response) => {
     return response.data;
@@ -44,14 +56,26 @@ const deleteImage = (filename) => {
   return api.delete(apiURL + `/images/${filename}`);
 };
 
+// put so response body can be utilized.
+const deleteAlbumImageXref = (xref) => {
+  return api
+    .put(apiURL + "/images/album_images/delete", xref)
+    .then((response) => {
+      return response.data;
+    });
+};
+
 const galleryService = {
   getAlbums,
   getAlbum,
+  updateAlbum,
+  saveAlbum,
   getUnpublished,
   getImage,
   getFullResolution,
   updateImage,
   deleteImage,
+  deleteAlbumImageXref,
 };
 
 export default galleryService;

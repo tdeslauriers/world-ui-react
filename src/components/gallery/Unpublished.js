@@ -77,7 +77,6 @@ const Unpublished = () => {
     setFilterFn({
       fn: (items) => {
         if (target.value === "") {
-          console.log(items);
           return items;
         } else {
           return items.filter(
